@@ -1,0 +1,9 @@
+[user]
+	name = Jon Cinque
+	email = jonathan.r.cinque@gmail.com
+[credential]
+	helper = cache --timeout=3600
+[difftool]
+	prompt = false
+[diff]
+    tool = gvimdiff
