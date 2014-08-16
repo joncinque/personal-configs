@@ -7,3 +7,8 @@
 	prompt = false
 [diff]
     tool = gvimdiff
+[alias]
+    st = status
+    pl = pull --rebase
+    logdog = log --decorate --pretty=oneline --abbrev-commit --graph
+    dt = difftool
