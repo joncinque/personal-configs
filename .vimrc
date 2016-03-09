@@ -43,6 +43,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/syntastic'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
