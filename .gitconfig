@@ -1,6 +1,6 @@
 [user]
 	name = Jon Cinque
-	email = jonathan.r.cinque@gmail.com
+	email = jon.cinque@gmail.com
 [credential]
 	helper = cache --timeout=3600
 [difftool]
@@ -12,3 +12,5 @@
     pl = pull --rebase
     logdog = log --decorate --pretty=oneline --abbrev-commit --graph
     dt = difftool
+[push]
+	default = simple

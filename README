@@ -1,0 +1,5 @@
+Contains vim, bash, and git personal configs to make things easier while moving between machines.
+
+To set up:
+Run the setup.sh script to make links to these files and have them incorporated in your home directory.
+Additionally, it will install extra vim bundles using Vundle.
