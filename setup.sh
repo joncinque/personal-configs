@@ -20,13 +20,6 @@ do
 done
 
 echo "Seting up Vundle for vim plugins in .vimrc"
-VIMDIR='~/.vim/bundle'
-if [ ! -d $VIMDIR ]
-then
-  mkdir -p $VIMDIR
-fi
-
-cd $VIMDIR
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 echo "Installing extra needed plugins"
