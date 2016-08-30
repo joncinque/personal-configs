@@ -200,8 +200,13 @@ set shiftwidth=2
 set tabstop=2
 
 " Linebreak on 500 characters
-set lbr
 set tw=500
+
+" No linebreaks in the middle of words
+"set lbr
+
+" Color line at 80 chars
+set colorcolumn=80
 
 set ai "Auto indent
 set si "Smart indent
