@@ -6,7 +6,7 @@
 [difftool]
 	prompt = false
 [diff]
-    tool = gvimdiff
+    tool = vimdiff
 [alias]
     st = status
     pl = pull --rebase
