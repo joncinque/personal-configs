@@ -12,5 +12,9 @@
     pl = pull --rebase
     logdog = log --decorate --pretty=oneline --abbrev-commit --graph
     dt = difftool
+    # subtree add
+    sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f"
+    # subtree update
+    sbu = "!f() { git subtree pull --prefix $2 $1 master --squash; }; f"
 [push]
 	default = simple
