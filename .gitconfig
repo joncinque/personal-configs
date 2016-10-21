@@ -6,7 +6,7 @@
 [difftool]
 	prompt = false
 [diff]
-    tool = vimdiff
+    tool = meld
 [alias]
     st = status
     pl = pull --rebase
@@ -16,5 +16,7 @@
     sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f"
     # subtree update
     sbu = "!f() { git subtree pull --prefix $2 $1 master --squash; }; f"
+    # subtree push
+    sbp = "!f() { git subtree push --prefix $1 $2 $3; }; f"
 [push]
 	default = simple
