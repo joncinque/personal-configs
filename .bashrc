@@ -37,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -113,6 +113,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# colored GCC warnigns and errors
+export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
 set -o vi
 
 # Set up the path
@@ -120,3 +123,4 @@ set -o vi
 
 # Aliases
 alias more=less
+alias python=python3
