@@ -199,6 +199,10 @@ set smarttab
 set shiftwidth=2
 set tabstop=2
 
+" for python and php files, 4 spaces
+autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab
+autocmd Filetype php setlocal ts=4 sw=4 sts=0 expandtab
+
 " Linebreak on 500 characters
 set tw=500
 
