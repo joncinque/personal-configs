@@ -117,6 +117,8 @@ fi
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 set -o vi
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
 # Set up the path
 #export PATH="$PATH:/home/jon/bin/:/home/jon/bin/google_appengine/"
