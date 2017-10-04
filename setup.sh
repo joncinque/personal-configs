@@ -6,7 +6,7 @@ FULLDIR=`pwd`
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
-for FILE in '.bashrc' '.gitconfig' '.vimrc' '.tmux.conf'
+for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.vimrc' '.tmux.conf'
 do
   echo "Working on: $FILE"
   if [ -e ~/$FILE ]

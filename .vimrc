@@ -110,6 +110,9 @@ set wildmenu
 set wildignore=*.o,*~,*.pyc,*/tmp/*,*.so,*.swp,*.zip " Linux
 set wildignore+=*\\tmp\\*,*.exe " Windows
 
+" When using autocomplete ^N and ^P, match the longest matching word
+set wildmode=longest,list:longest
+
 "Always show current position
 set ruler
 
@@ -284,10 +287,10 @@ set viminfo^=%
 " => Status line
 """"""""""""""""""""""""""""""
 " Always show the status line
-set laststatus=2
+"set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ Col:\ %c
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

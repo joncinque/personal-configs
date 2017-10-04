@@ -20,3 +20,5 @@
     sbp = "!f() { git subtree push --prefix $1 $2 $3; }; f"
 [push]
 	default = simple
+[core]
+	excludesfile = ~/.gitignore_global
