@@ -1,22 +1,22 @@
 #! /usr/bin/env bash
 
-DIR=`dirname $0`
-cd $DIR
-FULLDIR=`pwd`
+DIR=$(dirname "$0")
+cd "$DIR"
+FULLDIR=$(pwd)
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
-for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.vimrc' '.tmux.conf'
+for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.vimrc' '.tmux.conf' '.input.rc'
 do
   echo "Working on: $FILE"
   if [ -e ~/$FILE ]
   then
     echo "Existing file found, diff:"
-    diff ~/$FILE $FULLDIR/$FILE
+    diff ~/$FILE "$FULLDIR"/$FILE
     rm -i ~/$FILE
   fi
   "Setting up link to $FULLDIR/$FILE"
-  ln -s $FULLDIR/$FILE ~
+  ln -s "$FULLDIR"/$FILE ~
 done
 
 echo "Seting up Vundle for vim plugins in .vimrc"
