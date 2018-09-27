@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -74,7 +74,11 @@ esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    if test -r ~/.dircolors; then
+      eval "$(dircolors -b ~/.dircolors)"
+    else 
+      eval "$(dircolors -b)"
+    fi
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
@@ -121,11 +125,14 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 
 # Set up the path
-#export PATH="$PATH:/home/jon/bin/:/home/jon/bin/google_appengine/"
+#export PATH="$PATH:/anything/else/needed"
 
 # Aliases
 alias more=less
-alias python=python3
+alias setclip="xclip -selection c"
+alias getclip="xclip -selection c -o"
 
 # OPAM configuration
 . /home/jon/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+export DEBFULLNAME="Jon Cinque"
+export DEBEMAIL="jon.cinque@gmail.com"

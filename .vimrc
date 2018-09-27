@@ -32,7 +32,7 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 if has ('win64') || has('win32') || has('win16') || has('win32unix')
     set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
-    call vundle#begin('$USERPROFILE/vimfiles/bundle/'
+    call vundle#begin('$USERPROFILE/vimfiles/bundle/')
 else
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
@@ -45,6 +45,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-db'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
@@ -205,6 +206,11 @@ set tabstop=2
 " for python and php files, 4 spaces
 autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab
 autocmd Filetype php setlocal ts=4 sw=4 sts=0 expandtab
+
+" use "csharp" autocompletion for cs files
+augroup filetypedetect
+  au BufRead,BufNewFile *.cs set syntax=csharp
+augroup END
 
 " Linebreak on 500 characters
 set tw=500
@@ -367,10 +373,12 @@ map <leader>s? z=
 "let g:syntastic_always_populate_loc_list = 1
 "let g:syntastic_auto_loc_list = 1
 
-let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_ocaml_checkers = [ 'merlin' ]
+let g:syntastic_cs_checkers = [ 'mcs' ]
+let g:syntastic_python_checkers = [ 'python3' ]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
