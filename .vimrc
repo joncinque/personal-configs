@@ -45,7 +45,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-db'
+Plugin 'tpope/vim-dadbod'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
@@ -207,9 +207,11 @@ set tabstop=2
 autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab
 autocmd Filetype php setlocal ts=4 sw=4 sts=0 expandtab
 
-" use "csharp" autocompletion for cs files
 augroup filetypedetect
-  au BufRead,BufNewFile *.cs set syntax=csharp
+  " use "csharp" syntax for cs files
+  au BufRead,BufNewFile *.cs set syntax=csharp filetype=csharp
+  " use "javascript" syntax for mjs files
+  au BufRead,BufNewFile *.mjs set syntax=javascript filetype=javascript
 augroup END
 
 " Linebreak on 500 characters
@@ -377,8 +379,9 @@ map <leader>s? z=
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_ocaml_checkers = [ 'merlin' ]
-let g:syntastic_cs_checkers = [ 'mcs' ]
-let g:syntastic_python_checkers = [ 'python3' ]
+let g:syntastic_python_checkers = [ 'flake8' ]
+let g:syntastic_python_flake8_post_args="--max-line-length=150"
+let g:syntastic_javascript_checkers = [ 'eslint' ]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
