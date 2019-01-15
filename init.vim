@@ -27,29 +27,19 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Setup Vundle for easy maintenance of vim plugins
 set nocompatible              " be iMproved, required
-filetype off                  " required
+filetype plugin indent off    " required
 
-" set the runtime path to include Vundle and initialize
-if has ('win64') || has('win32') || has('win16') || has('win32unix')
-    set rtp+=$HOME/vimfiles/bundle/Vundle.vim/
-    call vundle#begin('$USERPROFILE/vimfiles/bundle/')
-else
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin()
-endif
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/vim/plugged')
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-dadbod'
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/syntastic'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-dadbod'
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/syntastic'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -59,7 +49,7 @@ Plugin 'scrooloose/syntastic'
 " Plugin 'file:///home/gmarik/path/to/plugin'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()            " required
 filetype plugin indent on    " required
 
 " Brief help
@@ -81,10 +71,6 @@ let g:ctrlp_working_path_mode = 'ra' " search only up to a .git dir
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Sets how many lines of history VIM has to remember
 set history=700
-
-" Enable filetype plugins
-filetype plugin on
-filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -134,7 +120,7 @@ set ignorecase
 set smartcase
 
 " Highlight search results
-" set hlsearch
+set nohlsearch
 
 " Makes search act like search in modern browsers
 set incsearch
@@ -165,6 +151,7 @@ syntax enable
 
 colorscheme desert
 set background=dark
+set guicursor=
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -207,12 +194,12 @@ set tabstop=2
 autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab
 autocmd Filetype php setlocal ts=4 sw=4 sts=0 expandtab
 
-augroup filetypedetect
+" augroup filetypedetect
   " use "csharp" syntax for cs files
-  au BufRead,BufNewFile *.cs set syntax=csharp filetype=csharp
+  " au BufRead,BufNewFile *.cs set syntax=csharp filetype=csharp
   " use "javascript" syntax for mjs files
-  au BufRead,BufNewFile *.mjs set syntax=javascript filetype=javascript
-augroup END
+  " au BufRead,BufNewFile *.mjs set syntax=javascript filetype=javascript
+" augroup END
 
 " Linebreak on 500 characters
 set tw=500
@@ -298,7 +285,7 @@ set viminfo^=%
 "set laststatus=2
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ Col:\ %c
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ %r%{getcwd()}%h\ \ \ Line:\ %l\ Col:\ %c
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*

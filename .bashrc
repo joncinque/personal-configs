@@ -125,14 +125,12 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 
 # Set up the path
-#export PATH="$PATH:/anything/else/needed"
+export PATH="$PATH:/usr/local/bin"
 
 # Aliases
 alias more=less
-alias setclip="xclip -selection c"
-alias getclip="xclip -selection c -o"
+alias setclip="xsel --clipboard"
+alias getclip="xsel --clipboard -o"
 
-# OPAM configuration
-. /home/jon/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 export DEBFULLNAME="Jon Cinque"
 export DEBEMAIL="jon.cinque@gmail.com"
