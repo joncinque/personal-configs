@@ -9,7 +9,7 @@ sudo apt install -y neovim curl git tmux
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
-for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.tmux.conf' '.input.rc'
+for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.tmux.conf' '.inputrc'
 do
   echo "Working on: $FILE"
   if [ -e ~/$FILE ]
@@ -22,6 +22,7 @@ do
   ln -s "$FULLDIR"/$FILE ~
 done
 "Setting up link to $FULLDIR/init.vim"
+mkdir -p ~/.config/nvim
 ln -s "$FULLDIR"/init.vim ~/.config/nvim
 
 echo "Setting up Plugged for vim plugins in init.vim"
@@ -38,13 +39,13 @@ sudo apt install -y python3-dev python3-pip python3-venv
 echo "Install ansible"
 sudo pip3 install ansible
 
-echo "Installing spotify"
+#echo "Installing spotify"
 sudo snap install spotify
 
-echo "Installing discord"
+#echo "Installing discord"
 sudo snap install discord
 
-echo "Installing VS Code"
+#echo "Installing VS Code"
 sudo snap install vscode
 
 # influxdb
@@ -61,3 +62,9 @@ sudo snap install vscode
 # nginx
 # ocaml
 # graphite + graphite api
+
+# WINDOWS ONLY
+# steam
+# visual studio
+# putty + keys and setups
+# discord
