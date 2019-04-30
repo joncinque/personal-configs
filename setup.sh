@@ -48,9 +48,19 @@ sudo snap install discord
 #echo "Installing VS Code"
 sudo snap install vscode
 
+echo "Installing docker"
+sudo snap install docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo systemctl restart snap.docker.dockerd
+# testing
+# docker run hello-world
+
 # influxdb
 # mongodb
 # node 10
+# typescript
+# ts-node
 # dotnet core
 # firefox
 # ng
@@ -58,7 +68,6 @@ sudo snap install vscode
 # remmina
 # postgres
 # tixati
-# docker
 # nginx
 # ocaml
 # graphite + graphite api

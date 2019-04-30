@@ -40,6 +40,7 @@ Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
+Plug 'leafgarland/typescript-vim'
 
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
@@ -151,7 +152,7 @@ syntax enable
 
 colorscheme desert
 set background=dark
-set guicursor=
+" set guicursor=
 
 " Set extra options when running in GUI mode
 if has("gui_running")
@@ -194,12 +195,10 @@ set tabstop=2
 autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab
 autocmd Filetype php setlocal ts=4 sw=4 sts=0 expandtab
 
-" augroup filetypedetect
-  " use "csharp" syntax for cs files
-  " au BufRead,BufNewFile *.cs set syntax=csharp filetype=csharp
-  " use "javascript" syntax for mjs files
-  " au BufRead,BufNewFile *.mjs set syntax=javascript filetype=javascript
-" augroup END
+augroup filetypedetect
+  " use "xml" syntax for xaml files
+  au BufRead,BufNewFile *.xaml set syntax=xml filetype=xml
+augroup END
 
 " Linebreak on 500 characters
 set tw=500
@@ -369,6 +368,7 @@ let g:syntastic_ocaml_checkers = [ 'merlin' ]
 let g:syntastic_python_checkers = [ 'flake8' ]
 let g:syntastic_python_flake8_post_args="--max-line-length=150"
 let g:syntastic_javascript_checkers = [ 'eslint' ]
+let g:syntastic_typescript_checkers = [ 'eslint' ]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
