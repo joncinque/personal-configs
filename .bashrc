@@ -76,7 +76,7 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     if test -r ~/.dircolors; then
       eval "$(dircolors -b ~/.dircolors)"
-    else 
+    else
       eval "$(dircolors -b)"
     fi
     alias ls='ls --color=auto'
@@ -134,3 +134,6 @@ alias getclip="xsel --clipboard -o"
 
 export DEBFULLNAME="Jon Cinque"
 export DEBEMAIL="jon.cinque@gmail.com"
+
+# ocaml env setup
+# eval $(opam env)

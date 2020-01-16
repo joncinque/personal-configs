@@ -1,28 +1,29 @@
 [user]
-	name = Jon Cinque
-	email = jon.cinque@gmail.com
+  name = Jon Cinque
+  email = jon.cinque@gmail.com
 [credential]
-	helper = cache --timeout=3600
+  helper = cache --timeout=3600
 [difftool]
-	prompt = false
+  prompt = false
 [diff]
-    tool = meld
+  tool = meld
 [alias]
-    st = status
-    pl = pull --rebase
-    logdog = log --decorate --pretty=oneline --abbrev-commit --graph
-    dt = difftool
-    # subtree add
-    sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f"
-    # subtree update
-    sbu = "!f() { git subtree pull --prefix $2 $1 master --squash; }; f"
-    # subtree push
-    sbp = "!f() { git subtree push --prefix $1 $2 $3; }; f"
+  st = status
+  pl = pull --rebase
+  logdog = log --decorate --pretty=oneline --abbrev-commit --graph
+  dt = difftool
+  # subtree add
+  sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f"
+  # subtree update
+  sbu = "!f() { git subtree pull --prefix $2 $1 master --squash; }; f"
+  # subtree push
+  sbp = "!f() { git subtree push --prefix $1 $2 $3; }; f"
 [push]
 	default = simple
 [pull]
   rebase = true
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
+  autocrlf = input
 [merge]
-	conflictstyle = diff3
+  conflictstyle = diff3

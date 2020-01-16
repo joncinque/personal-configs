@@ -4,8 +4,13 @@ DIR=$(dirname "$0")
 cd "$DIR"
 FULLDIR=$(pwd)
 
-echo "Installing dev requirements"
+echo "Base dev software"
+echo "* Installing base requirements"
 sudo apt install -y neovim curl git tmux
+
+echo "* Installing neovim"
+sudo apt-add-repository -y ppa:neovim-ppa/stable
+sudo apt install -y neovim
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
@@ -18,62 +23,97 @@ do
     diff ~/$FILE "$FULLDIR"/$FILE
     rm -i ~/$FILE
   fi
-  "Setting up link to $FULLDIR/$FILE"
+  "* Setting up link to $FULLDIR/$FILE"
   ln -s "$FULLDIR"/$FILE ~
 done
-"Setting up link to $FULLDIR/init.vim"
+"* Setting up link to $FULLDIR/init.vim"
 mkdir -p ~/.config/nvim
 ln -s "$FULLDIR"/init.vim ~/.config/nvim
 
-echo "Setting up Plugged for vim plugins in init.vim"
+echo "* Setting up Plugged for vim plugins in init.vim"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
-echo "Installing extra needed plugins"
+echo "Coding software"
+echo "* Install python dev requirements"
+sudo apt install -y python3-dev python3-pip python3-venv
+
+echo "* Install ansible, pynvim"
+sudo pip3 install ansible pynvim jedi
+
+echo "* Install node"
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt install nodejs
+
+echo "* Install required npm packages"
+sudo npm install -g neovim typescript ts-node
+
+echo "* Install nvim plugins"
 cd ~
 vim +PlugInstall
 
-echo "Installing dev requirements"
-sudo apt install -y python3-dev python3-pip python3-venv
+echo "* Install dotnet core"
+wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt install dotnet-sdk-2.1
 
-echo "Install ansible"
-sudo pip3 install ansible
+echo "* Install mongodb 4.2"
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+sudo apt update
+sudo apt install -y mongodb-org
 
-#echo "Installing spotify"
-sudo snap install spotify
+echo "* Install VS Code for dotnet debugging"
+sudo snap install code
 
-#echo "Installing discord"
-sudo snap install discord
-
-#echo "Installing VS Code"
-sudo snap install vscode
-
-echo "Installing docker"
+echo "* Install docker"
 sudo snap install docker
 sudo groupadd docker
 sudo usermod -aG docker $USER
 sudo systemctl restart snap.docker.dockerd
+
 # testing
 # docker run hello-world
 
-# influxdb
-# mongodb
-# node 10
-# typescript
-# ts-node
-# dotnet core
-# firefox
-# ng
-# meld
-# remmina
-# postgres
-# tixati
-# nginx
-# ocaml
+#echo "* Install influxdb"
+#wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+#source /etc/lsb-release
+#echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+#sudo apt update
+#sudo apt install influxdb
+#sudo systemctl start influxdb
+
+# echo "* Install meld (diffing), remmina (RDP to Windows), postgres, firefox"
+# sudo apt install meld remmina postgresql firefox
+
+# echo "* Install tixati"
+# wget https://download2.tixati.com/download/tixati_2.66-1_amd64.deb
+# sudo dpkg -i tixati_2.66-1_amd64.deb
+
+# echo "* Install nginx"
+# sudo add-apt-repository ppa:nginx/stable
+# sudo apt update
+# sudo apt install nginx
+
 # graphite + graphite api
+
+#echo "Install opam / ocaml"
+#sudo add-apt-repository ppa:avsm/ppa
+#sudo apt install opam
+# Setting up compiler and all
+# opam init
+
+#echo "Install meteor"
+#curl https://install.meteor.com/ | sh
+
+echo "Non-programming applications"
+echo "* Install spotify"
+sudo snap install spotify
+
+echo "* Install discord"
+sudo snap install discord
 
 # WINDOWS ONLY
 # steam
 # visual studio
 # putty + keys and setups
-# discord
