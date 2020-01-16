@@ -4,9 +4,12 @@ DIR=$(dirname "$0")
 cd "$DIR"
 FULLDIR=$(pwd)
 
+INSTALL_GUI=false
+INSTALL_EXTRA=false
+
 echo "Base dev software"
 echo "* Installing base requirements"
-sudo apt install -y neovim curl git tmux
+sudo apt install -y curl git tmux
 
 echo "* Installing neovim"
 sudo apt-add-repository -y ppa:neovim-ppa/stable
@@ -43,7 +46,7 @@ sudo pip3 install ansible pynvim jedi
 
 echo "* Install node"
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-sudo apt install nodejs
+sudo apt install -y nodejs
 
 echo "* Install required npm packages"
 sudo npm install -g neovim typescript ts-node
@@ -55,7 +58,7 @@ vim +PlugInstall
 echo "* Install dotnet core"
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
-sudo apt install dotnet-sdk-2.1
+sudo apt install -y dotnet-sdk-2.1
 
 echo "* Install mongodb 4.2"
 wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
@@ -63,37 +66,29 @@ echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/
 sudo apt update
 sudo apt install -y mongodb-org
 
-echo "* Install VS Code for dotnet debugging"
-sudo snap install code
-
 echo "* Install docker"
 sudo snap install docker
 sudo groupadd docker
 sudo usermod -aG docker $USER
 sudo systemctl restart snap.docker.dockerd
-
 # testing
 # docker run hello-world
 
-#echo "* Install influxdb"
-#wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
-#source /etc/lsb-release
-#echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
-#sudo apt update
-#sudo apt install influxdb
-#sudo systemctl start influxdb
+if [ "$INSTALL_EXTRA" = true ]; then
+  echo "* Install influxdb"
+  wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+  source /etc/lsb-release
+  echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+  sudo apt update
+  sudo apt install -y influxdb
+  sudo systemctl start influxdb
 
-# echo "* Install meld (diffing), remmina (RDP to Windows), postgres, firefox"
-# sudo apt install meld remmina postgresql firefox
+  echo "* Install postgres"
+  sudo apt install -y postgresql
 
-# echo "* Install tixati"
-# wget https://download2.tixati.com/download/tixati_2.66-1_amd64.deb
-# sudo dpkg -i tixati_2.66-1_amd64.deb
-
-# echo "* Install nginx"
-# sudo add-apt-repository ppa:nginx/stable
-# sudo apt update
-# sudo apt install nginx
+  echo "* Install nginx"
+  sudo add-apt-repository ppa:nginx/stable
+  sudo apt install -y nginx
 
 # graphite + graphite api
 
@@ -105,13 +100,27 @@ sudo systemctl restart snap.docker.dockerd
 
 #echo "Install meteor"
 #curl https://install.meteor.com/ | sh
+fi
 
-echo "Non-programming applications"
-echo "* Install spotify"
-sudo snap install spotify
+if [ "$INSTALL_GUI" = true ]; then
+  echo "GUI applications"
+  echo "* Install meld (diffing), remmina (RDP to Windows), firefox"
+  sudo apt install -y meld remmina firefox
 
-echo "* Install discord"
-sudo snap install discord
+  echo "* Install tixati"
+  wget https://download2.tixati.com/download/tixati_2.66-1_amd64.deb
+  sudo dpkg -i tixati_2.66-1_amd64.deb
+
+  echo "* Install VS Code for dotnet debugging"
+  sudo snap install code
+
+  echo "Non-programming applications"
+  echo "* Install spotify"
+  sudo snap install spotify
+
+  echo "* Install discord"
+  sudo snap install discord
+fi
 
 # WINDOWS ONLY
 # steam
