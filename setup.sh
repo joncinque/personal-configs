@@ -8,12 +8,17 @@ INSTALL_GUI=false
 INSTALL_EXTRA=false
 
 echo "Base dev software"
-echo "* Installing base requirements"
+echo "* Install base requirements"
 sudo apt install -y curl git tmux
 
-echo "* Installing neovim"
+echo "* Install neovim"
 sudo apt-add-repository -y ppa:neovim-ppa/stable
 sudo apt install -y neovim
+
+echo "* Install fish"
+sudo apt-add-repository -y ppa:fish-shell/release-3
+sudo apt install -y fish
+chsh -s /usr/bin/fish
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
@@ -32,6 +37,10 @@ done
 "* Setting up link to $FULLDIR/init.vim"
 mkdir -p ~/.config/nvim
 ln -s "$FULLDIR"/init.vim ~/.config/nvim
+
+"* Setting up link to $FULLDIR/config.fish"
+mkdir -p ~/.config/fish
+ln -s "$FULLDIR"/config.fish ~/.config/fish
 
 echo "* Setting up Plugged for vim plugins in init.vim"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
@@ -73,6 +82,10 @@ sudo usermod -aG docker $USER
 sudo systemctl restart snap.docker.dockerd
 # testing
 # docker run hello-world
+
+echo "* Install Rust"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
 
 if [ "$INSTALL_EXTRA" = true ]; then
   echo "* Install influxdb"
