@@ -4,7 +4,7 @@ set -Ux EDITOR vim
 
 set -Ux DEBFULLNAME "Jon Cinque"
 set -Ux DEBEMAIL jon.cinque@gmail.com
-set -gx PATH /snap/bin $PATH
+set -gx PATH /snap/bin $HOME/.cargo/bin $PATH
 
 function fish_mode_prompt
   # NOOP - Disable vim mode indicator
