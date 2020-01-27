@@ -69,6 +69,9 @@ vim +UpdateRemotePlugins
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+echo "* Install bandwhich"
+cargo install bandwhich
+
 if [ "$RELEASE" = "Ubuntu" ]; then
   echo "* Install dotnet core"
   wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb

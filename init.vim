@@ -37,7 +37,7 @@ call plug#begin('~/vim/plugged')
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-fugitive'
+"Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'scrooloose/nerdcommenter'
