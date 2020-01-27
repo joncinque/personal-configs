@@ -39,9 +39,9 @@ call plug#begin('~/vim/plugged')
 Plug 'tpope/vim-sensible'
 "Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/syntastic'
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'preservim/nerdcommenter'
+Plug 'vim-syntastic/syntastic'
 Plug 'sheerun/vim-polyglot'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
