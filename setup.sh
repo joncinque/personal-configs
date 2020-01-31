@@ -58,8 +58,8 @@ echo "* Install node"
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install -y nodejs
 
-echo "* Install required npm packages"
-sudo npm install -g neovim typescript ts-node
+echo "* Install required npm packages for vim, typescript, and reveal"
+sudo npm install -g neovim typescript ts-node reveal-md
 
 echo "* Install nvim plugins"
 cd ~
@@ -71,6 +71,10 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 echo "* Install bandwhich"
 cargo install bandwhich
+
+echo "* Install ruby and Jekyll for static pages"
+sudo apt install ruby-dev build-essential zlib1g-dev
+sudo gem install bundler
 
 if [ "$RELEASE" = "Ubuntu" ]; then
   echo "* Install dotnet core"
