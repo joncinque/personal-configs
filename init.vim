@@ -37,11 +37,14 @@ call plug#begin('~/vim/plugged')
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plug 'tpope/vim-sensible'
+Plug 'tpope/vim-surround'
 "Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'
-Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 
@@ -285,16 +288,10 @@ set viminfo^=%
 
 
 """"""""""""""""""""""""""""""
-" => Status line
+" => Airline line
 """"""""""""""""""""""""""""""
-" Always show the status line
-"set laststatus=2
 
-" Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ %r%{getcwd()}%h\ \ \ Line:\ %l\ Col:\ %c
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+let g:airline_theme='minimalist'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -352,20 +349,22 @@ vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
 " map <leader>s? z=
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Syntastic settings
+" => Ale settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
+" Can speed up processing time
+"let g:ale_completion_max_suggestions = 20
 
-"let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" Only lint on save
+"let g:ale_lint_on_text_changed = 'never'
+"let g:ale_lint_on_insert_leave = 0
 
-"let g:syntastic_ocaml_checkers = [ 'merlin' ]
-let g:syntastic_python_checkers = [ 'flake8' ]
-let g:syntastic_python_flake8_post_args="--max-line-length=150"
-let g:syntastic_javascript_checkers = [ 'eslint' ]
-let g:syntastic_typescript_checkers = [ 'eslint' ]
+" You can disable this option too
+" if you don't want linters to run on opening a file
+"let g:ale_lint_on_enter = 0
+
+" Default enable ale in airline status
+let g:airline#extensions#ale#enabled = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

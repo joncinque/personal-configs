@@ -43,6 +43,9 @@ ln -s "$FULLDIR"/init.vim ~/.config/nvim
 mkdir -p ~/.config/fish
 ln -s "$FULLDIR"/config.fish ~/.config/fish
 
+"* Setting up link to $FULLDIR/flake8"
+ln -s "$FULLDIR"/flake8 ~/.config
+
 echo "* Setting up Plugged for vim plugins in init.vim"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
