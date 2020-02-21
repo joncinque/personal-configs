@@ -72,6 +72,10 @@ vim +UpdateRemotePlugins
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+echo "* Install racer"
+rustup toolchain add nightly
+cargo +nightly install racer
+
 echo "* Install bandwhich"
 cargo install bandwhich
 

@@ -63,6 +63,7 @@ Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
 Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
 Plug 'ncm2/ncm2-jedi'
+Plug 'ncm2/ncm2-racer'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
