@@ -102,6 +102,9 @@ if [ "$RELEASE" = "Ubuntu" ]; then
   sudo systemctl restart snap.docker.dockerd
   # testing
   # docker run hello-world
+
+  echo "* Install go"
+  sudo snap install --classic go
 fi
 
 if [ "$INSTALL_EXTRA" = true ]; then

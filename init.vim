@@ -57,13 +57,14 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 " NOTE: you need to install completion sources to get completions. Check
 " our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
-Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-tmux'
+Plug 'ncm2/ncm2-path' "Paths
+Plug 'ncm2/ncm2-tmux' "tmux
 
-Plug 'ncm2/ncm2-tern',  {'do': 'npm install'}
-Plug 'ncm2/nvim-typescript', {'do': './install.sh'}
-Plug 'ncm2/ncm2-jedi'
-Plug 'ncm2/ncm2-racer'
+Plug 'ncm2/ncm2-cssomni' "css
+Plug 'ncm2/ncm2-tern', {'do': 'npm install'}  "js
+Plug 'ncm2/ncm2-jedi' "python
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}  "ts
+Plug 'ncm2/ncm2-racer' "rust
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -381,11 +382,17 @@ inoremap <c-c> <ESC>
 " When the <Enter> key is pressed while the popup menu is visible, it only
 " hides the menu. Use this mapping to close the menu and also start a new
 " line.
-inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
 " Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <Tab> (pumvisible() ? "\<C-n>" : "\<Tab>")
+inoremap <expr> <S-Tab> (pumvisible() ? "\<C-p>" : "\<S-Tab>")
+
+inoremap <expr> <Plug>(cr_prev) execute('let g:_prev_line = getline(".")')
+inoremap <expr> <Plug>(cr_do) (g:_prev_line == getline('.') ? "\<cr>" : "")
+inoremap <expr> <Plug>(cr_post) execute('unlet g:_prev_line')
+
+imap <expr> <CR> (pumvisible() ? "\<Plug>(cr_prev)\<C-Y>\<Plug>(cr_do)\<Plug>(cr_post)" : "\<CR>")
 
 " wrap existing omnifunc
 " Note that omnifunc does not run in background and may probably block the
