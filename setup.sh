@@ -76,25 +76,6 @@ cd ~
 vim +PlugInstall
 vim +UpdateRemotePlugins
 
-echo "* Install dotnet core"
-wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo apt install -y dotnet-sdk-2.1
-
-echo "* Install mongodb 4.2"
-wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
-echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
-sudo apt update
-sudo apt install -y mongodb-org
-
-echo "* Install docker"
-sudo snap install docker
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo systemctl restart snap.docker.dockerd
-# testing
-# docker run hello-world
-
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
