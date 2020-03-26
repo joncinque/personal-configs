@@ -1,4 +1,7 @@
-fish_vi_key_bindings
+#!/usr/bin/env fish
+
+set -g fish_key_bindings fish_vi_key_bindings
+
 set -Ux VISUAL vim
 set -Ux EDITOR vim
 
@@ -10,24 +13,39 @@ function fish_mode_prompt
   # NOOP - Disable vim mode indicator
 end
 
-#function reverse_history_search
-#history | fzf --no-sort | read -l command
-#if test $command
-#commandline -rb $command
-#end
-#end
+function fish_user_key_bindings
+  # TODO remove once fish 3.2.0 is released
+  bind -s --preset -m insert cf begin-selection forward-jump kill-selection end-selection repaint-mode
+  bind -s --preset -m insert ct begin-selection forward-jump backward-char kill-selection end-selection repaint-mode
+  bind -s --preset -m insert cF begin-selection backward-jump kill-selection end-selection repaint-mode
+  bind -s --preset -m insert cT begin-selection backward-jump forward-char kill-selection end-selection repaint-mode
+  bind -s --preset df begin-selection forward-jump kill-selection end-selection
+  bind -s --preset dt begin-selection forward-jump backward-char kill-selection end-selection
+  bind -s --preset dF begin-selection backward-jump kill-selection end-selection
+  bind -s --preset dT begin-selection backward-jump forward-char kill-selection end-selection
+  # TODO finish removal area
 
-#function fish_user_key_bindings
-#bind -M default / reverse_history_search
-#end
+  bind -s --preset n history-search-forward
+  bind -s --preset N history-search-backward
+
+  bind -s --preset -m insert ci backward-jump-till and repeat-jump-reverse and begin-selection repeat-jump kill-selection end-selection repaint-mode
+  bind -s --preset -m insert ca backward-jump and repeat-jump-reverse and begin-selection repeat-jump kill-selection end-selection repaint-mode
+
+  bind -s --preset di backward-jump-till and repeat-jump-reverse and begin-selection repeat-jump kill-selection end-selection
+  bind -s --preset da backward-jump and repeat-jump-reverse and begin-selection repeat-jump kill-selection end-selection
+
+  bind -s --preset yi backward-jump-till and repeat-jump-reverse and begin-selection repeat-jump kill-selection yank end-selection
+  bind -s --preset ya backward-jump and repeat-jump-reverse and begin-selection repeat-jump kill-selection yank end-selection
+end
+
+fish_user_key_bindings
 
 function fish_prompt --description 'Write out the prompt'
-  set -l last_status $status
-	if test -z $WINDOW
-        printf '%s[%s]%s%s%s:%s%s%s> ' (set_color yellow) (date +%H:%M) (set_color purple) (whoami) (set_color normal) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-    else
-        printf '%s[%s]%s%s%s:%s(%s)%s%s%s> ' (set_color yellow) (date +%H:%M) (set_color purple) (whoami) (set_color normal) (set_color white) (echo $WINDOW) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-    end
+  if test -z "$WINDOW"
+    printf '%s%s@%s%s%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  else
+    printf '%s%s@%s%s%s(%s)%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color white) (echo $WINDOW) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  end
 end
 
 function ll

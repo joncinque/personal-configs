@@ -411,6 +411,10 @@ au User Ncm2Plugin call ncm2#register_source({
         \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
         \ })
 
+" Debugging ncm
+" let $NVIM_PYTHON_LOG_FILE="/home/jon/nvim_log"
+" let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc

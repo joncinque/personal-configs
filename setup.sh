@@ -54,15 +54,22 @@ echo "Coding software"
 echo "* Install python dev requirements"
 sudo apt install -y python3-dev python3-pip python3-venv
 
-echo "* Install ansible, pynvim"
+echo "* Install global ansible, pynvim, jedi"
 sudo pip3 install ansible pynvim jedi
+# if needed, jedi had bugs back in 2020-02-02
+#sudo pip3 install -e git://github.com/davidhalter/jedi.git#egg=jedi
 
 echo "* Install node"
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo apt install -y nodejs
 
 echo "* Install required npm packages for vim, typescript, and reveal"
-sudo npm install -g neovim typescript ts-node reveal-md
+PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 sudo npm install -g neovim typescript ts-node reveal-md
+
+echo "* Install yarn"
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt update && sudo apt install -y yarn
 
 echo "* Install nvim plugins"
 cd ~
