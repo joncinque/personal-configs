@@ -35,6 +35,10 @@ do
   "* Setting up link to $FULLDIR/$FILE"
   ln -s "$FULLDIR"/$FILE ~
 done
+"* Setting up link to $FULLDIR/.ssh/config"
+mkdir -p ~/.ssh
+ln -s "$FULLDIR"/ssh_config ~/.ssh/config
+
 "* Setting up link to $FULLDIR/init.vim"
 mkdir -p ~/.config/nvim
 ln -s "$FULLDIR"/init.vim ~/.config/nvim
