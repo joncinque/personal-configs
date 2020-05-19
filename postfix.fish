@@ -67,22 +67,28 @@ server {
     }
 }" > /etc/nginx/sites-enabled/$domain.conf
 
+echo "Getting mail cert"
+sudo certbot certonly -d "mail.$domain" -m "$email" --agree-tos --standalone --pre-hook='systemctl stop nginx' --post-hook='systemctl start nginx'
+
 # (Optional, if setting up a server like dovecot) enable TLS submission on Postfix
-#sudo echo "submission     inet     n    -    y    -    -    smtpd
-# -o syslog_name=postfix/submission
-# -o smtpd_tls_security_level=encrypt
-# -o smtpd_tls_wrappermode=no
-# -o smtpd_sasl_auth_enable=yes
-# -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
-# -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
-# -o smtpd_sasl_type=dovecot
-# -o smtpd_sasl_path=private/auth" >> /etc/postfix/master.cf
+sudo echo "submission     inet     n    -    y    -    -    smtpd
+  -o syslog_name=postfix/submission
+  -o smtpd_tls_security_level=encrypt
+  -o smtpd_tls_wrappermode=no
+  -o smtpd_sasl_auth_enable=yes
+  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+  -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
+  -o milter_macro_daemon_name=ORIGINATING
+  -o smtpd_sasl_type=dovecot
+  -o smtpd_sasl_path=private/auth" >> /etc/postfix/master.cf
 
 # Setup tls keys for /etc/postfix/main.cf
-#smtp_tls_cert_file = /etc/letsencrypt/live/$domain/fullchain.pem
-#smtp_tls_key_file = /etc/letsencrypt/live/$domain/privkey.pem
-#smtpd_tls_cert_file = /etc/letsencrypt/live/$domain/fullchain.pem
-#smtpd_tls_key_file = /etc/letsencrypt/live/$domain/privkey.pem
+sudo postconf -e "smtp_tls_cert_file = /etc/letsencrypt/live/mail.$domain/fullchain.pem"
+sudo postconf -e "smtp_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey.pem"
+sudo postconf -e "smtpd_tls_cert_file = /etc/letsencrypt/live/mail.$domain/fullchain.pem"
+sudo postconf -e "smtpd_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey.pem"
+sudo postconf -e "smtpd_tls_protocols = !SSLv2, !SSLv3"
+sudo postconf -e "local_recipient_maps = proxy:unix:passwd.byname $alias_maps"
 
 # Setup SPF
 # https://www.linuxbabe.com/mail-server/setting-up-dkim-and-spf
@@ -187,3 +193,28 @@ sudo postfix reload
 
 # Check with https://www.mail-tester.com/ for score
 # Check with https://www.wormly.com/test-smtp-server
+
+echo "Setting up Dovecot IMAP server with SASL"
+sudo apt install dovecot-core dovecot-imapd
+sudo cp /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf.dist
+sudo echo 'disable_plaintext_auth = no
+mail_privileged_group = mail
+mail_location = mbox:~/mail:INBOX=/var/mail/%u
+userdb {
+  driver = passwd
+}
+passdb {
+  args = %s
+  driver = pam
+}
+protocols = " imap"
+service auth {
+  unix_listener /var/spool/postfix/private/auth {
+    group = postfix
+    mode = 0660
+    user = postfix
+  }
+}
+ssl=required
+ssl_cert = </etc/letsencrypt/live/mail.$domain/fullchain.pem
+ssl_key = </etc/letsencrypt/live/mail.$domain/privkey.pem' > /etc/dovecot/dovecot.conf
