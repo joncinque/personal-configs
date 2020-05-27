@@ -24,7 +24,7 @@ sudo echo "myhostname = $domain" >> /etc/postfix/main.cf
 sudo systemctl restart postfix
 sudo newaliases  # propagate aliases
 
-echo "$email" > ~/.forward # I don't think this does anything
+# echo "$email" > ~/.forward # I don't think this does anything
 
 # Setup TLS
 sudo apt install -y software-properties-common certbot python3-certbot-nginx
@@ -182,7 +182,34 @@ queue_run_delay = 5m" >> /etc/postfix/main.cf
 
 # Setting up DMARC
 # https://www.linuxbabe.com/mail-server/opendmarc-postfix-ubuntu
+sudo apt install opendmarc
+sudo systemctl enable opendmarc
 
+# DMARC config file
+sudo echo "AuthservID OpenDMARC" >> /etc/opendmarc.conf
+sudo echo "TrustedAuthservIDs mail.$domain" >> /etc/opendmarc.conf
+sudo echo "RejectFailures true" >> /etc/opendmarc.conf
+sudo echo "IgnoreAuthenticatedClients true" >> /etc/opendmarc.conf
+sudo echo "RequiredHeaders true" >> /etc/opendmarc.conf
+sudo echo "SPFSelfValidate true" >> /etc/opendmarc.conf
+sudo echo "Socket local:/var/spool/postfix/opendmarc/opendmarc.sock" >> /etc/opendmarc.conf
+
+# Add socket and permissions for postfix
+sudo mkdir -p /var/spool/postfix/opendmarc
+sudo chown opendmarc:opendmarc /var/spool/postfix/opendmarc -R
+sudo chmod 750 /var/spool/postfix/opendmarc/ -R
+sudo adduser postfix opendmarc
+sudo systemctl restart opendmarc
+
+# Add opendmarc socket to milters in postfix
+# sudo echo "smtpd_milters = local:/opendkim/opendkim.sock,local:opendmarc/opendmarc.sock" >> /etc/postfix/main.cf
+# sudo systemctl restart postfix
+
+# Add DNS TXT record for DMARC info, start with "none" and work up to "quarantine" and "reject"
+# _dmarc.$domain
+# v=DMARC1; p=none; pct=100; rua=mailto:dmarc@$domain
+
+# Setting up virtual addresses
 sudo echo "virtual_alias_domains = $domain
 virtual_alias_maps = hash:/etc/postfix/virtual" >> /etc/postfix/main.cf
 
