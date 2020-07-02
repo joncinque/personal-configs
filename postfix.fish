@@ -188,7 +188,7 @@ sudo systemctl enable opendmarc
 # DMARC config file
 sudo echo "AuthservID OpenDMARC" >> /etc/opendmarc.conf
 sudo echo "TrustedAuthservIDs mail.$domain" >> /etc/opendmarc.conf
-sudo echo "RejectFailures true" >> /etc/opendmarc.conf
+sudo echo "RejectFailures false" >> /etc/opendmarc.conf
 sudo echo "IgnoreAuthenticatedClients true" >> /etc/opendmarc.conf
 sudo echo "RequiredHeaders true" >> /etc/opendmarc.conf
 sudo echo "SPFSelfValidate true" >> /etc/opendmarc.conf
