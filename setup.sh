@@ -145,6 +145,14 @@ if [ "$INSTALL_EXTRA" = true ]; then
 
   #echo "Install meteor"
   #curl https://install.meteor.com/ | sh
+
+  echo "Installing gcloud CLI" # https://cloud.google.com/sdk/gcloud/
+  echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+  curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+  sudo apt update
+  sudo apt install google-cloud-sdk
+  gcloud init
+  gcloud auth configure-docker
 fi
 
 if [ "$INSTALL_GUI" = true ]; then
@@ -165,9 +173,13 @@ if [ "$INSTALL_GUI" = true ]; then
 
   echo "* Install discord"
   sudo snap install discord
+
+  echo "* Install pandoc: check https://github.com/jgm/pandoc/releases for deb"
+  echo "* Install texlive, pandoc requirement for pdf"
+  sudo apt install texlive
 fi
 
 # WINDOWS ONLY
 # steam
 # visual studio
-# putty + keys and setups
+# windows terminal + keys and setups
