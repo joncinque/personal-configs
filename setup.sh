@@ -58,8 +58,8 @@ echo "Coding software"
 echo "* Install python dev requirements"
 sudo apt install -y python3-dev python3-pip python3-venv
 
-echo "* Install global ansible, pynvim, jedi"
-sudo pip3 install ansible pynvim jedi
+echo "* Install global ansible, pynvim, jedi, supervisor"
+sudo pip3 install ansible pynvim jedi supervisor
 # if needed, jedi had bugs back in 2020-02-02
 #sudo pip3 install -e git://github.com/davidhalter/jedi.git#egg=jedi
 
@@ -94,6 +94,27 @@ cargo install bandwhich
 echo "* Install ruby and Jekyll for static pages"
 sudo apt install ruby-dev build-essential zlib1g-dev
 sudo gem install bundler
+
+echo "* Setup supervisor"
+echo_supervisord_conf | sudo tee /etc/supervisor/supervisord.conf
+echo '[include]
+files=conf.d/*.conf' | sudo tee -a /etc/supervisor/supervisord.conf
+echo '[Unit]
+Description=Supervisor daemon
+Documentation=http://supervisord.org
+After=network.target
+[Service]
+ExecStart=/usr/local/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+ExecStop=/usr/local/bin/supervisorctl $OPTIONS shutdown
+ExecReload=/usr/local/bin/supervisorctl $OPTIONS reload
+KillMode=process
+Restart=on-failure
+RestartSec=42s
+[Install]
+WantedBy=multi-user.target
+Alias=supervisord.service' > | sudo tee /etc/systemd/system/supervisord.service
+sudo systemctl daemon-reload
+sudo systemctl start supervisord
 
 if [ "$RELEASE" = "Ubuntu" ]; then
   echo "* Install dotnet core"
@@ -183,3 +204,9 @@ fi
 # steam
 # visual studio
 # windows terminal + keys and setups
+
+# GitHub ssh token
+GITHUB_FILE=/home/jon/.ssh/github_id_rsa
+echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "jon.cinque@gmail.com"
+echo "* Add public key to GitHub:"
+cat "$GITHUB_FILE".pub
