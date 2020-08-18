@@ -198,6 +198,9 @@ if [ "$INSTALL_GUI" = true ]; then
   echo "* Install pandoc: check https://github.com/jgm/pandoc/releases for deb"
   echo "* Install texlive, pandoc requirement for pdf"
   sudo apt install texlive
+
+  echo "* Install slack"
+  sudo snap install slack --classic
 fi
 
 # WINDOWS ONLY
@@ -210,3 +213,4 @@ GITHUB_FILE=/home/jon/.ssh/github_id_rsa
 echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "jon.cinque@gmail.com"
 echo "* Add public key to GitHub:"
 cat "$GITHUB_FILE".pub
+
