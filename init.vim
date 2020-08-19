@@ -368,6 +368,15 @@ vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
 " Default enable ale in airline status
 let g:airline#extensions#ale#enabled = 1
 
+" Enable prettier as a fixer
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\   'javascriptreact': ['prettier'],
+\   'typescript': ['prettier'],
+\   'typescriptreact': ['prettier'],
+\   'css': ['prettier'],
+\}
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ncm settings
