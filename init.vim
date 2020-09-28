@@ -368,6 +368,12 @@ vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
 " Default enable ale in airline status
 let g:airline#extensions#ale#enabled = 1
 
+" Disable tsserver linter for javascript
+let g:ale_linters = {
+\   'javascript': ['eslint', 'fecs', 'flow', 'flow-language-server', 'jscs', 'jshint', 'standard', 'xo'],
+\}
+
+
 " Enable prettier as a fixer
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
