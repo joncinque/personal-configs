@@ -1,6 +1,6 @@
 ServerAliveInterval 10
 ServerAliveCountMax 1
-Host *
+Host github.com
     Hostname github.com
     User git
     IdentityFile ~/.ssh/github_id_rsa
