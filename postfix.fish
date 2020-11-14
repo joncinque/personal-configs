@@ -51,7 +51,7 @@ server {
     ssl_ciphers HIGH:!aNULL:!MD5;
 
     # Deny illegal Host headers
-    if (\$host !~* ^($domain|www.$domain)$) {
+    if (\$host !~* ^($domain|www.$domain)\$) {
         return 444;
     }
 
@@ -111,7 +111,7 @@ smtpd_recipient_restrictions =
 sudo systemctl restart postfix
 
 # Setup DKIM
-sudo apt install opendkim opendkim-tools
+sudo apt install -y opendkim opendkim-tools
 sudo gpasswd -a postfix opendkim
 # Modify after "Commonly-used options..."
 sudo echo "Canonicalization       relaxed/simple
@@ -182,7 +182,8 @@ queue_run_delay = 5m" >> /etc/postfix/main.cf
 
 # Setting up DMARC
 # https://www.linuxbabe.com/mail-server/opendmarc-postfix-ubuntu
-sudo apt install opendmarc
+# choose "no" for db config
+sudo apt install -y opendmarc
 sudo systemctl enable opendmarc
 
 # DMARC config file
@@ -203,7 +204,8 @@ sudo systemctl restart opendmarc
 
 # Add opendmarc socket to milters in postfix
 # sudo echo "smtpd_milters = local:/opendkim/opendkim.sock,local:opendmarc/opendmarc.sock" >> /etc/postfix/main.cf
-# sudo systemctl restart postfix
+sudo vim /etc/postfix/main.cfg
+sudo systemctl restart postfix
 
 # Add DNS TXT record for DMARC info, start with "none" and work up to "quarantine" and "reject"
 # _dmarc.$domain
@@ -222,9 +224,9 @@ sudo postfix reload
 # Check with https://www.wormly.com/test-smtp-server
 
 echo "Setting up Dovecot IMAP server with SASL"
-sudo apt install dovecot-core dovecot-imapd
+sudo apt install -y dovecot-core dovecot-imapd
 sudo cp /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf.dist
-sudo echo 'disable_plaintext_auth = no
+sudo echo "disable_plaintext_auth = no
 mail_privileged_group = mail
 mail_location = mbox:~/mail:INBOX=/var/mail/%u
 userdb {
@@ -234,7 +236,7 @@ passdb {
   args = %s
   driver = pam
 }
-protocols = " imap"
+protocols = \" imap\"
 service auth {
   unix_listener /var/spool/postfix/private/auth {
     group = postfix
@@ -244,4 +246,5 @@ service auth {
 }
 ssl=required
 ssl_cert = </etc/letsencrypt/live/mail.$domain/fullchain.pem
-ssl_key = </etc/letsencrypt/live/mail.$domain/privkey.pem' > /etc/dovecot/dovecot.conf
+ssl_key = </etc/letsencrypt/live/mail.$domain/privkey.pem" > /etc/dovecot/dovecot.conf
+sudo systemctl restart dovecot
