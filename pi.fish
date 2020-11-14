@@ -8,3 +8,6 @@ sudo adduser jon
 sudo usermod -aG sudo jon
 # Relogin and delete pi user
 sudo deluser pi
+
+# Copy git keys over to .ssh
+# Copy ssh_config to ~/.ssh/config

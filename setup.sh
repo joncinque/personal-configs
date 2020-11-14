@@ -64,32 +64,32 @@ sudo pip3 install ansible pynvim jedi supervisor
 #sudo pip3 install -e git://github.com/davidhalter/jedi.git#egg=jedi
 
 echo "* Install node"
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt install -y nodejs
 
 echo "* Install required npm packages for vim, typescript, and reveal"
-PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 sudo npm install -g neovim typescript ts-node reveal-md
+sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install -g neovim typescript ts-node reveal-md
 
 echo "* Install yarn"
 curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt update && sudo apt install -y yarn
+sudo apt install -y yarn
 
 echo "* Install nvim plugins"
 cd ~
 vim +PlugInstall
-vim +UpdateRemotePlugins
+# vim +UpdateRemotePlugins
 
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 echo "* Install racer"
-rustup toolchain add nightly
-rustup component add rust-src
-cargo +nightly install racer
+~/.cargo/bin/rustup toolchain add nightly
+~/.cargo/bin/rustup component add rust-src
+~/.cargo/bin/cargo +nightly install racer
 
 echo "* Install bandwhich"
-cargo install bandwhich
+~/.cargo/bin/cargo install bandwhich
 
 echo "* Install ruby and Jekyll for static pages"
 sudo apt install ruby-dev build-essential zlib1g-dev
@@ -218,8 +218,7 @@ fi
 # windows terminal + keys and setups
 
 # GitHub ssh token
-GITHUB_FILE=/home/jon/.ssh/github_id_rsa
-echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "jon.cinque@gmail.com"
-echo "* Add public key to GitHub:"
-cat "$GITHUB_FILE".pub
-
+# GITHUB_FILE=/home/jon/.ssh/github_id_rsa
+# echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "jon.cinque@gmail.com"
+# echo "* Add public key to GitHub:"
+# cat "$GITHUB_FILE".pub
