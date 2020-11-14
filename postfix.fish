@@ -27,7 +27,7 @@ sudo newaliases  # propagate aliases
 # echo "$email" > ~/.forward # I don't think this does anything
 
 # Setup TLS
-sudo apt install -y software-properties-common certbot python3-certbot-nginx
+sudo apt install -y nginx software-properties-common certbot python3-certbot-nginx
 sudo certbot certonly -d "$domain" -m "$email" --agree-tos --standalone --pre-hook='systemctl stop nginx' --post-hook='systemctl start nginx'
 sudo echo "server {
     listen 80;
@@ -96,7 +96,7 @@ sudo postconf -e "local_recipient_maps = proxy:unix:passwd.byname $alias_maps"
 # TXT  @   v=spf1 mx ~all
 
 # Install postfix spf policy checking daemon
-sudo apt install postfix-policyd-spf-python
+sudo apt install -y postfix-policyd-spf-python
 # Configure it to start with postfix
 sudo echo "policyd-spf  unix  -       n       n       -       0       spawn
   user=policyd-spf argv=/usr/bin/policyd-spf" >> /etc/postfix/master.cf

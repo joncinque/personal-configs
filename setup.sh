@@ -92,7 +92,7 @@ echo "* Install bandwhich"
 ~/.cargo/bin/cargo install bandwhich
 
 echo "* Install ruby and Jekyll for static pages"
-sudo apt install ruby-dev build-essential zlib1g-dev
+sudo apt install -y ruby-dev build-essential zlib1g-dev
 sudo gem install bundler
 
 echo "* Setup supervisor"
