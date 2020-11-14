@@ -7,7 +7,8 @@ set -Ux EDITOR vim
 
 set -Ux DEBFULLNAME "Jon Cinque"
 set -Ux DEBEMAIL jon.cinque@gmail.com
-set -gx PATH /snap/bin $HOME/.cargo/bin $HOME/.local/bin /usr/sbin /sbin $PATH
+set -gx PATH $HOME/.local/share/solana/install/active_release/bin /snap/bin $HOME/.cargo/bin $HOME/.local/bin /usr/sbin /sbin $PATH
+set -gx RUST_SRC_PATH (rustc --print sysroot)/lib/rustlib/src/rust/library
 
 function fish_mode_prompt
   # NOOP - Disable vim mode indicator
