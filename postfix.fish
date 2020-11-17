@@ -88,7 +88,7 @@ sudo postconf -e "smtp_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey
 sudo postconf -e "smtpd_tls_cert_file = /etc/letsencrypt/live/mail.$domain/fullchain.pem"
 sudo postconf -e "smtpd_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey.pem"
 sudo postconf -e "smtpd_tls_protocols = !SSLv2, !SSLv3"
-sudo postconf -e "local_recipient_maps = proxy:unix:passwd.byname $alias_maps"
+sudo postconf -e "local_recipient_maps = proxy:unix:passwd.byname \$alias_maps"
 
 # Setup SPF
 # https://www.linuxbabe.com/mail-server/setting-up-dkim-and-spf
@@ -168,7 +168,7 @@ sudo echo "# Milter configuration
 milter_default_action = accept
 milter_protocol = 6
 smtpd_milters = local:/opendkim/opendkim.sock
-non_smtpd_milters = $smtpd_milters" >> /etc/postfix/main.cf
+non_smtpd_milters = \$smtpd_milters" >> /etc/postfix/main.cf
 
 sudo systemctl restart opendkim postfix
 
