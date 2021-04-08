@@ -124,15 +124,15 @@ if [ "$RELEASE" = "Ubuntu" ]; then
   sudo apt install -y mongodb-org
 
   echo "* Install docker"
-  sudo snap install docker
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt update
+  sudo apt install -y docker-ce docker-ce-cli containerd.io
   sudo groupadd docker
   sudo usermod -aG docker $USER
-  sudo systemctl restart snap.docker.dockerd
+  sudo systemctl restart docker.service
   # testing
   # docker run hello-world
-
-  echo "* Install go"
-  sudo snap install --classic go
 fi
 
 if [ "$INSTALL_EXTRA" = true ]; then
@@ -177,25 +177,23 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo apt install -y meld remmina firefox
 
   echo "* Install tixati"
-  wget https://download2.tixati.com/download/tixati_2.66-1_amd64.deb
+  wget 'https://download2.tixati.com/download/tixati_2.66-1_amd64.deb'
   sudo dpkg -i tixati_2.66-1_amd64.deb
-
-  echo "* Install VS Code for dotnet debugging"
-  sudo snap install code
 
   echo "Non-programming applications"
   echo "* Install spotify"
-  sudo snap install spotify
+  curl -sS 'https://download.spotify.com/debian/pubkey_0D811D58.gpg' | sudo apt-key add -
+  echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
+  sudo apt update
+  sudo apt install spotify-client
 
   echo "* Install discord"
-  sudo snap install discord
+  wget 'https://discord.com/api/download?platform=linux&format=deb' -O discord.deb
+  sudo dpkg -i discord.deb
 
   echo "* Install pandoc: check https://github.com/jgm/pandoc/releases for deb"
   echo "* Install texlive, pandoc requirement for pdf"
   sudo apt install texlive
-
-  echo "* Install slack"
-  sudo snap install slack --classic
 
   echo "* Install brave browser"
   curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
@@ -208,6 +206,10 @@ if [ "$INSTALL_GUI" = true ]; then
 
   echo "* Setup udev for ledger"
   wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
+
+  echo "* Install slack"
+  echo "You will need to do this yourself, please confirm when this is done"
+  read yay
 fi
 
 # WINDOWS ONLY
