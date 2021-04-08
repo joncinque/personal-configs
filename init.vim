@@ -47,6 +47,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'junegunn/vim-peekaboo' " nice registers
 
 " autocomplete
 Plug 'ncm2/ncm2'

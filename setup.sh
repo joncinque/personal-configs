@@ -67,13 +67,8 @@ echo "* Install node"
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
 sudo apt install -y nodejs
 
-echo "* Install required npm packages for vim, typescript, and reveal"
-sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install -g neovim typescript ts-node reveal-md
-
-echo "* Install yarn"
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-sudo apt install -y yarn
+echo "* Install required npm packages for vim, typescript, reveal, and yarn"
+sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install -g neovim typescript ts-node reveal-md yarn
 
 echo "* Install nvim plugins"
 cd ~
@@ -210,6 +205,9 @@ if [ "$INSTALL_GUI" = true ]; then
 
   echo "* Install telegram"
   sudo apt install telegram-desktop
+
+  echo "* Setup udev for ledger"
+  wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
 fi
 
 # WINDOWS ONLY
