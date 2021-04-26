@@ -49,23 +49,8 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'junegunn/vim-peekaboo' " nice registers
 
-" autocomplete
-Plug 'ncm2/ncm2'
-Plug 'roxma/nvim-yarp'
-" enable ncm2 for all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
-" IMPORTANT: :help Ncm2PopupOpen for more information
-set completeopt=noinsert,menuone,noselect
-" NOTE: you need to install completion sources to get completions. Check
-" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
-Plug 'ncm2/ncm2-path' "Paths
-Plug 'ncm2/ncm2-tmux' "tmux
-
-Plug 'ncm2/ncm2-cssomni' "css
-Plug 'ncm2/ncm2-tern', {'do': 'npm install'}  "js
-Plug 'ncm2/ncm2-jedi' "python
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}  "ts
-Plug 'ncm2/ncm2-racer' "rust
+" autocomplete, coc is a bit heavy for now, have ALE do it instead
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -106,9 +91,6 @@ nmap <leader>w :w!<cr>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the cursor - when moving vertically using j/k
-" set so=7
-
 " Turn on the WiLd menu
 set wildmenu
 
@@ -313,9 +295,6 @@ autocmd BufWrite * if &ft!~?'markdown'|:call DeleteTrailingWS()|endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vimgrep searching and cope displaying
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" When you press gv you vimgrep after the selected text
-vnoremap <silent> gv :call VisualSelection('gv')<CR>
-
 " Open vimgrep and put the cursor in the right position
 map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
 
@@ -343,20 +322,23 @@ vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Pressing ,ss will toggle and untoggle spell checking
-" map <leader>ss :setlocal spell!<cr>
+map <leader>ss :setlocal spell!<cr>
 
 " Shortcuts using <leader>
-" map <leader>sn ]s
-" map <leader>sp [s
-" map <leader>sa zg
-" map <leader>s? z=
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Ale settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Can speed up processing time
-"let g:ale_completion_max_suggestions = 20
+let g:ale_completion_enabled = 1
+let g:ale_completion_autoimport = 1
+set omnifunc=ale#completion#OmniFunc
+let g:ale_completion_max_suggestions = 20
 
 " Only lint on save
 "let g:ale_lint_on_text_changed = 'never'
@@ -374,7 +356,6 @@ let g:ale_linters = {
 \   'javascript': ['eslint', 'fecs', 'flow', 'flow-language-server', 'jscs', 'jshint', 'standard', 'xo'],
 \}
 
-
 " Enable prettier as a fixer
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
@@ -386,50 +367,48 @@ let g:ale_fixers = {
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => ncm settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => CoC (heavy for now)
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set updatetime=300
+
 " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
 " found' messages
 set shortmess+=c
 
-" CTRL-C doesn't trigger the InsertLeave autocmd . map to <ESC> instead.
-inoremap <c-c> <ESC>
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+"inoremap <silent><expr> <TAB>
+"      \ pumvisible() ? "\<C-n>" :
+"      \ <SID>check_back_space() ? "\<TAB>" :
+"      \ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-" When the <Enter> key is pressed while the popup menu is visible, it only
-" hides the menu. Use this mapping to close the menu and also start a new
-" line.
-"inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+"function! s:check_back_space() abort
+"  let col = col('.') - 1
+"  return !col || getline('.')[col - 1]  =~# '\s'
+"endfunction
 
-" Use <TAB> to select the popup menu:
-inoremap <expr> <Tab> (pumvisible() ? "\<C-n>" : "\<Tab>")
-inoremap <expr> <S-Tab> (pumvisible() ? "\<C-p>" : "\<S-Tab>")
+" Use <c-space> to trigger completion.
+"inoremap <silent><expr> <c-space> coc#refresh()
 
-inoremap <expr> <Plug>(cr_prev) execute('let g:_prev_line = getline(".")')
-inoremap <expr> <Plug>(cr_do) (g:_prev_line == getline('.') ? "\<cr>" : "")
-inoremap <expr> <Plug>(cr_post) execute('unlet g:_prev_line')
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-imap <expr> <CR> (pumvisible() ? "\<Plug>(cr_prev)\<C-Y>\<Plug>(cr_do)\<Plug>(cr_post)" : "\<CR>")
+" Use K to show documentation in preview window.
+"nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-" wrap existing omnifunc
-" Note that omnifunc does not run in background and may probably block the
-" editor. If you don't want to be blocked by omnifunc too often, you could
-" add 180ms delay before the omni wrapper:
-"  'on_complete': ['ncm2#on_complete#delay', 180,
-"               \ 'ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-au User Ncm2Plugin call ncm2#register_source({
-        \ 'name' : 'css',
-        \ 'priority': 9,
-        \ 'subscope_enable': 1,
-        \ 'scope': ['css','scss'],
-        \ 'mark': 'css',
-        \ 'word_pattern': '[\w\-]+',
-        \ 'complete_pattern': ':\s*',
-        \ 'on_complete': ['ncm2#on_complete#omni', 'csscomplete#CompleteCSS'],
-        \ })
-
-" Debugging ncm
-" let $NVIM_PYTHON_LOG_FILE="/home/jon/nvim_log"
-" let $NVIM_PYTHON_LOG_LEVEL="DEBUG"
+"function! s:show_documentation()
+"  if (index(['vim','help'], &filetype) >= 0)
+"    execute 'h '.expand('<cword>')
+"  elseif (coc#rpc#ready())
+"    call CocActionAsync('doHover')
+"  else
+"    execute '!' . &keywordprg . " " . expand('<cword>')
+"  endif
+"endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

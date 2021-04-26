@@ -73,15 +73,16 @@ sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install -g neovim typescript ts-n
 echo "* Install nvim plugins"
 cd ~
 vim +PlugInstall
+
+#vim -c 'CocInstall -sync coc-json coc-html coc-prettier coc-tsserver coc-eslint coc-pyright coc-rls coc-rust-analyzer|q'
 # vim +UpdateRemotePlugins
 
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-echo "* Install racer"
+echo "* Install rls and rust-analyzer"
 ~/.cargo/bin/rustup toolchain add nightly
-~/.cargo/bin/rustup component add rust-src
-~/.cargo/bin/cargo +nightly install racer
+~/.cargo/bin/rustup component add rust-src rust-analysis rls
 
 echo "* Install bandwhich"
 ~/.cargo/bin/cargo install bandwhich
