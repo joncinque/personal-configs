@@ -11,6 +11,7 @@
   st = status
   pl = pull --rebase
   logdog = log --decorate --pretty=oneline --abbrev-commit --graph
+  loglint = log --format=%s -- .
   dt = difftool
   # subtree add
   sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f"
