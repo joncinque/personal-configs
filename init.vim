@@ -335,10 +335,10 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Can speed up processing time
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-set omnifunc=ale#completion#OmniFunc
-let g:ale_completion_max_suggestions = 20
+"let g:ale_completion_enabled = 1
+"let g:ale_completion_autoimport = 1
+"set omnifunc=ale#completion#OmniFunc
+"let g:ale_completion_max_suggestions = 20
 
 " Only lint on save
 "let g:ale_lint_on_text_changed = 'never'
@@ -354,6 +354,7 @@ let g:airline#extensions#ale#enabled = 1
 " Disable tsserver linter for javascript
 let g:ale_linters = {
 \   'javascript': ['eslint', 'fecs', 'flow', 'flow-language-server', 'jscs', 'jshint', 'standard', 'xo'],
+\   'rust': ['cargo'],
 \}
 
 " Enable prettier as a fixer
