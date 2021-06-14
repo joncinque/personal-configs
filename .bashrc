@@ -137,3 +137,4 @@ export DEBEMAIL="jon.cinque@gmail.com"
 
 # ocaml env setup
 # eval $(opam env)
+. "$HOME/.cargo/env"

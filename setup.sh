@@ -60,8 +60,6 @@ sudo apt install -y python3-dev python3-pip python3-venv
 
 echo "* Install global ansible, pynvim, jedi, supervisor"
 sudo pip3 install ansible pynvim jedi supervisor
-# if needed, jedi had bugs back in 2020-02-02
-#sudo pip3 install -e git://github.com/davidhalter/jedi.git#egg=jedi
 
 echo "* Install node"
 curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
@@ -108,22 +106,11 @@ Restart=on-failure
 RestartSec=42s
 [Install]
 WantedBy=multi-user.target
-Alias=supervisord.service' > | sudo tee /etc/systemd/system/supervisord.service
+Alias=supervisord.service' | sudo tee /etc/systemd/system/supervisord.service
 sudo systemctl daemon-reload
 sudo systemctl start supervisord
 
 if [ "$RELEASE" = "Ubuntu" ]; then
-  echo "* Install dotnet core"
-  wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-  sudo dpkg -i packages-microsoft-prod.deb
-  sudo apt install -y dotnet-sdk-2.1
-
-  echo "* Install mongodb 4.2"
-  wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
-  echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
-  sudo apt update
-  sudo apt install -y mongodb-org
-
   echo "* Install docker"
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -137,6 +124,17 @@ if [ "$RELEASE" = "Ubuntu" ]; then
 fi
 
 if [ "$INSTALL_EXTRA" = true ]; then
+  echo "* Install dotnet core"
+  wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  sudo dpkg -i packages-microsoft-prod.deb
+  sudo apt install -y dotnet-sdk-2.1
+
+  echo "* Install mongodb 4.2"
+  wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
+  echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+  sudo apt update
+  sudo apt install -y mongodb-org
+
   echo "* Install influxdb"
   wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
   source /etc/lsb-release
@@ -178,8 +176,8 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo apt install -y meld remmina firefox
 
   echo "* Install tixati"
-  wget 'https://download2.tixati.com/download/tixati_2.66-1_amd64.deb'
-  sudo dpkg -i tixati_2.66-1_amd64.deb
+  wget 'https://download2.tixati.com/download/tixati_2.83-1_amd64.deb'
+  sudo dpkg -i tixati_2.83-1_amd64.deb
 
   echo "Non-programming applications"
   echo "* Install spotify"
