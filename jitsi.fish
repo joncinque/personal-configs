@@ -7,10 +7,8 @@ set user "jon"
 set password "something_secure"
 
 # Install Jitsi meet
-wget https://download.jitsi.org/jitsi-key.gpg.key
-sudo apt-key add jitsi-key.gpg.key
-rm jitsi-key.gpg.key
-echo "deb https://download.jitsi.org stable/" | sudo tee /etc/apt/sources.list.d/jitsi-stable.list
+curl https://download.jitsi.org/jitsi-key.gpg.key | sudo sh -c 'gpg --dearmor > /usr/share/keyrings/jitsi-keyring.gpg'
+echo 'deb [signed-by=/usr/share/keyrings/jitsi-keyring.gpg] https://download.jitsi.org stable/' | sudo tee /etc/apt/sources.list.d/jitsi-stable.list > /dev/null
 sudo apt update
 sudo apt install jitsi-meet
 
