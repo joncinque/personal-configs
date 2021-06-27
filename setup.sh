@@ -6,6 +6,7 @@ FULLDIR=$(pwd)
 
 INSTALL_GUI=false
 INSTALL_EXTRA=false
+RASPBERRY_PI=false
 RELEASE=$(lsb_release -is)
 
 echo "Base dev software"
@@ -209,6 +210,10 @@ if [ "$INSTALL_GUI" = true ]; then
   echo "* Install slack"
   echo "You will need to do this yourself, please confirm when this is done"
   read yay
+fi
+
+if [ "$RASPBERRY_PI" = true ]; then
+  sudo pip3 install RPi.GPIO
 fi
 
 # WINDOWS ONLY
