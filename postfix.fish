@@ -106,7 +106,11 @@ smtpd_recipient_restrictions =
    permit_mynetworks,
    permit_sasl_authenticated,
    reject_unauth_destination,
-   check_policy_service unix:private/policyd-spf" >> /etc/postfix/main.cf
+   check_policy_service unix:private/policyd-spf,
+   reject_rhsbl_helo dbl.spamhaus.org,
+   reject_rhsbl_reverse_client dbl.spamhaus.org,
+   reject_rhsbl_sender dbl.spamhaus.org,
+   reject_rbl_client zen.spamhaus.org" >> /etc/postfix/main.cf
 
 sudo systemctl restart postfix
 
