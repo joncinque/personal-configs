@@ -77,7 +77,6 @@ sudo echo "submission     inet     n    -    y    -    -    smtpd
   -o smtpd_tls_wrappermode=no
   -o smtpd_sasl_auth_enable=yes
   -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
-  -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
   -o milter_macro_daemon_name=ORIGINATING
   -o smtpd_sasl_type=dovecot
   -o smtpd_sasl_path=private/auth" >> /etc/postfix/master.cf
@@ -103,14 +102,24 @@ sudo echo "policyd-spf  unix  -       n       n       -       0       spawn
 # Configure postfix to talk to policyd
 sudo echo "policyd-spf_time_limit = 3600
 smtpd_recipient_restrictions =
-   permit_mynetworks,
-   permit_sasl_authenticated,
-   reject_unauth_destination,
-   check_policy_service unix:private/policyd-spf,
-   reject_rhsbl_helo dbl.spamhaus.org,
-   reject_rhsbl_reverse_client dbl.spamhaus.org,
-   reject_rhsbl_sender dbl.spamhaus.org,
-   reject_rbl_client zen.spamhaus.org" >> /etc/postfix/main.cf
+    permit_mynetworks,
+    permit_sasl_authenticated,
+    reject_unauth_destination
+    reject_unauth_pipelining,
+    reject_unknown_reverse_client_hostname,
+    reject_invalid_helo_hostname,
+    reject_non_fqdn_helo_hostname,
+    reject_non_fqdn_sender,
+    reject_non_fqdn_recipient,
+    reject_unknown_sender_domain,
+    reject_unknown_recipient_domain,
+    reject_invalid_hostname,
+    reject_rbl_client zen.spamhaus.org,
+    reject_rbl_client bl.spamcop.net,
+    reject_rbl_client b.barracudacentral.org,
+    reject_rbl_client dnsbl.sorbs.net,
+    check_policy_service unix:private/policyd-spf
+    permit" >> /etc/postfix/main.cf
 
 sudo systemctl restart postfix
 
