@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 DIR=$(dirname "$0")
-cd "$DIR"
+cd "$DIR" || exit
 FULLDIR=$(pwd)
 
 INSTALL_GUI=false
@@ -59,18 +59,18 @@ echo "Coding software"
 echo "* Install python dev requirements"
 sudo apt install -y python3-dev python3-pip python3-venv
 
-echo "* Install global ansible, pynvim, jedi, supervisor"
-sudo pip3 install ansible pynvim jedi supervisor
+echo "* Install global ansible, pynvim, supervisor, flake8, mypy"
+sudo pip3 install ansible pynvim supervisor flake8 mypy
 
 echo "* Install node"
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt install -y nodejs
 
 echo "* Install required npm packages for vim, typescript, reveal, and yarn"
 sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install -g neovim typescript ts-node reveal-md yarn
 
 echo "* Install nvim plugins"
-cd ~
+cd ~ || exit
 vim +PlugInstall
 
 #vim -c 'CocInstall -sync coc-json coc-html coc-prettier coc-tsserver coc-eslint coc-pyright coc-rls coc-rust-analyzer|q'
@@ -117,8 +117,9 @@ if [ "$RELEASE" = "Ubuntu" ]; then
   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt update
   sudo apt install -y docker-ce docker-ce-cli containerd.io
-  sudo groupadd docker
-  sudo usermod -aG docker $USER
+  # not needed since the group is added on instsall
+  # sudo groupadd docker
+  sudo usermod -aG docker "$USER"
   sudo systemctl restart docker.service
   # testing
   # docker run hello-world
@@ -209,7 +210,8 @@ if [ "$INSTALL_GUI" = true ]; then
 
   echo "* Install slack"
   echo "You will need to do this yourself, please confirm when this is done"
-  read yay
+  read -r nothing
+  echo "$nothing"
 fi
 
 if [ "$RASPBERRY_PI" = true ]; then
