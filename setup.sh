@@ -62,12 +62,11 @@ sudo apt install -y python3-dev python3-pip python3-venv
 echo "* Install global ansible, pynvim, supervisor, flake8, mypy"
 sudo pip3 install ansible pynvim supervisor flake8 mypy
 
-echo "* Install node"
-curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-sudo apt install -y nodejs
+echo "* Install n"
+curl -L https://git.io/n-install | bash
 
 echo "* Install required npm packages for vim, typescript, reveal, and yarn"
-sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install -g neovim typescript ts-node reveal-md yarn
+sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true ~/n/bin/npm install -g neovim typescript ts-node reveal-md yarn
 
 echo "* Install nvim plugins"
 cd ~ || exit
