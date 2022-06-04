@@ -41,6 +41,7 @@ ln -s "$FULLDIR"/init.vim ~/.config/nvim
 
 "* Setting up link from vim to nvim"
 sudo ln -s /usr/bin/nvim /usr/bin/vim
+sudo ln -s /usr/bin/nvim /usr/bin/vi
 
 "* Setting up link to $FULLDIR/config.fish"
 mkdir -p ~/.config/fish
@@ -96,6 +97,7 @@ function install_from_aur() {
   makepkg
   sudo pacman --noconfirm -U "$package_name"*pkg.tar.zst
   cd "$FULLDIR"
+  rm -rf "$package_dir"
 }
 
 if [ "$INSTALL_EXTRA" = true ]; then
