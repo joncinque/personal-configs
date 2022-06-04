@@ -3,10 +3,7 @@
 # for examples
 
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
-      *) return;;
-esac
+[[ $- != *i* ]] && return
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -63,6 +60,25 @@ else
 fi
 unset color_prompt force_color_prompt
 
+alias ls='ls --color=auto'
+#PS1='[\u@\h \W]\$ '
+
+#Display ISO version and distribution information in short
+alias version="sed -n 1p /etc/os-release && sed -n 11p /etc/os-release && sed -n 12p /etc/os-release"
+
+#Pacman Shortcuts
+alias sync="sudo pacman -Syyy"
+alias install="sudo pacman -S"
+alias update="sudo pacman -Syyu"
+alias search="sudo pacman -Ss"
+alias search-local="sudo pacman -Qs"
+alias pkg-info="sudo pacman -Qi"
+alias local-install="sudo pacman -U"
+alias clr-cache="sudo pacman -Scc"
+alias unlock="sudo rm /var/lib/pacman/db.lck"
+alias remove="sudo pacman -R"
+alias autoremove="sudo pacman -Rns"
+
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
@@ -79,7 +95,7 @@ if [ -x /usr/bin/dircolors ]; then
     else
       eval "$(dircolors -b)"
     fi
-    alias ls='ls --color=auto'
+    #alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
