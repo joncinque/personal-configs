@@ -9,6 +9,8 @@
   tool = meld
 [alias]
   g = grep
+  b = branch
+  fp = fetch --prune
   st = status
   pl = pull --rebase
   logdog = log --decorate --pretty=oneline --abbrev-commit --graph
