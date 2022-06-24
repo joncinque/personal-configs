@@ -46,7 +46,6 @@ Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
-Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'junegunn/vim-peekaboo' " nice registers
 
 " autocomplete, coc is a bit heavy for now, have ALE do it instead
