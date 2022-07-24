@@ -290,6 +290,9 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite * if &ft!~?'markdown'|:call DeleteTrailingWS()|endif
 
+" Show syntax highlighting in code portions of markdown
+let g:markdown_fenced_languages = ['html', 'python', 'rust', 'bash', 'javascript', 'vim']
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vimgrep searching and cope displaying
@@ -352,7 +355,7 @@ let g:airline#extensions#ale#enabled = 1
 
 " Disable tsserver linter for javascript
 let g:ale_linters = {
-\   'javascript': ['eslint', 'fecs', 'flow', 'flow-language-server', 'jscs', 'jshint', 'standard', 'xo'],
+\   'javascript': ['eslint', 'fecs', 'jscs', 'jshint', 'standard', 'xo'],
 \   'rust': ['cargo'],
 \}
 
