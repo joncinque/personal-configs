@@ -151,6 +151,8 @@ alias getclip="xsel --clipboard -o"
 export DEBFULLNAME="Jon Cinque"
 export DEBEMAIL="jon.cinque@gmail.com"
 
-# ocaml env setup
-# eval $(opam env)
+# cargo setup
 . "$HOME/.cargo/env"
+
+# n setup
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).

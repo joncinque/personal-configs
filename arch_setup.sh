@@ -50,6 +50,9 @@ ln -s "$FULLDIR"/config.fish ~/.config/fish
 "* Setting up link to $FULLDIR/flake8"
 ln -s "$FULLDIR"/flake8 ~/.config
 
+"* Setting up link to $FULLDIR/zoomus.conf"
+ln -s "$FULLDIR"/zoomus.conf ~/.config
+
 echo "* Setting up Plugged for vim plugins in init.vim"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -78,9 +81,9 @@ echo "* Install rls and rust-analyzer"
 ~/.cargo/bin/rustup toolchain add nightly
 ~/.cargo/bin/rustup component add rust-src rust-analysis rls
 
-echo "* Install ruby and Jekyll for static pages"
-sudo apt install -y ruby zlib
-sudo gem install bundler
+#echo "* Install ruby and Jekyll for static pages"
+#sudo apt install -y ruby zlib
+#sudo gem install bundler
 
 echo "* Install docker"
 sudo pacman --noconfirm -S docker
@@ -106,10 +109,15 @@ if [ "$INSTALL_EXTRA" = true ]; then
   gcloud init
   gcloud auth configure-docker
   cd "$FULLDIR"
+
+  sudo pacman --noconfirm -S clang
 fi
 
 if [ "$INSTALL_GUI" = true ]; then
   echo "GUI applications"
+  echo "* Install emoji fonts"
+  sudo pacman --noconfirm -S noto-fonts-emoji
+
   echo "* Install firefox"
   sudo pacman --noconfirm -S firefox
 
@@ -118,7 +126,7 @@ if [ "$INSTALL_GUI" = true ]; then
   install_from_aur tixati
 
   echo "* Install discord"
-  sudo pacman --noconfirm -S electron16
+  sudo pacman --noconfirm -S electron16 asar
   install_from_aur discord_arch_electron
 
   echo "* Install brave browser"
