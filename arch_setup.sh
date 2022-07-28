@@ -12,7 +12,7 @@ echo "* Install base requirements"
 sudo pacman --noconfirm -Syu
 
 echo "* Install base dev stuff"
-sudo pacman --noconfirm -S curl git tmux neovim fish base-devel
+sudo pacman --noconfirm -S curl git tmux neovim fish base-devel xsel
 
 echo "* Switch to fish"
 chsh -s /usr/bin/fish
