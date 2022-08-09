@@ -13,12 +13,11 @@
 "    -> Text, tab and indent related
 "    -> Visual mode related
 "    -> Moving around, tabs and buffers
-"    -> Status line
+"    -> Airline line
 "    -> Editing mappings
 "    -> vimgrep searching and cope displaying
 "    -> Spell checking
-"    -> Syntastic
-"    -> ncm
+"    -> Ale Settings
 "    -> Misc
 "    -> Helper functions
 "
@@ -27,7 +26,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => External plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Setup Vundle for easy maintenance of vim plugins
 set nocompatible              " be iMproved, required
 filetype plugin indent off    " required
 
@@ -38,7 +36,6 @@ call plug#begin('~/vim/plugged')
 " plugin on GitHub repo
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
-"Plug 'tpope/vim-fugitive'
 Plug 'kien/ctrlp.vim'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'
@@ -54,14 +51,6 @@ Plug 'junegunn/vim-peekaboo' " nice registers
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 filetype plugin indent on    " required
-
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
 " Configure ctrlp
@@ -228,10 +217,6 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 " Treat long lines as break lines (useful when moving around in them)
 "map j gj
 "map k gk
-
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-"map <space> /
-"map <c-space> ?
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -452,35 +437,4 @@ function! VisualSelection(direction) range
 
     let @/ = l:pattern
     let @" = l:saved_reg
-endfunction
-
-
-" Returns true if paste mode is enabled
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    en
-    return ''
-endfunction
-
-
-" Don't close window, when deleting a buffer
-command! Bclose call <SID>BufcloseCloseIt()
-function! <SID>BufcloseCloseIt()
-   let l:currentBufNum = bufnr("%")
-   let l:alternateBufNum = bufnr("#")
-
-   if buflisted(l:alternateBufNum)
-     buffer #
-   else
-     bnext
-   endif
-
-   if bufnr("%") == l:currentBufNum
-     new
-   endif
-
-   if buflisted(l:currentBufNum)
-     execute("bdelete! ".l:currentBufNum)
-   endif
 endfunction
