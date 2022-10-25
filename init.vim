@@ -139,7 +139,7 @@ set tm=500
 " Enable syntax highlighting
 syntax enable
 
-colorscheme desert
+colorscheme evening
 set background=dark
 " set guicursor=
 
