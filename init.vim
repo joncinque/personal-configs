@@ -132,6 +132,9 @@ set novisualbell
 set t_vb=
 set tm=500
 
+" Allow copy / pasting with system clipboard
+set clipboard+=unnamedplus
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -139,7 +142,7 @@ set tm=500
 " Enable syntax highlighting
 syntax enable
 
-colorscheme evening
+colorscheme default
 set background=dark
 " set guicursor=
 
