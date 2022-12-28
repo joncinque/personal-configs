@@ -11,16 +11,13 @@ RELEASE=$(lsb_release -is)
 
 echo "Base dev software"
 echo "* Install base requirements"
-sudo apt install -y curl git tmux
-
-echo "* Install neovim"
-sudo apt-add-repository -y ppa:neovim-ppa/stable
-sudo apt install -y neovim
+sudo apt install -y curl git tmux neovim
 
 echo "* Install fish"
-sudo apt-add-repository -y ppa:fish-shell/release-3
+echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
+curl -fsSL https://download.opensuse.org/repositories/shells:fish:release:3/Debian_11/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/shells_fish_release_3.gpg > /dev/null
+sudo apt update
 sudo apt install -y fish
-chsh -s /usr/bin/fish
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
@@ -78,37 +75,59 @@ vim +PlugInstall
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-echo "* Install rls and rust-analyzer"
-~/.cargo/bin/rustup toolchain add nightly
-~/.cargo/bin/rustup component add rust-src rust-analysis rls
+#echo "* Install rls and rust-analyzer"
+#~/.cargo/bin/rustup toolchain add nightly
+#~/.cargo/bin/rustup component add rust-src rust-analysis rls
 
-echo "* Install bandwhich"
-~/.cargo/bin/cargo install bandwhich
+#echo "* Install bandwhich"
+#~/.cargo/bin/cargo install bandwhich
 
 echo "* Install ruby and Jekyll for static pages"
 sudo apt install -y ruby-dev build-essential zlib1g-dev
 sudo gem install bundler
 
-echo "* Setup supervisor"
-echo_supervisord_conf | sudo tee /etc/supervisor/supervisord.conf
-echo '[include]
-files=conf.d/*.conf' | sudo tee -a /etc/supervisor/supervisord.conf
-echo '[Unit]
-Description=Supervisor daemon
-Documentation=http://supervisord.org
-After=network.target
-[Service]
-ExecStart=/usr/local/bin/supervisord -n -c /etc/supervisor/supervisord.conf
-ExecStop=/usr/local/bin/supervisorctl $OPTIONS shutdown
-ExecReload=/usr/local/bin/supervisorctl $OPTIONS reload
-KillMode=process
-Restart=on-failure
-RestartSec=42s
-[Install]
-WantedBy=multi-user.target
-Alias=supervisord.service' | sudo tee /etc/systemd/system/supervisord.service
-sudo systemctl daemon-reload
-sudo systemctl start supervisord
+#echo "* Setup supervisor"
+#echo_supervisord_conf | sudo tee /etc/supervisor/supervisord.conf
+#echo '[include]
+#files=conf.d/*.conf' | sudo tee -a /etc/supervisor/supervisord.conf
+#echo '[Unit]
+#Description=Supervisor daemon
+#Documentation=http://supervisord.org
+#After=network.target
+#[Service]
+#ExecStart=/usr/local/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+#ExecStop=/usr/local/bin/supervisorctl $OPTIONS shutdown
+#ExecReload=/usr/local/bin/supervisorctl $OPTIONS reload
+#KillMode=process
+#Restart=on-failure
+#RestartSec=42s
+#[Install]
+#WantedBy=multi-user.target
+#Alias=supervisord.service' | sudo tee /etc/systemd/system/supervisord.service
+#sudo systemctl daemon-reload
+#sudo systemctl start supervisord
+
+if [ "$RELEASE" = "Debian" ]; then
+  echo "* Install nginx"
+  deb https://nginx.org/packages/debian/ bullseye nginx
+  deb-src https://nginx.org/packages/debian/ bullseye nginx
+  sudo apt update
+  sudo apt install -y nginx
+
+  echo "* Install docker"
+  sudo apt remove -y docker docker-engine docker.io containerd runc
+  sudo apt install -y ca-certificates gnupg lsb-release
+  sudo mkdir -p /etc/apt/keyrings
+  curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+  echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  sudo apt update
+  sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+  sudo usermod -aG docker "$USER"
+  sudo systemctl restart docker.service
+fi
 
 if [ "$RELEASE" = "Ubuntu" ]; then
   echo "* Install docker"
@@ -151,17 +170,6 @@ if [ "$INSTALL_EXTRA" = true ]; then
   sudo add-apt-repository ppa:nginx/stable
   sudo apt install -y nginx
 
-  # graphite + graphite api
-
-  #echo "Install opam / ocaml"
-  #sudo add-apt-repository ppa:avsm/ppa
-  #sudo apt install opam
-  # Setting up compiler and all
-  # opam init
-
-  #echo "Install meteor"
-  #curl https://install.meteor.com/ | sh
-
   echo "Installing gcloud CLI" # https://cloud.google.com/sdk/gcloud/
   echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
   curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
@@ -179,13 +187,6 @@ if [ "$INSTALL_GUI" = true ]; then
   echo "* Install tixati"
   wget 'https://download2.tixati.com/download/tixati_2.83-1_amd64.deb'
   sudo dpkg -i tixati_2.83-1_amd64.deb
-
-  echo "Non-programming applications"
-  echo "* Install spotify"
-  curl -sS 'https://download.spotify.com/debian/pubkey_0D811D58.gpg' | sudo apt-key add -
-  echo "deb http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
-  sudo apt update
-  sudo apt install spotify-client
 
   echo "* Install discord"
   wget 'https://discord.com/api/download?platform=linux&format=deb' -O discord.deb
@@ -219,7 +220,6 @@ fi
 
 # WINDOWS ONLY
 # steam
-# visual studio
 # windows terminal + keys and setups
 
 # GitHub ssh token
