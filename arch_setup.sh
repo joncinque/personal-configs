@@ -140,6 +140,9 @@ if [ "$INSTALL_GUI" = true ]; then
 
   echo "* Install slack"
   install_from_aur slack-desktop
+
+  echo "Replace pulse audio with pipewire"
+  sudo pacman --noconfirm -S pipewire pipewire-pulse
 fi
 
 # GitHub ssh token
