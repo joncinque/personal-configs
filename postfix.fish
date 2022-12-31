@@ -24,8 +24,6 @@ sudo echo "myhostname = $domain" >> /etc/postfix/main.cf
 sudo systemctl restart postfix
 sudo newaliases  # propagate aliases
 
-# echo "$email" > ~/.forward # I don't think this does anything
-
 # Setup TLS
 sudo apt install -y nginx software-properties-common certbot python3-certbot-nginx
 sudo certbot certonly -d "$domain" -m "$email" --agree-tos --standalone --pre-hook='systemctl stop nginx' --post-hook='systemctl start nginx'
@@ -240,16 +238,17 @@ echo "Setting up Dovecot IMAP server with SASL"
 sudo apt install -y dovecot-core dovecot-imapd
 sudo cp /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf.dist
 sudo echo "disable_plaintext_auth = no
-mail_privileged_group = mail
-mail_location = mbox:~/mail:INBOX=/var/mail/%u
+mail_home = /srv/mail/%Lu
+mail_location = sdbox:~/mail
 userdb {
   driver = passwd
+  args = blocking=no
 }
 passdb {
   args = %s
   driver = pam
 }
-protocols = \" imap\"
+protocols = imap
 service auth {
   unix_listener /var/spool/postfix/private/auth {
     group = postfix
@@ -257,7 +256,8 @@ service auth {
     user = postfix
   }
 }
-ssl=required
+auth_mechanisms = plain login
+ssl = required
 ssl_cert = </etc/letsencrypt/live/mail.$domain/fullchain.pem
 ssl_key = </etc/letsencrypt/live/mail.$domain/privkey.pem" > /etc/dovecot/dovecot.conf
 sudo systemctl restart dovecot
