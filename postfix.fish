@@ -215,7 +215,7 @@ sudo systemctl restart opendmarc
 
 # Add opendmarc socket to milters in postfix
 # sudo echo "smtpd_milters = local:/opendkim/opendkim.sock,local:opendmarc/opendmarc.sock" >> /etc/postfix/main.cf
-sudo vim /etc/postfix/main.cfg
+sudo vim /etc/postfix/main.cf
 sudo systemctl restart postfix
 
 # Add DNS TXT record for DMARC info, start with "none" and work up to "quarantine" and "reject"
