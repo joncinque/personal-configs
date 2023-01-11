@@ -1,6 +1,6 @@
 [user]
   name = Jon Cinque
-  email = jon.cinque@gmail.com
+  email = joncinque@pm.me
 [credential]
   helper = cache --timeout=3600
 [difftool]
