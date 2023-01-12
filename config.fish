@@ -5,8 +5,6 @@ set -g fish_key_bindings fish_vi_key_bindings
 set -Ux VISUAL vim
 set -Ux EDITOR vim
 
-set -Ux DEBFULLNAME "Jon Cinque"
-set -Ux DEBEMAIL jon.cinque@gmail.com
 set -gx PATH $HOME/.local/share/solana/install/active_release/bin $HOME/.cargo/bin $HOME/.local/bin $HOME/n/bin /usr/sbin /sbin $PATH
 set -gx RUST_SRC_PATH (rustc --print sysroot)/lib/rustlib/src/rust/library
 

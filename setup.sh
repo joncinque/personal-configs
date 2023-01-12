@@ -224,6 +224,6 @@ fi
 
 # GitHub ssh token
 # GITHUB_FILE=/home/jon/.ssh/github_id_rsa
-# echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "jon.cinque@gmail.com"
+# echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "joncinque@pm.me"
 # echo "* Add public key to GitHub:"
 # cat "$GITHUB_FILE".pub

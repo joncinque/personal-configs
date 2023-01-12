@@ -9,7 +9,7 @@
 # Optionally, 80 and 443
 set domain "jonc.fun"
 set user "jon"
-set email "jon.cinque@gmail.com"
+set email "joncinque@pm.me"
 
 sudo echo "$domain" > /etc/mailname
 sudo echo "$domain" > /etc/hostname

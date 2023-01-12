@@ -133,9 +133,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# colored GCC warnigns and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 set -o vi
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -147,9 +144,6 @@ export PATH="$PATH:/usr/local/bin"
 alias more=less
 alias setclip="xsel --clipboard"
 alias getclip="xsel --clipboard -o"
-
-export DEBFULLNAME="Jon Cinque"
-export DEBEMAIL="jon.cinque@gmail.com"
 
 # cargo setup
 . "$HOME/.cargo/env"
