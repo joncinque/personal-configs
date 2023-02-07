@@ -11,7 +11,7 @@ RELEASE=$(lsb_release -is)
 
 echo "Base dev software"
 echo "* Install base requirements"
-sudo apt install -y curl git tmux neovim
+sudo apt install -y curl git tmux neovim lld
 
 echo "* Install fish"
 echo 'deb http://download.opensuse.org/repositories/shells:/fish:/release:/3/Debian_11/ /' | sudo tee /etc/apt/sources.list.d/shells:fish:release:3.list
@@ -74,6 +74,9 @@ vim +PlugInstall
 
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+echo "* Setting up link to $FULLDIR/config.toml"
+ln -s "$FULLDIR"/config.toml ~/.cargo
 
 #echo "* Install rls and rust-analyzer"
 #~/.cargo/bin/rustup toolchain add nightly

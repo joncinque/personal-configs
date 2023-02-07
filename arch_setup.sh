@@ -12,7 +12,7 @@ echo "* Install base requirements"
 sudo pacman --noconfirm -Syu
 
 echo "* Install base dev stuff"
-sudo pacman --noconfirm -S curl git tmux neovim fish base-devel xsel
+sudo pacman --noconfirm -S curl git tmux neovim fish base-devel xsel lld
 
 echo "* Switch to fish"
 chsh -s /usr/bin/fish
@@ -80,6 +80,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 echo "* Install rls and rust-analyzer"
 ~/.cargo/bin/rustup toolchain add nightly
 ~/.cargo/bin/rustup component add rust-src rust-analysis rls
+
+echo "* Setting up link to $FULLDIR/config.toml"
+ln -s "$FULLDIR"/config.toml ~/.cargo
 
 #echo "* Install ruby and Jekyll for static pages"
 #sudo apt install -y ruby zlib
