@@ -93,7 +93,7 @@ set wildmode=longest,list:longest
 set ruler
 
 " Height of the command bar
-set cmdheight=2
+set cmdheight=1
 
 " A buffer becomes hidden when it is abandoned
 set hid
@@ -131,9 +131,6 @@ set noerrorbells
 set novisualbell
 set t_vb=
 set tm=500
-
-" Allow copy / pasting with system clipboard
-set clipboard+=unnamedplus
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
