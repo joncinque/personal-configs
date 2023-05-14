@@ -263,6 +263,14 @@ set viminfo^=%
 let g:airline_powerline_fonts = 1
 let g:airline_theme='minimalist'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_tab_nr = 0
+let g:airline#extensions#tabline#show_splits = 0
+" Default enable ale in airline status
+let g:airline#extensions#ale#enabled = 1
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -335,9 +343,6 @@ map <leader>s? z=
 " You can disable this option too
 " if you don't want linters to run on opening a file
 "let g:ale_lint_on_enter = 0
-
-" Default enable ale in airline status
-let g:airline#extensions#ale#enabled = 1
 
 " Disable tsserver linter for javascript
 let g:ale_linters = {
