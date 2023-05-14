@@ -28,29 +28,29 @@ do
     diff ~/$FILE "$FULLDIR"/$FILE
     rm -i ~/$FILE
   fi
-  "* Setting up link to $FULLDIR/$FILE"
+  echo "* Setting up link to $FULLDIR/$FILE"
   ln -s "$FULLDIR"/$FILE ~
 done
-"* Setting up link to $FULLDIR/.ssh/config"
+echo "* Setting up link to $FULLDIR/.ssh/config"
 mkdir -p ~/.ssh
 ln -s "$FULLDIR"/ssh_config ~/.ssh/config
 
-"* Setting up link to $FULLDIR/init.vim"
+echo "* Setting up link to $FULLDIR/init.vim"
 mkdir -p ~/.config/nvim
 ln -s "$FULLDIR"/init.vim ~/.config/nvim
 
-"* Setting up link from vim to nvim"
+echo "* Setting up link from vim to nvim"
 sudo ln -s /usr/bin/nvim /usr/bin/vim
 sudo ln -s /usr/bin/nvim /usr/bin/vi
 
-"* Setting up link to $FULLDIR/config.fish"
+echo "* Setting up link to $FULLDIR/config.fish"
 mkdir -p ~/.config/fish
 ln -s "$FULLDIR"/config.fish ~/.config/fish
 
-"* Setting up link to $FULLDIR/flake8"
+echo "* Setting up link to $FULLDIR/flake8"
 ln -s "$FULLDIR"/flake8 ~/.config
 
-"* Setting up link to $FULLDIR/zoomus.conf"
+echo "* Setting up link to $FULLDIR/zoomus.conf"
 ln -s "$FULLDIR"/zoomus.conf ~/.config
 
 echo "* Setting up Plugged for vim plugins in init.vim"
@@ -63,6 +63,11 @@ sudo pacman --noconfirm -S python python-pip python-pipenv
 
 echo "* Install global pynvim, flake8, mypy"
 sudo pip install pynvim flake8 mypy
+
+echo "* Install and setup powerline-status"
+pip install git+https://github.com/powerline/powerline
+echo "* Setting up link to $FULLDIR/powerline"
+ln -s "$FULLDIR"/powerline ~/.config
 
 echo "* Install n"
 curl -L https://git.io/n-install | bash

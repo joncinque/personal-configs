@@ -59,6 +59,11 @@ sudo apt install -y python3-dev python3-pip python3-venv
 echo "* Install global pynvim, flake8, mypy"
 sudo pip3 install pynvim flake8 mypy
 
+echo "* Install and setup powerline-status"
+pip install git+https://github.com/powerline/powerline
+echo "* Setting up link to $FULLDIR/powerline"
+ln -s "$FULLDIR"/powerline ~/.config
+
 echo "* Install n"
 curl -L https://git.io/n-install | bash
 
