@@ -37,16 +37,12 @@ call plug#begin('~/vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-surround'
 Plug 'kien/ctrlp.vim'
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'preservim/nerdcommenter'
 Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/vim-peekaboo' " nice registers
-
-" autocomplete, coc is a bit heavy for now, have ALE do it instead
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -358,6 +354,9 @@ let g:ale_fixers = {
 \   'typescriptreact': ['prettier'],
 \   'css': ['prettier'],
 \}
+
+" Shortcut to go to an error in locallist
+map <leader>ll :ll<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
