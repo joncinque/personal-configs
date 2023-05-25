@@ -33,20 +33,24 @@ do
   "* Setting up link to $FULLDIR/$FILE"
   ln -s "$FULLDIR"/$FILE ~
 done
-"* Setting up link to $FULLDIR/.ssh/config"
+echo "* Setting up link to $FULLDIR/.ssh/config"
 mkdir -p ~/.ssh
 ln -s "$FULLDIR"/ssh_config ~/.ssh/config
 
-"* Setting up link to $FULLDIR/init.vim"
+echo "* Setting up link to $FULLDIR/init.vim"
 mkdir -p ~/.config/nvim
 ln -s "$FULLDIR"/init.vim ~/.config/nvim
 
-"* Setting up link to $FULLDIR/config.fish"
+echo "* Setting up link to $FULLDIR/config.fish"
 mkdir -p ~/.config/fish
 ln -s "$FULLDIR"/config.fish ~/.config/fish
 
-"* Setting up link to $FULLDIR/flake8"
+echo "* Setting up link to $FULLDIR/flake8"
 ln -s "$FULLDIR"/flake8 ~/.config
+
+echo "* Setting up link to add emojis to Hack"
+mkdir -p ~/.config/fontconfig/conf.d
+ln -s "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.d
 
 echo "* Setting up Plugged for vim plugins in init.vim"
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

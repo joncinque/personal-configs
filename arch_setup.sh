@@ -53,6 +53,10 @@ ln -s "$FULLDIR"/flake8 ~/.config
 echo "* Setting up link to $FULLDIR/zoomus.conf"
 ln -s "$FULLDIR"/zoomus.conf ~/.config
 
+echo "* Setting up link to add emojis to Hack"
+mkdir -p ~/.config/fontconfig/conf.d
+ln -s "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.d
+
 echo "* Setting up Plugged for vim plugins in init.vim"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
