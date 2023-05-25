@@ -65,6 +65,7 @@ sudo pip3 install pynvim flake8 mypy
 
 echo "* Install and setup powerline-status"
 pip install git+https://github.com/powerline/powerline
+pip install pomo-fish-powerline
 echo "* Setting up link to $FULLDIR/powerline"
 ln -s "$FULLDIR"/powerline ~/.config
 
