@@ -123,6 +123,9 @@ if [ "$INSTALL_EXTRA" = true ]; then
   gcloud auth configure-docker
   cd "$FULLDIR"
 
+  echo "Installing openvpn DNS updater"
+  install_from_aur openvpn-update-systemd-resolved
+
   sudo pacman --noconfirm -S clang
 fi
 
