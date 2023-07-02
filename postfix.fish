@@ -10,6 +10,7 @@
 set domain "jonc.fun"
 set user "jon"
 set email "joncinque@pm.me"
+set dbpath "/etc/postfix/postfix.sqlite"
 
 sudo echo "$domain" > /etc/mailname
 sudo echo "$domain" > /etc/hostname
@@ -17,8 +18,30 @@ sudo echo "127.0.1.1 $domain" >> /etc/hosts # remove previous
 sudo echo "root: $user" >> /etc/aliases
 sudo hostnamectl set-hostname "$domain"
 
-# Install postfix and mailutils
-sudo apt install -y postfix mailutils
+# Install postfix, mailutils, and sqlite
+sudo apt install -y postfix postfix-sqlite sqlite mailutils
+
+# New user to store emails
+sudo groupadd -g 5000 vmail
+sudo useradd -u 5000 -g vmail -s /usr/bin/nologin -d /home/vmail -m vmail
+
+# Database
+echo "CREATE TABLE mailbox (
+  username varchar(255) NOT NULL,
+  password varchar(255) NOT NULL,
+  name varchar(255) NOT NULL,
+  maildir varchar(255) NOT NULL,
+  quota bigint(20) NOT NULL default '0',
+  domain varchar(255) NOT NULL,
+  created datetime NOT NULL default '0000-00-00 00:00:00',
+  modified datetime NOT NULL default '0000-00-00 00:00:00',
+  local_part varchar(255) NOT NULL,
+  active tinyint(1) NOT NULL default '1');" | sudo sqlite3 $dbpath
+
+# Add user
+# Be sure to use `doveadm pw -s SHA512-CRYPT` to generate the password!
+echo "INSERT INTO mailbox ( username, password, name, maildir, domain, local_part )
+VALUES ( \"$user@$domain\", \"password\", \"$user\", \"$domain/$user/\", \"$domain\", \"$user\" );" | sudo sqlite3 $dbpath
 
 sudo echo "myhostname = $domain" >> /etc/postfix/main.cf
 sudo systemctl restart postfix
@@ -29,7 +52,6 @@ sudo apt install -y nginx software-properties-common certbot python3-certbot-ngi
 sudo certbot certonly -d "$domain" -m "$email" --agree-tos --standalone --pre-hook='systemctl stop nginx' --post-hook='systemctl start nginx'
 sudo echo "server {
     listen 80;
-
     server_name $domain;
     return 301 https://$domain\$request_uri;
 }
@@ -79,13 +101,52 @@ sudo echo "submission     inet     n    -    y    -    -    smtpd
   -o smtpd_sasl_type=dovecot
   -o smtpd_sasl_path=private/auth" >> /etc/postfix/master.cf
 
+# Setup virtual stuff
+sudo postconf -e "mydestination = localhost"
+sudo postconf -e "relay_domains = \$mydestination"
+sudo postconf -e "virtual_alias_maps = hash:/etc/postfix/virtual"
+sudo postconf -e "virtual_mailbox_domains = $domain"
+sudo postconf -e "virtual_mailbox_maps = sqlite:/etc/postfix/virtual_mailbox_maps.cf"
+sudo postconf -e "virtual_mailbox_base = /home/vmail"
+sudo postconf -e "virtual_minimum_uid = 5000"
+sudo postconf -e "virtual_transport = virtual"
+sudo postconf -e "virtual_uid_maps = static:5000"
+sudo postconf -e "virtual_gid_maps = static:5000"
+sudo postconf -e "local_transport = virtual"
+sudo postconf -e "local_recipient_maps = \$virtual_mailbox_maps"
+#sudo postconf -e "transport_maps = hash:/etc/postfix/transport"
+
 # Setup tls keys for /etc/postfix/main.cf
+sudo postconf -e "smtpd_tls_auth_only = yes"
+sudo postconf -e "smtpd_tls_received_header = yes"
 sudo postconf -e "smtp_tls_cert_file = /etc/letsencrypt/live/mail.$domain/fullchain.pem"
 sudo postconf -e "smtp_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey.pem"
 sudo postconf -e "smtpd_tls_cert_file = /etc/letsencrypt/live/mail.$domain/fullchain.pem"
 sudo postconf -e "smtpd_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey.pem"
 sudo postconf -e "smtpd_tls_protocols = !SSLv2, !SSLv3"
-sudo postconf -e "local_recipient_maps = proxy:unix:passwd.byname \$alias_maps"
+sudo postconf -e "smtpd_tls_loglevel = 1"
+sudo postconf -e "smtp_tls_loglevel = 1"
+
+# Setup authentication
+sudo postconf -e "smtpd_sasl_auth_enable = yes"
+sudo postconf -e "smtpd_sasl_type = dovecot"
+sudo postconf -e "smtpd_sasl_path = private/auth"
+sudo postconf -e "smtpd_sasl_security_options = noanonymous"
+sudo postconf -e "smtpd_sasl_local_domain = \$mydomain"
+sudo postconf -e "smtpd_sasl_tls_security_options = \$smtpd_sasl_security_options"
+sudo postconf -e "broken_sasl_auth_clients = yes"
+
+# Updates to avoid spamming and retrying too much
+# https://jrs-s.net/2013/04/17/configuring-retry-duration-in-postfix/
+sudo postconf -e "bounce_queue_lifetime = 1h"
+sudo postconf -e "maximal_queue_lifetime = 1h"
+sudo postconf -e "maximal_backoff_time = 15m"
+sudo postconf -e "minimal_backoff_time = 5m"
+sudo postconf -e "queue_run_delay = 5m"
+
+# Virtual mailbox maps
+sudo echo "dbpath = $dbpath
+query = SELECT maildir FROM mailbox WHERE username = '%s'" >> /etc/postfix/virtual_mailbox_maps.cf
 
 # Setup SPF
 # https://www.linuxbabe.com/mail-server/setting-up-dkim-and-spf
@@ -183,14 +244,6 @@ non_smtpd_milters = \$smtpd_milters" >> /etc/postfix/main.cf
 
 sudo systemctl restart opendkim postfix
 
-# Updates to avoid spamming and retrying too much
-# https://jrs-s.net/2013/04/17/configuring-retry-duration-in-postfix/
-sudo echo "# if you can't deliver it in an hour - it can't be delivered!
-maximal_queue_lifetime = 1h
-maximal_backoff_time = 15m
-minimal_backoff_time = 5m
-queue_run_delay = 5m" >> /etc/postfix/main.cf
-
 # Setting up DMARC
 # https://www.linuxbabe.com/mail-server/opendmarc-postfix-ubuntu
 # choose "no" for db config
@@ -214,8 +267,7 @@ sudo adduser postfix opendmarc
 sudo systemctl restart opendmarc
 
 # Add opendmarc socket to milters in postfix
-# sudo echo "smtpd_milters = local:/opendkim/opendkim.sock,local:opendmarc/opendmarc.sock" >> /etc/postfix/main.cf
-sudo vim /etc/postfix/main.cf
+sudo postconf -e "smtpd_milters = local:/opendkim/opendkim.sock,local:opendmarc/opendmarc.sock"
 sudo systemctl restart postfix
 
 # Add DNS TXT record for DMARC info, start with "none" and work up to "quarantine" and "reject"
@@ -223,41 +275,63 @@ sudo systemctl restart postfix
 # v=DMARC1; p=none; pct=100; rua=mailto:dmarc@$domain
 
 # Setting up virtual addresses
-sudo echo "virtual_alias_domains = $domain
-virtual_alias_maps = hash:/etc/postfix/virtual" >> /etc/postfix/main.cf
-
 sudo echo "@$domain $email" > /etc/postfix/virtual
 sudo postmap /etc/postfix/virtual
-
 sudo postfix reload
 
 # Check with https://www.mail-tester.com/ for score
 # Check with https://www.wormly.com/test-smtp-server
 
 echo "Setting up Dovecot IMAP server with SASL"
-sudo apt install -y dovecot-core dovecot-imapd
+sudo apt install -y dovecot-core dovecot-imapd dovecot-pop3d dovecot-sqlite
 sudo cp /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf.dist
-sudo echo "disable_plaintext_auth = no
-mail_home = /srv/mail/%Lu
-mail_location = sdbox:~/mail
-userdb {
-  driver = passwd
-  args = blocking=no
-}
+sudo echo "protocols = imap pop3
+auth_mechanisms = plain
 passdb {
-  args = %s
-  driver = pam
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf
 }
-protocols = imap
+userdb {
+  driver = sql
+  args = /etc/dovecot/dovecot-sql.conf
+}
+
 service auth {
   unix_listener /var/spool/postfix/private/auth {
     group = postfix
     mode = 0660
     user = postfix
   }
+  user = root
 }
-auth_mechanisms = plain login
+
+mail_home = /home/vmail/%d/%n
+mail_location = maildir:~
+
+namespace inbox {
+  inbox = yes
+
+  mailbox Trash {
+    auto = subscribe # autocreate and autosubscribe the Trash mailbox
+    special_use = \Trash
+  }
+  mailbox Sent {
+    auto = subscribe # autocreate and autosubscribe the Sent mailbox
+    special_use = \Sent
+  }
+}
 ssl = required
 ssl_cert = </etc/letsencrypt/live/mail.$domain/fullchain.pem
 ssl_key = </etc/letsencrypt/live/mail.$domain/privkey.pem" > /etc/dovecot/dovecot.conf
+sudo echo "driver = sqlite
+connect = $dbpath
+
+# Hash those passwords!
+default_pass_scheme = SHA512-CRYPT
+
+# Get the mailbox
+user_query = SELECT '/home/vmail/%d/%n' as home, 'maildir:/home/vmail/%d/%n' as mail, 5000 AS uid, 5000 AS gid FROM mailbox WHERE name = '%n' AND domain = '%d'
+
+# Get the password
+password_query = SELECT username as user, password, '/home/vmail/%d/%n' as userdb_home, 'maildir:/home/vmail/%d/%n' as userdb_mail, 5000 as userdb_uid, 5000 as userdb_gid FROM mailbox WHERE name = '%n' AND domain = '%d'" >> /etc/dovecot/dovecot-sql.conf
 sudo systemctl restart dovecot
