@@ -23,7 +23,7 @@ sudo apt install -y postfix postfix-sqlite sqlite mailutils
 
 # New user to store emails
 sudo groupadd -g 5000 vmail
-sudo useradd -u 5000 -g vmail -s /usr/bin/nologin -d /home/vmail -m vmail
+sudo useradd -u 5000 -g vmail -s /usr/sbin/nologin -d /home/vmail -m vmail
 
 # Database
 echo "CREATE TABLE mailbox (
@@ -32,18 +32,13 @@ echo "CREATE TABLE mailbox (
   name varchar(255) NOT NULL,
   maildir varchar(255) NOT NULL,
   quota bigint(20) NOT NULL default '0',
-  domain varchar(255) NOT NULL,
-  created datetime NOT NULL default '0000-00-00 00:00:00',
-  modified datetime NOT NULL default '0000-00-00 00:00:00',
-  local_part varchar(255) NOT NULL,
-  active tinyint(1) NOT NULL default '1');" | sudo sqlite3 $dbpath
+  domain varchar(255) NOT NULL);" | sudo sqlite3 $dbpath
 
 # Add user
 # Be sure to use `doveadm pw -s SHA512-CRYPT` to generate the password!
-echo "INSERT INTO mailbox ( username, password, name, maildir, domain, local_part )
-VALUES ( \"$user@$domain\", \"password\", \"$user\", \"$domain/$user/\", \"$domain\", \"$user\" );" | sudo sqlite3 $dbpath
+echo "INSERT INTO mailbox ( username, password, name, maildir, domain )
+VALUES ( \"$user@$domain\", \"password\", \"$user\", \"$domain/$user/\", \"$domain\" );" | sudo sqlite3 $dbpath
 
-sudo echo "myhostname = $domain" >> /etc/postfix/main.cf
 sudo systemctl restart postfix
 sudo newaliases  # propagate aliases
 
@@ -102,6 +97,7 @@ sudo echo "submission     inet     n    -    y    -    -    smtpd
   -o smtpd_sasl_path=private/auth" >> /etc/postfix/master.cf
 
 # Setup virtual stuff
+sudo postconf -e "myhostname = $domain"
 sudo postconf -e "mydestination = localhost"
 sudo postconf -e "relay_domains = \$mydestination"
 sudo postconf -e "virtual_alias_maps = hash:/etc/postfix/virtual"
@@ -123,9 +119,10 @@ sudo postconf -e "smtp_tls_cert_file = /etc/letsencrypt/live/mail.$domain/fullch
 sudo postconf -e "smtp_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey.pem"
 sudo postconf -e "smtpd_tls_cert_file = /etc/letsencrypt/live/mail.$domain/fullchain.pem"
 sudo postconf -e "smtpd_tls_key_file = /etc/letsencrypt/live/mail.$domain/privkey.pem"
+sudo postconf -e "smtp_tls_protocols = !SSLv2,!SSLv3"
 sudo postconf -e "smtpd_tls_protocols = !SSLv2, !SSLv3"
-sudo postconf -e "smtpd_tls_loglevel = 1"
 sudo postconf -e "smtp_tls_loglevel = 1"
+sudo postconf -e "smtpd_tls_loglevel = 1"
 
 # Setup authentication
 sudo postconf -e "smtpd_sasl_auth_enable = yes"
@@ -283,9 +280,9 @@ sudo postfix reload
 # Check with https://www.wormly.com/test-smtp-server
 
 echo "Setting up Dovecot IMAP server with SASL"
-sudo apt install -y dovecot-core dovecot-imapd dovecot-pop3d dovecot-sqlite
+sudo apt install -y dovecot-core dovecot-imapd dovecot-pop3d dovecot-sqlite dovecot-sieve dovecot-managesieved
 sudo cp /etc/dovecot/dovecot.conf /etc/dovecot/dovecot.conf.dist
-sudo echo "protocols = imap pop3
+sudo echo "protocols = imap pop3 sieve
 auth_mechanisms = plain
 passdb {
   driver = sql
@@ -322,7 +319,8 @@ namespace inbox {
 }
 ssl = required
 ssl_cert = </etc/letsencrypt/live/mail.$domain/fullchain.pem
-ssl_key = </etc/letsencrypt/live/mail.$domain/privkey.pem" > /etc/dovecot/dovecot.conf
+ssl_key = </etc/letsencrypt/live/mail.$domain/privkey.pem
+ssl_dh = </etc/dovecot/dh.pem" > /etc/dovecot/dovecot.conf
 sudo echo "driver = sqlite
 connect = $dbpath
 
@@ -335,3 +333,6 @@ user_query = SELECT '/home/vmail/%d/%n' as home, 'maildir:/home/vmail/%d/%n' as 
 # Get the password
 password_query = SELECT username as user, password, '/home/vmail/%d/%n' as userdb_home, 'maildir:/home/vmail/%d/%n' as userdb_mail, 5000 as userdb_uid, 5000 as userdb_gid FROM mailbox WHERE name = '%n' AND domain = '%d'" >> /etc/dovecot/dovecot-sql.conf
 sudo systemctl restart dovecot
+
+echo "* Generating the dh params, this will take some time!"
+sudo openssl dhparam -out /etc/dovecot/dh.pem 4096
