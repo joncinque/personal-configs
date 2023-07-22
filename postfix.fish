@@ -123,6 +123,8 @@ sudo postconf -e "smtp_tls_protocols = !SSLv2,!SSLv3"
 sudo postconf -e "smtpd_tls_protocols = !SSLv2, !SSLv3"
 sudo postconf -e "smtp_tls_loglevel = 1"
 sudo postconf -e "smtpd_tls_loglevel = 1"
+sudo postconf -e "smtp_tls_security_level = encrypt"
+sudo postconf -e "smtpd_tls_security_level = encrypt"
 
 # Setup authentication
 sudo postconf -e "smtpd_sasl_auth_enable = yes"
