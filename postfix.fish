@@ -5,7 +5,8 @@
 # A mail.domain.com to IP
 # MX domain.com to mail.domain.com
 
-# Open ports 25 and 587
+# Open ports 25, 465, and 587 for smtp
+# Open ports 993 for imap
 # Optionally, 80 and 443
 set domain "jonc.fun"
 set user "jon"
@@ -86,10 +87,22 @@ echo "Getting mail cert"
 sudo certbot certonly -d "mail.$domain" -m "$email" --agree-tos --standalone --pre-hook='systemctl stop nginx' --post-hook='systemctl start nginx'
 
 # (Optional, if setting up a server like dovecot) enable TLS submission on Postfix
-sudo echo "submission     inet     n    -    y    -    -    smtpd
-  -o syslog_name=postfix/submission
+# Commented out because https://nostarttls.secvuln.info/
+#sudo echo "submission     inet     n    -    y    -    -    smtpd
+#  -o syslog_name=postfix/submission
+#  -o smtpd_tls_security_level=encrypt
+#  -o smtpd_tls_wrappermode=no
+#  -o smtpd_sasl_auth_enable=yes
+#  -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
+#  -o milter_macro_daemon_name=ORIGINATING
+#  -o smtpd_sasl_type=dovecot
+#  -o smtpd_sasl_path=private/auth" >> /etc/postfix/master.cf
+
+# (Optional, if setting up a server like dovecot) enable SMTPS submission on Postfix
+sudo echo "smtps     inet     n    -    y    -    -    smtpd
+  -o syslog_name=postfix/smtps
   -o smtpd_tls_security_level=encrypt
-  -o smtpd_tls_wrappermode=no
+  -o smtpd_tls_wrappermode=yes
   -o smtpd_sasl_auth_enable=yes
   -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
   -o milter_macro_daemon_name=ORIGINATING
@@ -125,6 +138,8 @@ sudo postconf -e "smtp_tls_loglevel = 1"
 sudo postconf -e "smtpd_tls_loglevel = 1"
 sudo postconf -e "smtp_tls_security_level = encrypt"
 sudo postconf -e "smtpd_tls_security_level = encrypt"
+sudo postconf -e "smtp_use_tls = yes"
+sudo postconf -e "smtpd_use_tls = yes"
 
 # Setup authentication
 sudo postconf -e "smtpd_sasl_auth_enable = yes"
