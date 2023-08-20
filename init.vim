@@ -18,6 +18,7 @@
 "    -> vimgrep searching and cope displaying
 "    -> Spell checking
 "    -> Ale Settings
+"    -> Polyglot Settings
 "    -> Misc
 "    -> Helper functions
 "
@@ -357,6 +358,11 @@ let g:ale_fixers = {
 
 " Shortcut to go to an error in locallist
 map <leader>ll :ll<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Polyglot
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:zig_fmt_autosave = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
