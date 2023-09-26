@@ -4,3 +4,6 @@ Host github.com
     Hostname github.com
     User git
     IdentityFile ~/.ssh/github_id_rsa
+Host soldev
+    Hostname 136.144.48.169
+    User sol

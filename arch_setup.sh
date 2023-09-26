@@ -57,6 +57,9 @@ echo "* Setting up link to add emojis to Hack"
 mkdir -p ~/.config/fontconfig/conf.d
 ln -s "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.d
 
+echo "* Setting up link to $FULLDIR/git-cliff"
+ln -s "$FULLDIR"/git-cliff ~/.config/
+
 echo "* Setting up Plugged for vim plugins in init.vim"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -126,7 +129,7 @@ if [ "$INSTALL_EXTRA" = true ]; then
   echo "Installing openvpn DNS updater"
   install_from_aur openvpn-update-systemd-resolved
 
-  sudo pacman --noconfirm -S clang
+  sudo pacman --noconfirm -S clang git-cliff
 fi
 
 if [ "$INSTALL_GUI" = true ]; then
