@@ -347,6 +347,10 @@ let g:ale_linters = {
 \   'rust': ['cargo'],
 \}
 
+" Also check tests
+let g:ale_rust_cargo_check_all_targets = 1
+let g:ale_rust_cargo_default_feature_behavior = 'all'
+
 " Enable prettier as a fixer
 let g:ale_fixers = {
 \   'javascript': ['prettier'],
