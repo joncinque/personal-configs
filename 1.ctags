@@ -1,0 +1,14 @@
+--recurse=yes
+--exclude=.git
+--exclude=.github
+--exclude=target
+--exclude=node_modules
+--exclude=.cache
+--exclude=.cargo
+--exclude=*.mjs
+--exclude=*.js
+--exclude=*.jsx
+--exclude=*.bak
+--exclude=*.pyc
+--exclude=*.class
+--exclude=*.pdb

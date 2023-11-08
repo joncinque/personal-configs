@@ -45,6 +45,10 @@ echo "* Setting up link to $FULLDIR/config.fish"
 mkdir -p ~/.config/fish
 ln -s "$FULLDIR"/config.fish ~/.config/fish
 
+echo "* Setting up link to $FULLDIR/1.ctags"
+mkdir -p ~/.config/ctags
+ln -s "$FULLDIR"/1.ctags ~/.config/ctags
+
 echo "* Setting up link to $FULLDIR/flake8"
 ln -s "$FULLDIR"/flake8 ~/.config
 

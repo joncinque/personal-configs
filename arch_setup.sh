@@ -12,7 +12,7 @@ echo "* Install base requirements"
 sudo pacman --noconfirm -Syu
 
 echo "* Install base dev stuff"
-sudo pacman --noconfirm -S curl git tmux neovim fish base-devel xsel lld
+sudo pacman --noconfirm -S curl git tmux neovim fish base-devel xsel lld ctags
 
 echo "* Switch to fish"
 chsh -s /usr/bin/fish
@@ -49,6 +49,10 @@ ln -s "$FULLDIR"/config.fish ~/.config/fish
 
 echo "* Setting up link to $FULLDIR/flake8"
 ln -s "$FULLDIR"/flake8 ~/.config
+
+echo "* Setting up link to $FULLDIR/1.ctags"
+mkdir -p ~/.config/ctags
+ln -s "$FULLDIR"/1.ctags ~/.config/ctags
 
 echo "* Setting up link to $FULLDIR/zoomus.conf"
 ln -s "$FULLDIR"/zoomus.conf ~/.config
