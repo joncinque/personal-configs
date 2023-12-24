@@ -21,7 +21,7 @@ sudo apt install -y fish
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
-for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.tmux.conf' '.inputrc'
+for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.tmux.conf' '.inputrc' '.alacritty.toml'
 do
   echo "Working on: $FILE"
   if [ -e ~/$FILE ]
