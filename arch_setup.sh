@@ -45,7 +45,7 @@ sudo ln -s /usr/bin/nvim /usr/bin/vi
 
 echo "* Setting up link to $FULLDIR/config.fish"
 mkdir -p ~/.config/fish
-ln -s "$FULLDIR"/config.fish ~/.config/fish
+ln -s "$FULLDIR"/config.fish ~/.config/fish/config.fish
 
 echo "* Setting up link to $FULLDIR/flake8"
 ln -s "$FULLDIR"/flake8 ~/.config
@@ -76,8 +76,9 @@ echo "* Install global pynvim, flake8, mypy"
 sudo pip install pynvim flake8 mypy
 
 echo "* Install and setup powerline-status"
-pip install git+https://github.com/powerline/powerline
-pip install pomo-fish-powerline
+python3 -m venv venv
+./venv/bin/pip install git+https://github.com/powerline/powerline
+./venv/bin/pip install pomo-fish-powerline
 echo "* Setting up link to $FULLDIR/powerline"
 ln -s "$FULLDIR"/powerline ~/.config
 
@@ -145,12 +146,11 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo pacman --noconfirm -S firefox
 
   echo "* Install tixati"
-  sudo pacman --noconfirm -S gtk2 traceroute
+  sudo pacman --noconfirm -S gtk2 traceroute dbus-glib
   install_from_aur tixati
 
   echo "* Install discord"
-  sudo pacman --noconfirm -S electron16 asar
-  install_from_aur discord_arch_electron
+  sudo pacman --noconfirm -S discord
 
   echo "* Install brave browser"
   install_from_aur brave-bin
@@ -164,12 +164,15 @@ if [ "$INSTALL_GUI" = true ]; then
   echo "* Install slack"
   install_from_aur slack-desktop
 
+  echo "* Install signal"
+  sudo pacman --noconfirm -S signal-desktop
+
   echo "Replace pulse audio with pipewire"
   sudo pacman --noconfirm -S pipewire pipewire-pulse
 fi
 
 # GitHub ssh token
 # GITHUB_FILE=/home/jon/.ssh/github_id_rsa
-# echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "joncinque@pm.me"
+# echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "me@jonc.dev"
 # echo "* Add public key to GitHub:"
 # cat "$GITHUB_FILE".pub
