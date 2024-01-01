@@ -190,9 +190,14 @@ smtpd_recipient_restrictions =
     reject_rbl_client zen.spamhaus.org,
     reject_rbl_client bl.spamcop.net,
     reject_rbl_client b.barracudacentral.org,
-    reject_rbl_client dnsbl.sorbs.net,
+    reject_rhsbl_reverse_client dbl.spamhaus.org,
+    reject_rhsbl_helo dbl.spamhaus.org,
+    reject_rhsbl_sender dbl.spamhaus.org,
     check_policy_service unix:private/policyd-spf
     permit" >> /etc/postfix/main.cf
+
+# Can also add:
+#reject_rbl_client dnsbl.sorbs.net,
 
 sudo systemctl restart postfix
 
