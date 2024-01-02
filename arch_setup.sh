@@ -159,7 +159,7 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo pacman --noconfirm -S telegram-desktop
 
   echo "* Setup udev for ledger"
-  wget -q -O - https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
+  curl -sSfL https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
 
   echo "* Install slack"
   install_from_aur slack-desktop
@@ -171,6 +171,7 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo pacman --noconfirm -S pipewire pipewire-pulse
 fi
 
+# Zoom download + install
 # GitHub ssh token
 # GITHUB_FILE=/home/jon/.ssh/github_id_rsa
 # echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "me@jonc.dev"
