@@ -60,6 +60,4 @@ function getclip
 end
 
 set -x N_PREFIX "$HOME/n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '~/google-cloud-sdk/path.fish.inc' ]; . '~/google-cloud-sdk/path.fish.inc'; end
+set -x POWERLINE_CONFIG_COMMAND ~/src/personal-configs/venv/bin/powerline-config
