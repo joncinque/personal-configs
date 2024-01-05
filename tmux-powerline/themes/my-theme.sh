@@ -14,7 +14,7 @@ else
 fi
 
 TMUX_POWERLINE_DEFAULT_BACKGROUND_COLOR=${TMUX_POWERLINE_DEFAULT_BACKGROUND_COLOR:-'235'}
-TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR=${TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR:-'255'}
+TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR=${TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR:-'35'}
 
 TMUX_POWERLINE_DEFAULT_LEFTSIDE_SEPARATOR=${TMUX_POWERLINE_DEFAULT_LEFTSIDE_SEPARATOR:-$TMUX_POWERLINE_SEPARATOR_RIGHT_BOLD}
 TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SEPARATOR=${TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SEPARATOR:-$TMUX_POWERLINE_SEPARATOR_LEFT_BOLD}
@@ -24,13 +24,7 @@ TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SEPARATOR=${TMUX_POWERLINE_DEFAULT_RIGHTSIDE_SE
 
 if [ -z $TMUX_POWERLINE_WINDOW_STATUS_CURRENT ]; then
 	TMUX_POWERLINE_WINDOW_STATUS_CURRENT=(
-		"#[$(format inverse)]" \
-		"$TMUX_POWERLINE_DEFAULT_LEFTSIDE_SEPARATOR" \
-		" #I#F " \
-		"$TMUX_POWERLINE_SEPARATOR_RIGHT_THIN" \
-		" #W " \
-		"#[$(format regular)]" \
-		"$TMUX_POWERLINE_DEFAULT_LEFTSIDE_SEPARATOR"
+	  "#[$(format inverse)]"
 	)
 fi
 
@@ -42,10 +36,7 @@ fi
 
 if [ -z $TMUX_POWERLINE_WINDOW_STATUS_FORMAT ]; then
 	TMUX_POWERLINE_WINDOW_STATUS_FORMAT=(
-		"#[$(format regular)]" \
-		"  #I#{?window_flags,#F, } " \
-		"$TMUX_POWERLINE_SEPARATOR_RIGHT_THIN" \
-		" #W "
+	  "#[$(format regular)]"
 	)
 fi
 
@@ -78,16 +69,17 @@ fi
 
 if [ -z $TMUX_POWERLINE_LEFT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
-		#"tmux_session_info 148 234" \
+		"tmux_session_info 145 234" \
 		#"hostname 33 0" \
 		#"ifstat 30 255" \
 		#"ifstat_sys 30 255" \
 		#"lan_ip 24 255 ${TMUX_POWERLINE_SEPARATOR_RIGHT_THIN}" \
 		#"wan_ip 24 255" \
-		"vcs_branch 24 250" \
+		"pwd 23 251" \
+		"vcs_branch 24 251" \
 		#"vcs_compare 60 255" \
 		#"vcs_staged 64 255" \
-		"vcs_modified 9 250" \
+		"vcs_modified 9 251" \
 		#"vcs_others 245 0" \
 	)
 fi
@@ -95,11 +87,11 @@ fi
 if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
 	TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
 		#"earthquake 3 0" \
-		"pwd 89 250" \
 		#"macos_notification_count 29 255" \
 		#"mailcount 9 255" \
 		#"now_playing 234 37" \
 		#"cpu 240 136" \
+		"pomo 237 175" \
 		"load 237 175" \
 		#"tmux_mem_cpu_load 234 136" \
 		#"battery 137 127" \
