@@ -91,7 +91,7 @@ if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
 		#"mailcount 9 255" \
 		#"now_playing 234 37" \
 		#"cpu 240 136" \
-		"pomo 237 175" \
+		"pomo 88 252" \
 		"load 237 175" \
 		#"tmux_mem_cpu_load 234 136" \
 		#"battery 137 127" \
