@@ -76,17 +76,16 @@ echo "* Install global pynvim, flake8, mypy"
 sudo pip install pynvim flake8 mypy
 
 echo "* Install and setup powerline-status"
-python3 -m venv venv
-./venv/bin/pip install git+https://github.com/powerline/powerline
-./venv/bin/pip install pomo-fish-powerline
+sudo pacman --noconfirm -S powerline
+sudo pip3 install pomo-fish-powerline --break-system-packages
 echo "* Setting up link to $FULLDIR/powerline"
 ln -s "$FULLDIR"/powerline ~/.config
 
 echo "* Install n"
 curl -L https://git.io/n-install | bash
 
-echo "* Install required npm packages for vim, typescript, reveal, and yarn"
-sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true ~/n/bin/npm install -g neovim typescript ts-node reveal-md yarn
+echo "* Install required npm packages for vim, typescript"
+sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true ~/n/bin/npm install -g neovim typescript
 
 echo "* Install nvim plugins"
 cd ~ || exit
