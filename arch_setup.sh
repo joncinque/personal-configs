@@ -75,11 +75,15 @@ sudo pacman --noconfirm -S python python-pip python-pipenv
 echo "* Install global pynvim, flake8, mypy"
 sudo pip install pynvim flake8 mypy
 
-echo "* Install and setup powerline-status"
-sudo pacman --noconfirm -S powerline
-sudo pip3 install pomo-fish-powerline --break-system-packages
-echo "* Setting up link to $FULLDIR/powerline"
-ln -s "$FULLDIR"/powerline ~/.config
+echo "* Install and setup tmux-powerline"
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+echo "Don't forget to run <prefix>I to install the plugins!"
+echo "* Setting up link to $FULLDIR/tmux-powerline"
+ln -s "$FULLDIR"/tmux-powerline ~/.config
+
+#echo "* Install and setup powerline-status"
+#sudo pacman --noconfirm -S powerline
+#sudo pip3 install pomo-fish-powerline --break-system-packages
 
 echo "* Install n"
 curl -L https://git.io/n-install | bash
