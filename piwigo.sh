@@ -9,7 +9,8 @@ echo "Be sure to set the following:
 file_uploads = On
 allow_url_fopen = On
 memory_limit = 256M
-upload_max_filesize = 100M"
+post_max_size = 128M
+upload_max_filesize = 128M"
 sudo vim /etc/php/8.2/fpm/php.ini
 
 echo "Installing mariadb to store photos"
