@@ -7,6 +7,22 @@ FULLDIR=$(pwd)
 INSTALL_GUI=true
 INSTALL_EXTRA=false
 
+DISTRO=$(lsb_release -i | cut -f 2-)
+case $DISTRO in
+Fedora)
+  UPDATE_COMMAND="dnf upgrade --refresh -y"
+  INSTALL_COMMAND="dnf install -y"
+  ;;
+Arch)
+  UPDATE_COMMAND="pacman --noconfirm -Syu"
+  INSTALL_COMMAND="pacman --noconfirm -S"
+  ;;
+Debian)
+  UPDATE_COMMAND="apt update -y && apt upgrade -y"
+  INSTALL_COMMAND="apt install -y"
+  ;;
+esac
+
 UPDATE_COMMAND="pacman --noconfirm -Syu"
 INSTALL_COMMAND="pacman --noconfirm -S"
 
