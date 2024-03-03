@@ -7,6 +7,9 @@
   prompt = false
 [diff]
   tool = meld
+  algorithm = histogram
+  colorMoved = default
+  submodule = log
 [alias]
   g = grep
   b = branch
@@ -30,6 +33,14 @@
   excludesfile = ~/.gitignore_global
   autocrlf = input
 [merge]
-  conflictstyle = diff3
+  conflictstyle = zdiff3
 [init]
   defaultBranch = main
+[commit]
+  verbose = true
+[rerere]
+  enabled = true
+[status]
+  submoduleSummary = true
+[submodule]
+  recurse = true
