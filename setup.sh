@@ -23,9 +23,6 @@ Debian)
   ;;
 esac
 
-UPDATE_COMMAND="pacman --noconfirm -Syu"
-INSTALL_COMMAND="pacman --noconfirm -S"
-
 echo "Base dev software"
 echo "* Install base requirements"
 sudo $UPDATE_COMMAND
@@ -40,45 +37,38 @@ chsh -s /usr/bin/fish
 echo "Setting up all config files as symlinks"
 for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.tmux.conf' '.inputrc' '.alacritty.toml'
 do
-  echo "Working on: $FILE"
-  if [ -e ~/$FILE ]
-  then
-    echo "Existing file found, diff:"
-    diff ~/$FILE "$FULLDIR"/$FILE
-    rm -i ~/$FILE
-  fi
   echo "* Setting up link to $FULLDIR/$FILE"
-  ln -s "$FULLDIR"/$FILE ~
+  ln -si "$FULLDIR"/$FILE ~
 done
 echo "* Setting up link to $FULLDIR/.ssh/config"
 mkdir -p ~/.ssh
-ln -s "$FULLDIR"/ssh_config ~/.ssh/config
+ln -si "$FULLDIR"/ssh_config ~/.ssh/config
 
 echo "* Setting up link to $FULLDIR/init.vim"
 mkdir -p ~/.config/nvim
-ln -s "$FULLDIR"/init.vim ~/.config/nvim
+ln -si "$FULLDIR"/init.vim ~/.config/nvim
 
 echo "* Setting up link from vim to nvim"
-sudo ln -s /usr/bin/nvim /usr/bin/vim
-sudo ln -s /usr/bin/nvim /usr/bin/vi
+sudo ln -si /usr/bin/nvim /usr/bin/vim
+sudo ln -si /usr/bin/nvim /usr/bin/vi
 
 echo "* Setting up link to $FULLDIR/config.fish"
 mkdir -p ~/.config/fish
-ln -s "$FULLDIR"/config.fish ~/.config/fish/config.fish
+ln -si "$FULLDIR"/config.fish ~/.config/fish/config.fish
 
 echo "* Setting up link to $FULLDIR/flake8"
-ln -s "$FULLDIR"/flake8 ~/.config
+ln -si "$FULLDIR"/flake8 ~/.config
 
 echo "* Setting up link to $FULLDIR/1.ctags"
 mkdir -p ~/.config/ctags
-ln -s "$FULLDIR"/1.ctags ~/.config/ctags
+ln -si "$FULLDIR"/1.ctags ~/.config/ctags
 
 echo "* Setting up link to add emojis to Hack"
 mkdir -p ~/.config/fontconfig/conf.d
-ln -s "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.d
+ln -si "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.d
 
 echo "* Setting up link to $FULLDIR/git-cliff"
-ln -s "$FULLDIR"/git-cliff ~/.config/
+ln -si "$FULLDIR"/git-cliff ~/.config/
 
 echo "* Setting up Plugged for vim plugins in init.vim"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -95,7 +85,7 @@ echo "* Install and setup tmux-powerline"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 echo "Don't forget to run <prefix>I to install the plugins!"
 echo "* Setting up link to $FULLDIR/tmux-powerline"
-ln -s "$FULLDIR"/tmux-powerline ~/.config
+ln -si "$FULLDIR"/tmux-powerline ~/.config
 
 echo "* Install n"
 curl -L https://git.io/n-install | bash
@@ -115,7 +105,7 @@ echo "* Install rls and rust-analyzer"
 ~/.cargo/bin/rustup component add rust-src rust-analysis rls
 
 echo "* Setting up link to $FULLDIR/config.toml"
-ln -s "$FULLDIR"/config.toml ~/.cargo
+ln -si "$FULLDIR"/config.toml ~/.cargo
 
 #echo "* Install ruby and Jekyll for static pages"
 #sudo apt install -y ruby zlib
