@@ -21,6 +21,7 @@ body = """
     ### {{ group | upper_first }}
     {% for commit in commits %}
         - {% if commit.breaking %}[**breaking**] {% endif %}{{ commit.message | upper_first }}\
+        {% if commit.github.username %} by @{{ commit.github.username }}{%- endif %}\
     {% endfor %}
 {% endfor %}\n
 """
