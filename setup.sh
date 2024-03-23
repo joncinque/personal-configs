@@ -139,7 +139,7 @@ if [ "$INSTALL_EXTRA" = true ]; then
   echo "Installing openvpn DNS updater"
   install_from_aur openvpn-update-systemd-resolved
 
-  sudo $INSTALL_COMMAND clang git-cliff
+  sudo $INSTALL_COMMAND clang git-cliff difftastic
 fi
 
 if [ "$INSTALL_GUI" = true ]; then

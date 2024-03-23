@@ -6,10 +6,14 @@
 [difftool]
   prompt = false
 [diff]
-  tool = meld
+  tool = difftastic
   algorithm = histogram
   colorMoved = default
   submodule = log
+[difftool "difftastic"]
+  cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+  difftool = true
 [alias]
   g = grep
   b = branch
