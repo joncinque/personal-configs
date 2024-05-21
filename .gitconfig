@@ -17,18 +17,14 @@
 [alias]
   g = grep
   b = branch
+  s = switch
+  d = diff
   fp = fetch --prune
   st = status
   pl = pull --rebase
   logdog = log --decorate --pretty=oneline --abbrev-commit --graph
   loglint = log --format=%s -- .
   dt = difftool
-  # subtree add
-  sba = "!f() { git subtree add --prefix $2 $1 master --squash; }; f"
-  # subtree update
-  sbu = "!f() { git subtree pull --prefix $2 $1 master --squash; }; f"
-  # subtree push
-  sbp = "!f() { git subtree push --prefix $1 $2 $3; }; f"
 [push]
 	default = simple
 [pull]
