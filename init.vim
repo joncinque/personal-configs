@@ -138,6 +138,7 @@ syntax enable
 
 colorscheme default
 set background=dark
+set termguicolors
 " set guicursor=
 
 " Set extra options when running in GUI mode
@@ -362,6 +363,8 @@ let g:ale_fixers = {
 
 " Shortcut to go to an error in locallist
 map <leader>ll :ll<cr>
+map <leader>ln :ln<cr>
+map <leader>lp :lp<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Polyglot
