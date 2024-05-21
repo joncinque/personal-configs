@@ -35,7 +35,7 @@ chsh -s /usr/bin/fish
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
-for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.tmux.conf' '.inputrc' '.alacritty.toml'
+for FILE in '.bashrc' '.gitconfig' '.gitignore_global' '.tmux.conf' '.inputrc' '.alacritty.toml' '.dircolors'
 do
   echo "* Setting up link to $FULLDIR/$FILE"
   ln -si "$FULLDIR"/$FILE ~
