@@ -44,6 +44,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/vim-peekaboo' " nice registers
+Plug 'projekt0n/github-nvim-theme'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -136,7 +137,7 @@ set tm=500
 " Enable syntax highlighting
 syntax enable
 
-colorscheme default
+colorscheme github_dark_colorblind
 set background=dark
 set termguicolors
 " set guicursor=
