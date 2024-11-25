@@ -22,6 +22,7 @@
   fp = fetch --prune
   st = status
   pl = pull --rebase
+  plum = pull --rebase upstream main
   logdog = log --decorate --pretty=oneline --abbrev-commit --graph
   loglint = log --format=%s -- .
   dt = difftool
@@ -32,6 +33,7 @@
 [core]
   excludesfile = ~/.gitignore_global
   autocrlf = input
+  commentChar = ";"
 [merge]
   conflictstyle = zdiff3
 [init]
