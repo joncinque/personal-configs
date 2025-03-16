@@ -1,19 +1,21 @@
 [user]
   name = Jon C
   email = me@jonc.dev
+  signingkey = /home/jon/.ssh/github_id_rsa.pub
 [credential]
   helper = cache --timeout=3600
 [difftool]
   prompt = false
-[diff]
-  tool = difftastic
-  algorithm = histogram
-  colorMoved = default
-  submodule = log
 [difftool "difftastic"]
   cmd = difft --display inline "$LOCAL" "$REMOTE"
 [pager]
   difftool = true
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  renames = true
+  tool = difftastic
+  submodule = log
 [alias]
   g = grep
   b = branch
@@ -26,6 +28,11 @@
   logdog = log --decorate --pretty=oneline --abbrev-commit --graph
   loglint = log --format=%s -- .
   dt = difftool
+[column]
+  ui = auto
+[fetch]
+  prune = true
+  pruneTags = true
 [push]
 	default = simple
 [pull]
@@ -40,9 +47,16 @@
   defaultBranch = main
 [commit]
   verbose = true
+  gpgsign = true
 [rerere]
   enabled = true
+  autoupdate = true
 [status]
   submoduleSummary = true
 [submodule]
   recurse = true
+[gpg]
+  format = ssh
+[tag]
+  sort = version:refname
+  gpgSign = true
