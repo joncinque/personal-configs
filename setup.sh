@@ -182,3 +182,4 @@ fi
 # echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "me@jonc.dev"
 # echo "* Add public key to GitHub:"
 # cat "$GITHUB_FILE".pub
+# Setup nix with subvolume for /nix
