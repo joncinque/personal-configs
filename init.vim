@@ -17,6 +17,7 @@
 "    -> Editing mappings
 "    -> vimgrep searching and cope displaying
 "    -> Spell checking
+"    -> LSP config
 "    -> Ale Settings
 "    -> Polyglot Settings
 "    -> Misc
@@ -33,18 +34,17 @@ filetype plugin indent off    " required
 call plug#begin('~/vim/plugged')
 
 " The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
+" Keep Plugin commands between plug#begin/end.
 " plugin on GitHub repo
-Plug 'tpope/vim-sensible'
-Plug 'tpope/vim-surround'
-Plug 'kien/ctrlp.vim'
+Plug 'chrisbra/matchit'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdcommenter'
-Plug 'dense-analysis/ale'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/vim-peekaboo' " nice registers
 Plug 'projekt0n/github-nvim-theme'
+Plug 'neovim/nvim-lspconfig'
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -55,6 +55,11 @@ filetype plugin indent on    " required
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra' " search only up to a .git dir
+" Opens file in new tab when using CtrlP.
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<c-t>'],
+    \ 'AcceptSelection("t")': ['<cr>', '<2-LeftMouse>'],
+    \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -65,6 +70,13 @@ set history=1000
 " Set to auto read when a file is changed from the outside
 set autoread
 
+set tabpagemax=50
+
+" Saving options in session and view files causes more problems than it
+" solves, so disable it.
+set sessionoptions-=options
+set viewoptions-=options
+
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = ","
@@ -73,6 +85,10 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
+inoremap <C-U> <C-G>u<C-U>
+inoremap <C-W> <C-G>u<C-W>
+
+let g:is_posix = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -99,6 +115,13 @@ set hid
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
+
+" Disable completing keywords in included files (e.g., #include in C).  When
+" configured properly, this can result in the slow, recursive scanning of
+" hundreds of files of dubious relevance.
+set complete-=i
+
+set nrformats-=octal
 
 " Ignore case when searching
 set ignorecase
@@ -130,6 +153,18 @@ set novisualbell
 set t_vb=
 set tm=500
 
+set laststatus=2
+
+set scrolloff=1
+set sidescroll=1
+set sidescrolloff=2
+
+set display+=lastline
+
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
+
+" Delete comment character when joining commented lines.
+set formatoptions+=j
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -142,6 +177,7 @@ set background=dark
 set termguicolors
 " set guicursor=
 
+set t_Co=16
 " Set extra options when running in GUI mode
 if has("gui_running")
     set guioptions-=T
@@ -151,7 +187,7 @@ if has("gui_running")
 endif
 
 " Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
+set encoding=utf-8
 
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
@@ -251,6 +287,7 @@ autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
+
 " Remember info about open buffers on close
 set viminfo^=%
 
@@ -260,15 +297,36 @@ set viminfo^=%
 """"""""""""""""""""""""""""""
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='minimalist'
+let g:airline_theme='luna'
+let g:airline_mode_map = {
+      \ '__'     : '-',
+      \ 'c'      : 'C',
+      \ 'i'      : 'I',
+      \ 'ic'     : 'I',
+      \ 'ix'     : 'I',
+      \ 'n'      : 'N',
+      \ 'multi'  : 'M',
+      \ 'ni'     : 'N',
+      \ 'no'     : 'N',
+      \ 'R'      : 'R',
+      \ 'Rv'     : 'R',
+      \ 's'      : 'S',
+      \ 'S'      : 'S',
+      \ ''     : 'S',
+      \ 't'      : 'T',
+      \ 'v'      : 'V',
+      \ 'V'      : 'V',
+      \ ''     : 'V',
+      \ }
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tabs_label = ''
 let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_tab_count = 0
+let g:airline#extensions#tabline#show_tab_count = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#show_splits = 0
 " Default enable ale in airline status
-let g:airline#extensions#ale#enabled = 1
+"let g:airline#extensions#ale#enabled = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -326,6 +384,27 @@ map <leader>sa zg
 map <leader>s? z=
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Polyglot
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:zig_fmt_autosave = 0
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => LSP Config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+:lua << EOF
+  local lspconfig = require'lspconfig'
+  lspconfig.rust_analyzer.setup {}
+  lspconfig.pylsp.setup {}
+  lspconfig.zls.setup{
+    cmd = { '/home/jon/src/ref/zls/zig-out/bin/zls' }
+  }
+  lspconfig.biome.setup {
+    cmd = { "biome", "lsp-proxy" }
+  }
+EOF
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Ale settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -344,78 +423,28 @@ map <leader>s? z=
 "let g:ale_lint_on_enter = 0
 
 " Disable tsserver linter for javascript
-let g:ale_linters = {
-\   'javascript': ['eslint', 'fecs', 'jscs', 'jshint', 'standard', 'xo'],
-\   'rust': ['cargo'],
-\}
+"let g:ale_linters = {
+"\   'javascript': ['eslint', 'fecs', 'jscs', 'jshint', 'standard', 'xo'],
+"\   'rust': ['cargo'],
+"\}
 
 " Also check tests
-let g:ale_rust_cargo_check_all_targets = 1
-let g:ale_rust_cargo_default_feature_behavior = 'all'
+"let g:ale_rust_cargo_check_all_targets = 1
+"let g:ale_rust_cargo_default_feature_behavior = 'all'
 
 " Enable prettier as a fixer
-let g:ale_fixers = {
-\   'javascript': ['prettier'],
-\   'javascriptreact': ['prettier'],
-\   'typescript': ['prettier'],
-\   'typescriptreact': ['prettier'],
-\   'css': ['prettier'],
-\}
+"let g:ale_fixers = {
+"\   'javascript': ['prettier'],
+"\   'javascriptreact': ['prettier'],
+"\   'typescript': ['prettier'],
+"\   'typescriptreact': ['prettier'],
+"\   'css': ['prettier'],
+"\}
 
 " Shortcut to go to an error in locallist
-map <leader>ll :ll<cr>
-map <leader>ln :ln<cr>
-map <leader>lp :lp<cr>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Polyglot
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:zig_fmt_autosave = 0
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => CoC (heavy for now)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set updatetime=300
-
-" suppress the annoying 'match x of y', 'The only match' and 'Pattern not
-" found' messages
-set shortmess+=c
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-"inoremap <silent><expr> <TAB>
-"      \ pumvisible() ? "\<C-n>" :
-"      \ <SID>check_back_space() ? "\<TAB>" :
-"      \ coc#refresh()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-"function! s:check_back_space() abort
-"  let col = col('.') - 1
-"  return !col || getline('.')[col - 1]  =~# '\s'
-"endfunction
-
-" Use <c-space> to trigger completion.
-"inoremap <silent><expr> <c-space> coc#refresh()
-
-" Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-"inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" Use K to show documentation in preview window.
-"nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-"function! s:show_documentation()
-"  if (index(['vim','help'], &filetype) >= 0)
-"    execute 'h '.expand('<cword>')
-"  elseif (coc#rpc#ready())
-"    call CocActionAsync('doHover')
-"  else
-"    execute '!' . &keywordprg . " " . expand('<cword>')
-"  endif
-"endfunction
+"map <leader>ll :ll<cr>
+"map <leader>ln :ln<cr>
+"map <leader>lp :lp<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

@@ -78,8 +78,8 @@ echo "Coding software"
 echo "* Install python dev requirements"
 sudo $INSTALL_COMMAND python python-pip python-pipenv
 
-echo "* Install global pynvim, flake8, mypy"
-sudo pip install pynvim flake8 mypy
+echo "* Install global pynvim, flake8, mypy, lsp"
+sudo pip install pynvim flake8 mypy python-lsp-server pylsp-mypy
 
 echo "* Install and setup tmux-powerline"
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
@@ -90,8 +90,8 @@ ln -si "$FULLDIR"/tmux-powerline ~/.config
 echo "* Install n"
 curl -L https://git.io/n-install | bash
 
-echo "* Install required npm packages for vim, typescript"
-sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true ~/n/bin/npm install -g neovim typescript
+echo "* Install required npm packages for vim"
+sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true ~/n/bin/npm install -g neovim typescript @biomejs/biome
 
 echo "* Install nvim plugins"
 cd ~ || exit
@@ -100,9 +100,9 @@ nvim +PlugInstall
 echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-echo "* Install rls and rust-analyzer"
+echo "* Install rust-analyzer"
 ~/.cargo/bin/rustup toolchain add nightly
-~/.cargo/bin/rustup component add rust-src rust-analysis rls
+~/.cargo/bin/rustup component add rust-src rust-analyzer
 
 echo "* Setting up link to $FULLDIR/config.toml"
 ln -si "$FULLDIR"/config.toml ~/.cargo
@@ -183,3 +183,4 @@ fi
 # echo "* Add public key to GitHub:"
 # cat "$GITHUB_FILE".pub
 # Setup nix with subvolume for /nix
+# Build zls from https://github.com/zigtools/zls
