@@ -403,6 +403,9 @@ let g:zig_fmt_autosave = 0
     cmd = { "biome", "lsp-proxy" }
   }
 EOF
+map <leader>ll :lua vim.diagnostic.goto_next()<cr>
+map <leader>lh :lua vim.diagnostic.goto_prev()<cr>
+map <leader>la :lua vim.lsp.buf.code_action()<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Ale settings
