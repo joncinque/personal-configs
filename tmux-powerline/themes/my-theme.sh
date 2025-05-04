@@ -92,10 +92,10 @@ if [ -z $TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS ]; then
 		#"now_playing 234 37" \
 		#"cpu 240 136" \
 		"pomo 88 252" \
-		"load 237 175" \
+		#"load 237 175" \
 		#"tmux_mem_cpu_load 234 136" \
 		#"battery 137 127" \
-		"weather 37 255" \
+		#"weather 37 255" \
 		#"rainbarf 0 ${TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR}" \
 		#"xkb_layout 125 117" \
 		#"date_day 235 136" \
