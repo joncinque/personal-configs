@@ -13,17 +13,6 @@ function fish_mode_prompt
 end
 
 function fish_user_key_bindings
-  # TODO remove once fish 3.2.0 is released
-  bind -s --preset -m insert cf begin-selection forward-jump kill-selection end-selection repaint-mode
-  bind -s --preset -m insert ct begin-selection forward-jump backward-char kill-selection end-selection repaint-mode
-  bind -s --preset -m insert cF begin-selection backward-jump kill-selection end-selection repaint-mode
-  bind -s --preset -m insert cT begin-selection backward-jump forward-char kill-selection end-selection repaint-mode
-  bind -s --preset df begin-selection forward-jump kill-selection end-selection
-  bind -s --preset dt begin-selection forward-jump backward-char kill-selection end-selection
-  bind -s --preset dF begin-selection backward-jump kill-selection end-selection
-  bind -s --preset dT begin-selection backward-jump forward-char kill-selection end-selection
-  # TODO finish removal area
-
   bind -s --preset n history-search-forward
   bind -s --preset N history-search-backward
 
@@ -40,11 +29,12 @@ end
 fish_user_key_bindings
 
 function fish_prompt --description 'Write out the prompt'
-  if test -z "$WINDOW"
-    printf '%s%s@%s%s%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-  else
-    printf '%s%s@%s%s%s(%s)%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color white) (echo $WINDOW) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-  end
+  #if test -z "$WINDOW"
+    #printf '%s%s@%s%s%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  #else
+  #  printf '%s%s@%s%s%s(%s)%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color white) (echo $WINDOW) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  #end
+  printf '%s%s%s> ' (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
 end
 
 function ll
