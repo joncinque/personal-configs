@@ -28,7 +28,7 @@ echo "* Install base requirements"
 sudo $UPDATE_COMMAND
 
 echo "* Install base dev stuff"
-sudo $INSTALL_COMMAND curl git tmux neovim fish base-devel xsel lld ctags
+sudo $INSTALL_COMMAND curl git tmux neovim fish base-devel xsel lld
 
 echo "* Switch to fish"
 chsh -s /usr/bin/fish
@@ -58,10 +58,6 @@ ln -si "$FULLDIR"/config.fish ~/.config/fish/config.fish
 
 echo "* Setting up link to $FULLDIR/flake8"
 ln -si "$FULLDIR"/flake8 ~/.config
-
-echo "* Setting up link to $FULLDIR/1.ctags"
-mkdir -p ~/.config/ctags
-ln -si "$FULLDIR"/1.ctags ~/.config/ctags
 
 echo "* Setting up link to add emojis to Hack"
 mkdir -p ~/.config/fontconfig/conf.d
