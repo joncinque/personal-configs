@@ -126,7 +126,8 @@ set formatoptions+=j
 " Enable syntax highlighting
 syntax enable
 
-colorscheme github_dark_colorblind
+" not available on nixos
+"colorscheme github_dark_colorblind
 set background=dark
 set termguicolors
 set t_Co=256

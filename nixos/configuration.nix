@@ -11,6 +11,7 @@
     ./git.nix
     ./fish.nix
     ./framework.nix
+    #./hardware-configuration.nix # Auto-generated for full nixos machines
     #./home-manager.nix # I'm not a huge fan of this
     ./hyprland.nix
     ./neovim.nix
@@ -43,10 +44,10 @@
     pkgs.bluetuith
   ];
 
-  networking.firewall = {
-    enable = true;
-    allowPing = true;
-  };
+  #networking.firewall = {
+  #  enable = true;
+  #  allowPing = true;
+  #};
   services.openssh.enable = true;
   services.xserver = {
     enable = true;
@@ -78,4 +79,7 @@
   # TODO: hyprland config
   # TODO: alacritty config
   # TODO: probably a bunch of missing utilities
+
+  # Get the current configuration at /run/current-system/configuration.nix
+  system.copySystemConfiguration = true;
 }
