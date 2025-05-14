@@ -66,6 +66,12 @@ ln -si "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.
 echo "* Setting up link to $FULLDIR/git-cliff"
 ln -si "$FULLDIR"/git-cliff ~/.config/
 
+echo "* Setting up link to $FULLDIR/hyprland.conf"
+ln -si "$FULLDIR"/hypr ~/.config/
+
+echo "* Setting up link to $FULLDIR/waybar"
+ln -si "$FULLDIR"/waybar ~/.config/
+
 echo "* Setting up Plugged for vim plugins in init.vim"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
