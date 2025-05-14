@@ -1,0 +1,49 @@
+# tmux.nix: install and configure
+{ ... }:
+{
+  programs.tmux = {
+    enable = true;
+
+    extraConfigBeforePlugins = ''
+# remap prefix to control-a
+set -g prefix C-a
+unbind C-b
+bind C-a send-prefix
+
+# force a reload of config file
+unbind r
+bind r source-file ~/.tmux.conf
+
+# quick pane cycling
+unbind ^A
+bind ^A select-pane -t :.+
+
+# use vi key bindings in copy mode
+setw -g mode-keys vi
+
+# use vi key bindings to switch panels
+bind k selectp -U # switch to panel Up
+bind j selectp -D # switch to panel Down
+bind h selectp -L # switch to panel Left
+bind l selectp -R # switch to panel Right
+
+# copy to clipboard with y
+bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'wl-copy'
+
+set -g default-terminal "tmux-256color" # all colors in tmux
+set -ag terminal-overrides ",$TERM:Tc"
+set -g history-limit 50000 # longer history
+
+# Status line
+set -g status off
+
+set -sg escape-time 10 # faster command sequences
+set -sg repeat-time 600 # increase repeat timeout
+
+set -g focus-events on # focus events enabled
+
+set -q -g status-utf8 on # higher versions of tmux use utf8
+setw -q -g utf8 on
+    '';
+  };
+}
