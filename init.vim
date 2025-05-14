@@ -18,10 +18,8 @@
 "    -> vimgrep searching and cope displaying
 "    -> Spell checking
 "    -> LSP config
-"    -> Ale Settings
 "    -> Polyglot Settings
 "    -> Misc
-"    -> Helper functions
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -82,12 +80,6 @@ set viewoptions-=options
 let mapleader = ","
 let g:mapleader = ","
 
-" Fast saving
-nmap <leader>w :w!<cr>
-
-inoremap <C-U> <C-G>u<C-U>
-inoremap <C-W> <C-G>u<C-W>
-
 let g:is_posix = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -108,9 +100,6 @@ set ruler
 
 " Height of the command bar
 set cmdheight=1
-
-" A buffer becomes hidden when it is abandoned
-set hid
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -175,16 +164,7 @@ syntax enable
 colorscheme github_dark_colorblind
 set background=dark
 set termguicolors
-" set guicursor=
-
-set t_Co=16
-" Set extra options when running in GUI mode
-if has("gui_running")
-    set guioptions-=T
-    set guioptions+=e
-    set t_Co=256
-    set guitablabel=%M\ %t
-endif
+set t_Co=256
 
 " Set utf8 as standard encoding and en_US as the standard language
 set encoding=utf-8
@@ -192,15 +172,10 @@ set encoding=utf-8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
 set noswapfile
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -219,11 +194,6 @@ set tabstop=2
 autocmd Filetype python setlocal ts=4 sw=4 sts=0 expandtab
 autocmd Filetype php setlocal ts=4 sw=4 sts=0 expandtab
 
-augroup filetypedetect
-  " use "xml" syntax for xaml files
-  au BufRead,BufNewFile *.xaml set syntax=xml filetype=xml
-augroup END
-
 " Linebreak on 500 characters
 set tw=500
 
@@ -238,29 +208,11 @@ set si "Smart indent
 set wrap "Wrap lines
 
 
-""""""""""""""""""""""""""""""
-" => Visual mode related
-""""""""""""""""""""""""""""""
-" Visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :call VisualSelection('f')<CR>
-vnoremap <silent> # :call VisualSelection('b')<CR>
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Treat long lines as break lines (useful when moving around in them)
-"map j gj
-"map k gk
-
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -320,13 +272,11 @@ let g:airline_mode_map = {
       \ }
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#tabline#tabs_label = ""
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_tab_count = 1
 let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline#extensions#tabline#show_splits = 0
-" Default enable ale in airline status
-"let g:airline#extensions#ale#enabled = 1
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -344,44 +294,6 @@ autocmd BufWrite * if &ft!~?'markdown'|:call DeleteTrailingWS()|endif
 " Show syntax highlighting in code portions of markdown
 let g:markdown_fenced_languages = ['html', 'python', 'rust', 'bash', 'javascript', 'vim']
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vimgrep searching and cope displaying
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Open vimgrep and put the cursor in the right position
-map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
-
-" When you press <leader>r you can search and replace the selected text
-vnoremap <silent> <leader>r :call VisualSelection('replace')<CR>
-
-" Do :help cope if you are unsure what cope is. It's super useful!
-"
-" When you search with vimgrep, display your results in cope by doing:
-"   <leader>cc
-"
-" To go to the next search result do:
-"   <leader>n
-"
-" To go to the previous search results do:
-"   <leader>p
-"
-" map <leader>cc :botright cope<cr>
-" map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-" map <leader>n :cn<cr>
-" map <leader>p :cp<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
-
-" Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Polyglot
@@ -408,84 +320,7 @@ map <leader>lh :lua vim.diagnostic.goto_prev()<cr>
 map <leader>la :lua vim.lsp.buf.code_action()<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Ale settings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Can speed up processing time
-"let g:ale_completion_enabled = 1
-"let g:ale_completion_autoimport = 1
-"set omnifunc=ale#completion#OmniFunc
-"let g:ale_completion_max_suggestions = 20
-
-" Only lint on save
-"let g:ale_lint_on_text_changed = 'never'
-"let g:ale_lint_on_insert_leave = 0
-
-" You can disable this option too
-" if you don't want linters to run on opening a file
-"let g:ale_lint_on_enter = 0
-
-" Disable tsserver linter for javascript
-"let g:ale_linters = {
-"\   'javascript': ['eslint', 'fecs', 'jscs', 'jshint', 'standard', 'xo'],
-"\   'rust': ['cargo'],
-"\}
-
-" Also check tests
-"let g:ale_rust_cargo_check_all_targets = 1
-"let g:ale_rust_cargo_default_feature_behavior = 'all'
-
-" Enable prettier as a fixer
-"let g:ale_fixers = {
-"\   'javascript': ['prettier'],
-"\   'javascriptreact': ['prettier'],
-"\   'typescript': ['prettier'],
-"\   'typescriptreact': ['prettier'],
-"\   'css': ['prettier'],
-"\}
-
-" Shortcut to go to an error in locallist
-"map <leader>ll :ll<cr>
-"map <leader>ln :ln<cr>
-"map <leader>lp :lp<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Misc
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
-
-" Toggle paste mode on and off
-map <leader>pp :setlocal paste!<cr>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
-
-function! VisualSelection(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
-
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
-
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-    elseif a:direction == 'replace'
-        call CmdLine("%s" . '/'. l:pattern . '/')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
-
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
