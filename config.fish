@@ -28,15 +28,6 @@ end
 
 fish_user_key_bindings
 
-function fish_prompt --description 'Write out the prompt'
-  #if test -z "$WINDOW"
-    #printf '%s%s@%s%s%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-  #else
-  #  printf '%s%s@%s%s%s(%s)%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color white) (echo $WINDOW) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-  #end
-  printf '%s%s%s> ' (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
-end
-
 function ll
   ls -lh $argv
 end
@@ -50,7 +41,15 @@ function getclip
 end
 
 source "$HOME/.cargo/env.fish"
-
 eval (dircolors -c ~/.dircolors)
 
 set -x N_PREFIX "$HOME/n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
+
+function fish_prompt --description 'Write out the prompt'
+  #if test -z "$WINDOW"
+    #printf '%s%s@%s%s%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  #else
+  #  printf '%s%s@%s%s%s(%s)%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color white) (echo $WINDOW) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  #end
+  printf '%s%s%s> ' (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+end
