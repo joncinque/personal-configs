@@ -77,12 +77,6 @@ sudo $INSTALL_COMMAND python python-pip python-pipenv
 echo "* Install global pynvim, flake8, mypy, lsp"
 sudo pip install pynvim flake8 mypy python-lsp-server pylsp-mypy
 
-echo "* Install and setup tmux-powerline"
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-echo "Don't forget to run <prefix>I to install the plugins!"
-echo "* Setting up link to $FULLDIR/tmux-powerline"
-ln -si "$FULLDIR"/tmux-powerline ~/.config
-
 echo "* Install n"
 curl -L https://git.io/n-install | bash
 
