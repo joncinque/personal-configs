@@ -11,6 +11,7 @@
 
   # Other things
   environment.systemPackages = with pkgs; [
+    pkgs.pavucontrol
     pkgs.waybar
     pkgs.wofi
   ];
