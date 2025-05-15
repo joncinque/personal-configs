@@ -34,8 +34,13 @@
   console.font = "Lat2-Terminus16";
   console.keyMap = "us";
   i18n.defaultLocale = "en_US.UTF-8";
-
   time.timeZone = "Europe/Paris";
+
+  fonts = {
+    packages = with pkgs; [
+      font-awesome
+    ];
+  };
 
   environment.systemPackages = with pkgs; [
     pkgs.curl
