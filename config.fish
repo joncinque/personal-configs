@@ -51,5 +51,10 @@ function fish_prompt --description 'Write out the prompt'
   #else
   #  printf '%s%s@%s%s%s(%s)%s%s%s> ' (set_color yellow) $USER (set_color purple) (prompt_hostname) (set_color white) (echo $WINDOW) (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
   #end
-  printf '%s%s%s> ' (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+  set -l nix_shell_info (
+    if test -n "$IN_NIX_SHELL"
+      echo -n "<nix-sh> "
+    end
+  )
+  printf '%s%s%s%s%s> ' (set_color yellow) $nix_shell_info (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
 end

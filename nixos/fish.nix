@@ -47,7 +47,12 @@
     '';
     promptInit = ''
       function fish_prompt --description 'Write out the prompt'
-        printf '%s%s%s> ' (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
+        set -l nix_shell_info (
+          if test -n "$IN_NIX_SHELL"
+            echo -n "<nix-sh> "
+          end
+        )
+        printf '%s%s%s%s%s> ' (set_color yellow) $nix_shell_info (set_color $fish_color_cwd) (prompt_pwd) (set_color normal)
       end
     '';
   };
