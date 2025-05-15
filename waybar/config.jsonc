@@ -7,8 +7,8 @@
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": [
-        "hyprland/workspaces",
-        "custom/media"
+        "hyprland/workspaces"
+        //"custom/media"
     ],
     "modules-center": [
         "hyprland/window"
@@ -23,10 +23,9 @@
         "temperature",
         "backlight",
         "battery",
-        "battery#bat2",
         "clock",
-        "tray",
-        "custom/power"
+        "tray"
+        //"custom/power"
     ],
     // Modules configuration
     "hyprland/workspaces": {
@@ -106,9 +105,6 @@
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
         "format-icons": ["", "", "", "", ""]
-    },
-    "battery#bat2": {
-        "bat": "BAT2"
     },
     "power-profiles-daemon": {
       "format": "{icon}",
