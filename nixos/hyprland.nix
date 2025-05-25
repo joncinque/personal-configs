@@ -11,6 +11,8 @@
 
   # Other things
   environment.systemPackages = with pkgs; [
+    pkgs.brightnessctl
+    pkgs.hypridle
     pkgs.pavucontrol
     pkgs.waybar
     pkgs.wofi
