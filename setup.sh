@@ -170,6 +170,9 @@ if [ "$INSTALL_GUI" = true ]; then
 
   echo "Replace pulse audio with pipewire"
   sudo $INSTALL_COMMAND pipewire pipewire-pulse
+
+  echo "* Install hyprland and friends"
+  sudo $INSTALL_COMMAND hyprland hypridle pavucontrol brightnessctl
 fi
 
 # Zoom download + install
