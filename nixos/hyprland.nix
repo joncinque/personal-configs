@@ -14,6 +14,7 @@
     pkgs.brightnessctl
     pkgs.hypridle
     pkgs.pavucontrol
+    pkgs.playerctl
     pkgs.waybar
     pkgs.wofi
   ];
