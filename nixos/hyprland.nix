@@ -11,12 +11,14 @@
 
   # Other things
   environment.systemPackages = with pkgs; [
-    pkgs.brightnessctl
-    pkgs.hypridle
-    pkgs.pavucontrol
-    pkgs.playerctl
-    pkgs.waybar
-    pkgs.wofi
+    brightnessctl
+    hypridle
+    pavucontrol
+    playerctl
+    waybar
+    wofi
+    mako
+    hyprpolkitagent
   ];
 
   # For Electron / Chromium support
