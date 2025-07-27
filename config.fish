@@ -5,6 +5,10 @@ set -g fish_key_bindings fish_vi_key_bindings
 set -Ux VISUAL vim
 set -Ux EDITOR vim
 
+# Needed until rocksdb supports gcc-15
+set -gx CC gcc-14
+set -gx CXX g++-14
+
 set -gx PATH $HOME/.local/share/solana/install/active_release/bin $HOME/.cargo/bin $HOME/.local/bin $HOME/n/bin /usr/sbin /sbin $PATH
 set -gx RUST_SRC_PATH (rustc --print sysroot)/lib/rustlib/src/rust/library
 
