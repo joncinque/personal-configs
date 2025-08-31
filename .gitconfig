@@ -25,6 +25,7 @@
   st = status
   pl = pull --rebase
   plum = pull --rebase upstream main
+  plums = pull --rebase upstream master
   logdog = log --decorate --pretty=oneline --abbrev-commit --graph
   loglint = log --format=%s -- .
   dt = difftool
