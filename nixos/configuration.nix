@@ -83,7 +83,7 @@
     pulse.enable = true;
   };
 
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   # TODO: extra key file for ssh: IdentityFile ~/.ssh/github_id_rsa
   # TODO: hyprland config
   # TODO: alacritty config

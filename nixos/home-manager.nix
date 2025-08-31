@@ -1,7 +1,7 @@
 # this doesn't seem to work
 { config, pkgs, lib, ... }:
 let
-  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-24.11.tar.gz;
+  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz;
 in
 {
   imports = [ (import "${home-manager}/nixos") ];
@@ -9,7 +9,7 @@ in
   home-manager.users.alice = { pkgs, ... }: {
     # The state version is required and should stay at the version you
     # originally installed.
-    home.stateVersion = "24.11";
+    home.stateVersion = "25.05";
 
     home.username = "alice";
     home.homeDirectory = "/home/alice";
