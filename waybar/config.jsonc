@@ -176,7 +176,7 @@
         "menu-file": "$HOME/.config/waybar/power_menu.xml", // Menu file in resources folder
         "menu-actions": {
           "shutdown": "shutdown now",
-          "reboot": "reboot now",
+          "reboot": "shutdown -r now",
           "suspend": "systemctl suspend"
         }
     }

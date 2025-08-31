@@ -19,6 +19,10 @@
     wofi
     mako
     hyprpolkitagent
+    hyprpaper
+    grim
+    slurp
+    wl-clipboard
   ];
 
   # For Electron / Chromium support
