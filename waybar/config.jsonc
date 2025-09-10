@@ -14,6 +14,7 @@
         "hyprland/window"
     ],
     "modules-right": [
+        "custom/kill",
         "idle_inhibitor",
         "pulseaudio",
         "network",
@@ -179,5 +180,10 @@
           "reboot": "shutdown -r now",
           "suspend": "systemctl suspend"
         }
+    },
+    "custom/kill": {
+        "format": "X",
+        "tooltip-format": "Close active window",
+        "on-click": "hyprctl dispatch killactive",
     }
 }

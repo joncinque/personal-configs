@@ -87,7 +87,8 @@ button:hover {
 #network,
 #pulseaudio,
 #wireplumber,
-#custom-media,
+#custom-kill,
+#custom-power,
 #tray,
 #mode,
 #idle_inhibitor,
@@ -212,18 +213,9 @@ label:focus {
     background-color: #f53c3c;
 }
 
-#custom-media {
-    background-color: #66cc99;
-    color: #2a5c45;
-    min-width: 100px;
-}
-
-#custom-media.custom-spotify {
-    background-color: #66cc99;
-}
-
-#custom-media.custom-vlc {
-    background-color: #ffa000;
+#custom-kill {
+    background-color: #dc143c;
+    color: #2d3436;
 }
 
 #temperature {
