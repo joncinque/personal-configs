@@ -172,7 +172,7 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo $INSTALL_COMMAND pipewire pipewire-pulse
 
   echo "* Install hyprland and friends"
-  sudo $INSTALL_COMMAND hyprland hypridle waybar pavucontrol brightnessctl power-profiles-daemon mako hyprpolkitagent hyprpaper grim slurp wl-clipboard
+  sudo $INSTALL_COMMAND hyprland hypridle waybar pavucontrol brightnessctl power-profiles-daemon mako hyprpolkitagent hyprpaper grim slurp wl-clipboard thunar tumbler gvfs
 fi
 
 # Zoom download + install
