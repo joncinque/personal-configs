@@ -48,6 +48,7 @@
 [commit]
   verbose = true
   gpgsign = true
+  template = ~/.gitmessage
 [rerere]
   enabled = true
   autoupdate = true
