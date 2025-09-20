@@ -78,10 +78,10 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 
 echo "Coding software"
 echo "* Install python dev requirements"
-sudo $INSTALL_COMMAND python python-pip python-pipenv
+sudo $INSTALL_COMMAND python python-pip python-pipenv python-lsp-server
 
-echo "* Install global pynvim, flake8, mypy, lsp"
-sudo pip install pynvim flake8 mypy python-lsp-server pylsp-mypy
+#echo "* Install global pynvim, flake8, mypy, lsp"
+#sudo pip install pynvim flake8 mypy python-lsp-server pylsp-mypy
 
 echo "* Install n"
 curl -L https://git.io/n-install | bash
