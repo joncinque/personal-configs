@@ -88,6 +88,7 @@ button:hover {
 #pulseaudio,
 #wireplumber,
 #custom-kill,
+#custom-run,
 #custom-power,
 #tray,
 #mode,
@@ -215,6 +216,11 @@ label:focus {
 
 #custom-kill {
     background-color: #dc143c;
+    color: #2d3436;
+}
+
+#custom-run {
+    background-color: #40e0d0;
     color: #2d3436;
 }
 

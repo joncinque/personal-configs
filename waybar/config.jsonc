@@ -15,6 +15,7 @@
     ],
     "modules-right": [
         "custom/kill",
+        "custom/run",
         "idle_inhibitor",
         "pulseaudio",
         "network",
@@ -180,6 +181,11 @@
           "reboot": "shutdown -r now",
           "suspend": "systemctl suspend"
         }
+    },
+    "custom/run": {
+        "format": "®",
+        "tooltip-format": "Run",
+        "on-click": "wofi --show drun",
     },
     "custom/kill": {
         "format": "X",
