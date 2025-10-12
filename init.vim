@@ -305,15 +305,16 @@ let g:zig_fmt_autosave = 0
 " => LSP Config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :lua << EOF
-  local lspconfig = require'lspconfig'
-  lspconfig.rust_analyzer.setup {}
-  lspconfig.pylsp.setup {}
-  lspconfig.zls.setup{
+  vim.lsp.enable('rust_analyzer')
+  vim.lsp.enable('pylsp')
+  vim.lsp.enable('zls')
+  vim.lsp.config('zls', {
     cmd = { '/home/jon/src/ref/zls/zig-out/bin/zls' }
-  }
-  lspconfig.biome.setup {
+  })
+  vim.lsp.enable('biome')
+  vim.lsp.config('biome', {
     cmd = { "biome", "lsp-proxy" }
-  }
+  })
 EOF
 map <leader>ll :lua vim.diagnostic.goto_next()<cr>
 map <leader>lh :lua vim.diagnostic.goto_prev()<cr>
