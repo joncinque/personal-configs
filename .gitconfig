@@ -21,6 +21,8 @@
   b = branch
   s = switch
   d = diff
+  dh = diff HEAD^..HEAD
+  dc = "!f() { git diff \"$1^\"..\"$1\"; }; f"
   fp = fetch --prune
   st = status
   pl = pull --rebase
@@ -28,6 +30,7 @@
   plums = pull --rebase upstream master
   logdog = log --decorate --pretty=oneline --abbrev-commit --graph
   loglint = log --format=%s -- .
+  logdep = log --perl-regexp --author='^((?!dependabot).*)$'
   dt = difftool
 [column]
   ui = auto
