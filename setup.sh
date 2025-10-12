@@ -150,9 +150,6 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo $INSTALL_COMMAND gtk2 traceroute dbus-glib
   install_from_aur tixati
 
-  echo "* Install discord"
-  sudo $INSTALL_COMMAND discord
-
   echo "* Install brave browser"
   install_from_aur brave-bin
 
@@ -162,9 +159,6 @@ if [ "$INSTALL_GUI" = true ]; then
   echo "* Setup udev for ledger"
   curl -sSfL https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash
 
-  echo "* Install slack"
-  install_from_aur slack-desktop
-
   echo "* Install signal"
   sudo $INSTALL_COMMAND signal-desktop
 
@@ -172,7 +166,7 @@ if [ "$INSTALL_GUI" = true ]; then
   sudo $INSTALL_COMMAND pipewire pipewire-pulse
 
   echo "* Install hyprland and friends"
-  sudo $INSTALL_COMMAND hyprland hypridle waybar pavucontrol brightnessctl power-profiles-daemon mako hyprpolkitagent hyprpaper grim slurp wl-clipboard thunar tumbler gvfs
+  sudo $INSTALL_COMMAND hyprland hypridle waybar pavucontrol brightnessctl power-profiles-daemon mako hyprpolkitagent hyprpaper grim slurp wl-clipboard thunar tumbler gvfs xdg-desktop-portal-hyprland
 fi
 
 # Zoom download + install
