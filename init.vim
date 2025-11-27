@@ -39,7 +39,6 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/vim-peekaboo' " nice registers
 Plug 'projekt0n/github-nvim-theme'
 Plug 'neovim/nvim-lspconfig'

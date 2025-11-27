@@ -300,7 +300,6 @@ noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
           nerdcommenter
           vim-airline
           vim-airline-themes
-          vim-polyglot
           vim-peekaboo
           nvim-lspconfig
         ];
