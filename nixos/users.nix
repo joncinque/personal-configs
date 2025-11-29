@@ -2,15 +2,18 @@
 
 { ... }:
 {
-  users.users.jon = {
-    isNormalUser = true;
-    createHome = true;
-    uid = 1000;
-    group = "users";
-    extraGroups = [
-      "docker" "wheel" "netdev" "networkmanager" "systemd-journal"
-    ];
-    shell = "/run/current-system/sw/bin/fish";
-    hashedPassword = "$y$j9T$MYgokv.cnZu/w4M5ACKqs1$C2V7QzxDFDp3unyOJ6H4BJYe0GfaLpy0a6M5Fk8jLs7";
+  users = {
+    mutableUsers = true;
+    users.jon = {
+      isNormalUser = true;
+      createHome = true;
+      uid = 1000;
+      group = "users";
+      extraGroups = [
+        "docker" "wheel" "netdev" "networkmanager" "systemd-journal"
+      ];
+      shell = "/run/current-system/sw/bin/fish";
+      initialHashedPassword = "$6$bduI6eg7lcAi7lzN$kSc2GbzsXbfN7JCSfNteGddhX/ZE1J.CXQZdEkQ5uO8BoCyDOrCGfAidByQlc2cFgJ2o4yKjPnBxXKMNtqN/F1";
+    };
   };
 }
