@@ -1,21 +1,19 @@
-# rasppi.nix: setup raspberry pi
-
 { config, pkgs, lib, ... }:
 
 {
   imports = [
-    ./docker.nix
     ./git.nix
     ./fish.nix
-    ./funkwhale.nix
+    ./immich.nix
+    ./jellyfin.nix
     ./neovim.nix
     ./nodejs.nix
     ./nginx.nix
-    ./piwigo.nix
     ./postfix.nix
     ./python.nix
     ./rust.nix
     ./ssh.nix
+    ./sys.nix
     ./tmux.nix
     ./users.nix
   ];
@@ -44,8 +42,13 @@
     hostName = "pi-fun";
     wireless = {
       enable = true;
-      #networks."SSID".psk = "PASSWORD";
+      networks."SSID".psk = "PASSWORD";
       interfaces = [ "wlan0" ];
+    };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 25 80 443 587 ];
+      allowedUDPPorts = [ 22 ];
     };
   };
 
@@ -58,6 +61,5 @@
 
   hardware.enableRedistributableFirmware = true;
   system.stateVersion = "25.11";
-
   system.copySystemConfiguration = true;
 }
