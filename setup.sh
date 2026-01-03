@@ -28,7 +28,15 @@ echo "* Install base requirements"
 sudo $UPDATE_COMMAND
 
 echo "* Install base dev stuff"
-sudo $INSTALL_COMMAND curl git tmux neovim fish base-devel xsel lld
+sudo $INSTALL_COMMAND curl git tmux neovim fish lld
+case $DISTRO in
+Arch)
+  sudo $INSTALL_COMMAND base-devel xsel
+  ;;
+Debian)
+  sudo $INSTALL_COMMAND build-essential
+  ;;
+esac
 
 echo "* Switch to fish"
 chsh -s /usr/bin/fish
@@ -48,46 +56,20 @@ echo "* Setting up link to $FULLDIR/init.vim"
 mkdir -p ~/.config/nvim
 ln -si "$FULLDIR"/init.vim ~/.config/nvim
 
-echo "* Setting up link from vim to nvim"
-sudo ln -si /usr/bin/nvim /usr/bin/vim
-sudo ln -si /usr/bin/nvim /usr/bin/vi
+# Might not be needed
+#echo "* Setting up link from vim to nvim"
+#sudo ln -si /usr/bin/nvim /usr/bin/vim
+#sudo ln -si /usr/bin/nvim /usr/bin/vi
 
 echo "* Setting up link to $FULLDIR/config.fish"
 mkdir -p ~/.config/fish
 ln -si "$FULLDIR"/config.fish ~/.config/fish/config.fish
-
-echo "* Setting up link to $FULLDIR/flake8"
-ln -si "$FULLDIR"/flake8 ~/.config
-
-echo "* Setting up link to add emojis to Hack"
-mkdir -p ~/.config/fontconfig/conf.d
-ln -si "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.d
-
-echo "* Setting up link to $FULLDIR/git-cliff"
-ln -si "$FULLDIR"/git-cliff ~/.config/
-
-echo "* Setting up link to $FULLDIR/hyprland.conf"
-ln -si "$FULLDIR"/hypr ~/.config/
-
-echo "* Setting up link to $FULLDIR/waybar"
-ln -si "$FULLDIR"/waybar ~/.config/
 
 echo "* Setting up Plugged for vim plugins in init.vim"
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 echo "Coding software"
-echo "* Install python dev requirements"
-sudo $INSTALL_COMMAND python python-pip python-pipenv python-lsp-server
-
-#echo "* Install global pynvim, flake8, mypy, lsp"
-#sudo pip install pynvim flake8 mypy python-lsp-server pylsp-mypy
-
-echo "* Install n"
-curl -L https://git.io/n-install | bash
-
-echo "* Install required npm packages for vim"
-sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true ~/n/bin/npm install -g neovim typescript @biomejs/biome
 
 echo "* Install nvim plugins"
 cd ~ || exit
@@ -106,13 +88,6 @@ ln -si "$FULLDIR"/config.toml ~/.cargo
 #echo "* Install ruby and Jekyll for static pages"
 #sudo apt install -y ruby zlib
 #sudo gem install bundler
-
-echo "* Install docker"
-sudo $INSTALL_COMMAND docker
-sudo usermod -aG docker "$USER"
-# sudo systemctl restart docker.service
-# testing
-# docker run hello-world
 
 function install_from_aur() {
   package_name="$1"
@@ -136,12 +111,42 @@ if [ "$INSTALL_EXTRA" = true ]; then
   install_from_aur openvpn-update-systemd-resolved
 
   sudo $INSTALL_COMMAND clang git-cliff difftastic
+
+  echo "* Setting up link to $FULLDIR/git-cliff"
+  ln -si "$FULLDIR"/git-cliff ~/.config/
+
+  echo "* Install docker"
+  sudo $INSTALL_COMMAND docker
+  sudo usermod -aG docker "$USER"
+
+  # sudo systemctl restart docker.service
+  # testing
+  # docker run hello-world
+
+  echo "* Install python dev requirements"
+  sudo $INSTALL_COMMAND python python-pip python-pipenv python-lsp-server
+
+  echo "* Install global pynvim, flake8, mypy, lsp"
+  sudo pip install pynvim flake8 mypy python-lsp-server pylsp-mypy
+
+  echo "* Setting up link to $FULLDIR/flake8"
+  ln -si "$FULLDIR"/flake8 ~/.config
+
+  echo "* Install n"
+  curl -L https://git.io/n-install | bash
+
+  echo "* Install required npm packages for vim"
+  sudo PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true ~/n/bin/npm install -g neovim typescript @biomejs/biome
 fi
 
 if [ "$INSTALL_GUI" = true ]; then
   echo "GUI applications"
   echo "* Install emoji fonts"
   sudo $INSTALL_COMMAND noto-fonts-emoji
+
+  echo "* Setting up link to add emojis to Hack"
+  mkdir -p ~/.config/fontconfig/conf.d
+  ln -si "$FULLDIR"/fontconfig/99-hack-color-emoji.conf ~/.config/fontconfig/conf.d
 
   echo "* Install firefox"
   sudo $INSTALL_COMMAND firefox
@@ -165,8 +170,17 @@ if [ "$INSTALL_GUI" = true ]; then
   echo "Replace pulse audio with pipewire"
   sudo $INSTALL_COMMAND pipewire pipewire-pulse
 
+  echo "* Setting up link to $FULLDIR/hyprland.conf"
+  ln -si "$FULLDIR"/hypr ~/.config/
+
+  echo "* Setting up link to $FULLDIR/waybar"
+  ln -si "$FULLDIR"/waybar ~/.config/
+
   echo "* Install hyprland and friends"
   sudo $INSTALL_COMMAND hyprland hypridle waybar pavucontrol brightnessctl power-profiles-daemon mako hyprpolkitagent hyprpaper grim slurp wl-clipboard thunar tumbler gvfs xdg-desktop-portal-hyprland
+
+  echo "* Install sddm theme and dependencies"
+  install_from_aur archlinux-themes-sddm
 fi
 
 # Zoom download + install
