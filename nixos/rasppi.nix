@@ -10,7 +10,6 @@
     ./nodejs.nix
     ./nginx.nix
     ./postfix.nix
-    ./python.nix
     ./rust.nix
     ./ssh.nix
     ./sys.nix
