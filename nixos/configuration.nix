@@ -10,15 +10,12 @@
     ./docker.nix
     ./git.nix
     ./fish.nix
-    ./framework.nix
-    #./hardware-configuration.nix # Auto-generated for full nixos machines
-    #./home-manager.nix # I'm not a huge fan of this
+    ./hardware-configuration.nix # Auto-generated for full nixos machines
     ./hyprland.nix
     ./neovim.nix
-    ./nodejs.nix
-    ./python.nix
     ./rust.nix
     ./ssh.nix
+    ./steam.nix
     ./tmux.nix
     ./users.nix
   ];
@@ -30,13 +27,19 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "lets-go-nix";
+  networking.hostName = "is-that-rye";
   networking.networkmanager.enable = true;
 
   # Select internationalisation properties.
   console.font = "Lat2-Terminus16";
   console.keyMap = "us";
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    inputMethod = {
+      type = "hime";
+      enable = true;
+    };
+  };
   time.timeZone = "Europe/Paris";
 
   fonts = {
@@ -60,15 +63,15 @@
   services.openssh.enable = true;
   services.xserver = {
     enable = true;
-    # GNOME desktop
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
     # Keymap
     xkb = {
       layout = "us";
       variant = "altgr-intl";
     };
   };
+  # GNOME desktop
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -83,7 +86,14 @@
     pulse.enable = true;
   };
 
-  system.stateVersion = "25.05";
+  # basic laptop config, power management, etc
+  services.power-profiles-daemon.enable = true;
+  #services.tlp.enable = true;
+  services.fwupd.enable = true;
+
+  nixpkgs.config.allowUnfree = true;
+
+  system.stateVersion = "25.11";
   # TODO: extra key file for ssh: IdentityFile ~/.ssh/github_id_rsa
   # TODO: hyprland config
   # TODO: alacritty config

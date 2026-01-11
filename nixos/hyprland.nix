@@ -26,6 +26,7 @@
     mako
     hyprpolkitagent
     hyprpaper
+    rose-pine-hyprcursor
     grim
     slurp
     wl-clipboard

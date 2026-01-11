@@ -3,8 +3,8 @@
 {
   programs.ssh = {
     extraConfig = ''
-ServerAliveInterval 10
-ServerAliveCountMax 1
+ServerAliveInterval 30
+ServerAliveCountMax 3
 Host github.com
     Hostname github.com
     User git
@@ -13,6 +13,10 @@ Host gitlab.com
     Hostname gitlab.com
     User git
     IdentityFile ~/.ssh/github_id_rsa
+Host codeberg.org
+    Hostname codeberg.org
+    User git
+    IdentityFile ~/.ssh/codeberg_id_ed25519
     '';
   };
   # Put the key file into ~/.ssh
