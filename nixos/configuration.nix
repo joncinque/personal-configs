@@ -61,6 +61,13 @@
   #  allowPing = true;
   #};
   services.openssh.enable = true;
+  services.openvpn.servers = {
+    guccio = {
+      config = '' config /home/jon/client-jon1-tcp.ovpn '';
+      updateResolvConf = true;
+      autoStart = false;
+    };
+  };
   services.xserver = {
     enable = true;
     # Keymap
