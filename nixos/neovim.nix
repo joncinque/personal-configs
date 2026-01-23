@@ -126,8 +126,7 @@ set formatoptions+=j
 " Enable syntax highlighting
 syntax enable
 
-" not available on nixos
-"colorscheme github_dark_colorblind
+colorscheme github_dark_colorblind
 set background=dark
 set termguicolors
 set t_Co=256
@@ -302,6 +301,7 @@ noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
           vim-airline-themes
           vim-peekaboo
           nvim-lspconfig
+          github-nvim-theme
         ];
         # manually loadable by calling `:packadd $plugin-name`
         opt = [ ];

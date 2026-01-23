@@ -4,13 +4,13 @@
 
 {
   imports = [
+    /etc/nixos/hardware-configuration.nix # Auto-generated for full nixos machines
     ./alacritty.nix
     ./browser.nix
     ./communication.nix
     ./docker.nix
     ./git.nix
     ./fish.nix
-    ./hardware-configuration.nix # Auto-generated for full nixos machines
     ./hyprland.nix
     ./neovim.nix
     ./rust.nix
@@ -18,6 +18,7 @@
     ./steam.nix
     ./tmux.nix
     ./users.nix
+    ./udev.nix
   ];
 
   # Enable flakes

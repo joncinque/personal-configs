@@ -56,4 +56,5 @@
       end
     '';
   };
+  programs.direnv.enable = true;
 }

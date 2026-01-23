@@ -26,6 +26,7 @@
         st = "status";
         pl = "pull --rebase";
         plum = "pull --rebase upstream main";
+        plums = "pull --rebase upstream master";
       };
       column.ui = "auto";
       fetch.prune = true;
