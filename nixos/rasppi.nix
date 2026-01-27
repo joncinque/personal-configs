@@ -14,6 +14,7 @@
     ./sys.nix
     ./tmux.nix
     ./users.nix
+    ./wireless.nix
   ];
 
   # Enable flakes
@@ -43,11 +44,6 @@
 
   networking = {
     hostName = "pi-fun";
-    wireless = {
-      enable = true;
-      #networks."network".psk = "password";
-      interfaces = [ "wlan0" ];
-    };
     firewall = {
       enable = true;
       allowedTCPPorts = [ 22 25 80 443 587 ];
