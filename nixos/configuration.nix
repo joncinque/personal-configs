@@ -25,7 +25,8 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.limine.enable = true;
+  boot.loader.limine.secureBoot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "is-that-rye";
