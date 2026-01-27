@@ -7,7 +7,6 @@
     ./immich.nix
     ./jellyfin.nix
     ./neovim.nix
-    ./nodejs.nix
     ./nginx.nix
     ./postfix.nix
     ./rust.nix
@@ -37,11 +36,16 @@
     };
   };
 
+  swapDevices = [{
+    device = "/var/lib/swapfile";
+    size = 8*1024; # 8 GB
+  }];
+
   networking = {
     hostName = "pi-fun";
     wireless = {
       enable = true;
-      networks."SSID".psk = "PASSWORD";
+      #networks."network".psk = "password";
       interfaces = [ "wlan0" ];
     };
     firewall = {

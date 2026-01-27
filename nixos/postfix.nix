@@ -24,6 +24,6 @@ in {
 
     # regexp wildcard: redirect every mail to my account
     virtualMapType = "regexp";
-    virtual = ''/.*@${domainName}/ me@jonc.dev'';
+    virtual = ''/.*@.*${domainName}/ me@jonc.dev'';
   };
 }
