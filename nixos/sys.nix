@@ -9,7 +9,7 @@
     systemCronJobs = [
       #"*/5 * * * * jon cd /home/jon/src/epaper/e-Paper/RaspberryPi_JetsonNano/python && ./venv/bin/python3 examples/hi.py > /dev/null 2>&1"
       "7 11 * * *     jon    /home/jon/src/sys/daily.sh 2>&1"
-      "30 4 * * 0     root   nix-channel --update && nixos-rebuild switch && shutdown -r now"
+      "30 4 * * 0     root   NIX_PATH=nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos:nixos-config=/etc/nixos/configuration.nix:/nix/var/nix/profiles/per-user/root/channels nixos-rebuild switch --upgrade && shutdown -r"
     ];
   };
 }
