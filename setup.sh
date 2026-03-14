@@ -4,7 +4,7 @@ DIR=$(dirname "$0")
 cd "$DIR" || exit
 FULLDIR=$(pwd)
 
-INSTALL_GUI=true
+INSTALL_GUI=false
 INSTALL_EXTRA=false
 
 DISTRO=$(lsb_release -i | cut -f 2-)
