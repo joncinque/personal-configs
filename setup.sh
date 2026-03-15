@@ -43,7 +43,7 @@ chsh -s /usr/bin/fish
 
 # Diff and setup each config
 echo "Setting up all config files as symlinks"
-for FILE in '.bashrc' '.gitconfig' '.gitmessage' '.gitignore_global' '.tmux.conf' '.inputrc' '.alacritty.toml' '.dircolors'
+for FILE in '.bashrc' '.gitconfig' '.gitmessage' '.gitignore_global' '.tmux.conf' '.inputrc' '.alacritty.toml'
 do
   echo "* Setting up link to $FULLDIR/$FILE"
   ln -si "$FULLDIR"/$FILE ~
@@ -85,9 +85,11 @@ echo "* Install rust-analyzer"
 echo "* Setting up link to $FULLDIR/config.toml"
 ln -si "$FULLDIR"/config.toml ~/.cargo
 
-#echo "* Install ruby and Jekyll for static pages"
-#sudo apt install -y ruby zlib
-#sudo gem install bundler
+echo "* Install nix"
+sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
+
+# ssh keys
+# Build zls from https://github.com/zigtools/zls
 
 function install_from_aur() {
   package_name="$1"
@@ -182,12 +184,3 @@ if [ "$INSTALL_GUI" = true ]; then
   echo "* Install sddm theme and dependencies"
   install_from_aur archlinux-themes-sddm
 fi
-
-# Zoom download + install
-# GitHub ssh token
-# GITHUB_FILE=/home/jon/.ssh/github_id_rsa
-# echo "$GITHUB_FILE" | ssh-keygen -t rsa -b 4096 -C "me@jonc.dev"
-# echo "* Add public key to GitHub:"
-# cat "$GITHUB_FILE".pub
-# Setup nix with subvolume for /nix
-# Build zls from https://github.com/zigtools/zls
