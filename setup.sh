@@ -21,6 +21,9 @@ Debian)
   UPDATE_COMMAND="apt update -y && apt upgrade -y"
   INSTALL_COMMAND="apt install -y"
   ;;
+*)
+  UPDATE_COMMAND="apt update -y && apt upgrade -y"
+  INSTALL_COMMAND="apt install -y"
 esac
 
 echo "Base dev software"
