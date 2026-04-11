@@ -112,7 +112,7 @@ fi
 
 if [[ $XDP = true ]]; then
   args+=(--experimental-retransmit-xdp-cpu-cores 1)
-  args+=(--experimental-retransmit-xdp-zero-copy)
+  #args+=(--experimental-retransmit-xdp-zero-copy)
   args+=(--experimental-poh-pinned-cpu-core 10)
 fi
 
