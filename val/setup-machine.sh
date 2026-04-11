@@ -5,9 +5,10 @@
 # Add user to sudoers
 sudo adduser jon
 sudo usermod -aG sudo jon
+echo "$SSH_KEY" > /home/jon/.ssh/authorized_keys
 
-name="iggy"
-echo $name | sudo tee /etc/hostname
+HOSTNAME="iggy"
+echo $HOSTNAME | sudo tee /etc/hostname
 echo "EDIT /etc/hosts TO ADD NAME"
 
 # Partition disk + mkfs.ext4 + fstab
@@ -57,7 +58,7 @@ ln -s /home/val/${VERSION} /home/val/active-release
 echo "fish_add_path /home/val/active-release/bin" >> ~/.config/fish/config.fish
 
 # Copy scripts
-cp -R scripts /home/val
+cp -R ~/src/personal-configs/val /home/val/scripts
 
 # Add systemd
 echo "[Unit]
@@ -113,10 +114,22 @@ sudo logrotate --verbose -f /etc/logrotate.conf
 sudo ufw allow 8000:10000/udp
 sudo ufw allow 8000:10000/tcp
 
-echo "Create links for service-env.sh and jito-env.sh"
+# setup hugepages (gets truncated by system)
+echo "10000" | sudo tee /proc/sys/vm/nr_hugepages
+
+# Check for xdp, ie `ethtool -g enp196s0f0np0`
+# Set it to the next power of 2, ie `ethtool -G enp196s0f0np0 rx 512 tx 512`
+
+# Give XDP perms to binary for every release:
+# `sudo setcap cap_net_raw,cap_net_admin,cap_bpf,cap_perfmon=p <path/to/validator>`
+
+echo "Create links for service-env.sh / jito-env.sh"
 ln -s /home/val/scripts/jito-env-mainnet.sh /home/val/scripts/jito-env.sh
 ln -s /home/val/scripts/service-env-mainnet.sh /home/val/scripts/service-env.sh
 
-echo "Setup alloy service for Grafana"
 echo "Copy identity key to machine"
+ln -s /home/val/keys/identity-mainnet.json /home/val/keys/identity.json
+ln -s /home/val/keys/vote-mainnet.json /home/val/keys/vote.json
 echo "Start val.service"
+
+echo "Setup alloy service for Grafana"

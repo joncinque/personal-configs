@@ -110,4 +110,10 @@ if [[ $JITO = true ]]; then
   args+=(--shred-receiver-address ${SHRED_RECEIVER_ADDRESS})
 fi
 
+if [[ $XDP = true ]]; then
+  args+=(--experimental-retransmit-xdp-cpu-cores 1)
+  args+=(--experimental-retransmit-xdp-zero-copy)
+  args+=(--experimental-poh-pinned-cpu-core 10)
+fi
+
 exec /home/val/active-release/bin/agave-validator "${args[@]}"
