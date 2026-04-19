@@ -9,7 +9,9 @@
     ./neovim.nix
     ./nginx.nix
     ./postfix.nix
+    ./python.nix
     ./rust.nix
+    ./spi.nix
     ./ssh.nix
     ./sys.nix
     ./tmux.nix

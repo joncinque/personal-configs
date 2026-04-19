@@ -13,6 +13,7 @@
     ./fish.nix
     ./hyprland.nix
     ./neovim.nix
+    ./python.nix
     ./rust.nix
     ./ssh.nix
     ./steam.nix
