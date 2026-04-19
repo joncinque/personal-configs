@@ -29,22 +29,8 @@
 
       fish_user_key_bindings
 
-      function ll
-        ls -lh $argv
-      end
-
-      function setclip
-        wl-copy
-      end
-
-      function getclip
-        wl-paste -o
-      end
-
-      #source "$HOME/.cargo/env.fish"
       fish_add_path ~/solana-cli/bin
       fish_add_path ~/.cargo/bin
-      #eval (dircolors -c ~/.dircolors)
     '';
     promptInit = ''
       function fish_prompt --description 'Write out the prompt'

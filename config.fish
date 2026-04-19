@@ -5,11 +5,7 @@ set -g fish_key_bindings fish_vi_key_bindings
 set -Ux VISUAL vim
 set -Ux EDITOR vim
 
-# Needed until rocksdb supports gcc-15
-set -gx CC gcc-14
-set -gx CXX g++-14
-
-set -gx PATH $HOME/.local/share/solana/install/active_release/bin $HOME/.cargo/bin $HOME/.local/bin $HOME/n/bin /usr/sbin /sbin $PATH
+set -gx PATH $HOME/.cargo/bin $HOME/.local/bin $PATH
 set -gx RUST_SRC_PATH (rustc --print sysroot)/lib/rustlib/src/rust/library
 
 function fish_mode_prompt
@@ -32,22 +28,8 @@ end
 
 fish_user_key_bindings
 
-function ll
-  ls -lh $argv
-end
-
-function setclip
-  xsel --clipboard
-end
-
-function getclip
-  xsel --clipboard -o
-end
-
 source "$HOME/.cargo/env.fish"
 eval (dircolors -c ~/.dircolors)
-
-set -x N_PREFIX "$HOME/n"; contains "$N_PREFIX/bin" $PATH; or set -a PATH "$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
 
 function fish_prompt --description 'Write out the prompt'
   #if test -z "$WINDOW"
