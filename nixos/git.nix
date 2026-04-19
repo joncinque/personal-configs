@@ -8,7 +8,7 @@
         name = "Jon C";
         email = "me@jonc.dev";
         # TODO get the key
-        signingkey = "/home/jon/.ssh/github_id_rsa.pub";
+        signingkey = "/home/jon/.ssh/github_id_ed25519.pub";
       };
       credential.helper = "cache --timeout=3600";
       diff = {
