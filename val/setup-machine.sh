@@ -78,7 +78,7 @@ LimitCORE=infinity
 LimitMEMLOCK=2000000000
 ExecStart=/home/val/scripts/validator.sh
 TimeoutStopSec=infinity
-ExecStop=/home/val/active-release/bin/agave-validator exit --skip-health-check --max-delinquent-stake 5
+ExecStop=/home/val/active-release/bin/agave-validator exit --skip-health-check --max-delinquent-stake 5 --min-idle-time 15
 AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN CAP_BPF CAP_PERFMON
 
 [Install]
