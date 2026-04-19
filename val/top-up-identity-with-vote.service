@@ -1,0 +1,12 @@
+[Unit]
+Description=Top-up Identity from Vote
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=val
+Group=val
+ExecStart=/home/val/active-release/bin/solana -ut withdraw-from-vote-account /home/val/keys/vote.json /home/val/keys/identity.json 1.5 --fee-payer /home/val/keys/identity.json --authorized-withdrawer /home/val/keys/withdraw.json
+StandardOutput=journal
+StandardError=journal
