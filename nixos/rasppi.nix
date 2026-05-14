@@ -2,6 +2,7 @@
 
 {
   imports = [
+    <nixos-hardware/raspberry-pi/4>
     ./git.nix
     ./fish.nix
     ./immich.nix
@@ -24,6 +25,10 @@
 
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_rpi4;
+    kernelParams = [
+      "iomem=relaxed"
+      "strict-devmem=0"
+    ];
     initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
     loader = {
       grub.enable = false;
