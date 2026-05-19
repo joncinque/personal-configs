@@ -16,4 +16,19 @@
       initialHashedPassword = "$6$bduI6eg7lcAi7lzN$kSc2GbzsXbfN7JCSfNteGddhX/ZE1J.CXQZdEkQ5uO8BoCyDOrCGfAidByQlc2cFgJ2o4yKjPnBxXKMNtqN/F1";
     };
   };
+
+  security.pam.loginLimits = [
+    {
+      domain = "jon";
+      type = "-";
+      item = "nofile";
+      value = "1000000";
+    }
+    {
+      domain = "jon";
+      type = "-";
+      item = "memlock";
+      value = "unlimited";
+    }
+  ];
 }
