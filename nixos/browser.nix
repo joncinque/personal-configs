@@ -2,7 +2,7 @@
 { config, pkgs, ...}:
 {
   environment.systemPackages = with pkgs; [
-    pkgs.brave
-    pkgs.firefox
+    brave
+    firefox
   ];
 }

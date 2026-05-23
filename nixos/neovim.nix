@@ -311,7 +311,7 @@ noremap <leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
   # Clipboard for X11 and Wayland
   environment.systemPackages = with pkgs; [
-    pkgs.xclip
-    pkgs.wl-clipboard
+    xclip
+    wl-clipboard
   ];
 }

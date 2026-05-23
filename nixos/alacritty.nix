@@ -4,7 +4,7 @@
 
 {
   environment.systemPackages = with pkgs; [
-    pkgs.alacritty
+    alacritty
   ];
   # See home-manager.nix for settings / alacritty.toml
 }

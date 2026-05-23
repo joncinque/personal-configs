@@ -2,8 +2,8 @@
 { config, pkgs, ...}:
 {
   environment.systemPackages = with pkgs; [
-    pkgs.nodenv
-    pkgs.nodejs_22
-    pkgs.typescript
+    nodenv
+    nodejs_22
+    typescript
   ];
 }
