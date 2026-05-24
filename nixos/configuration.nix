@@ -52,11 +52,12 @@
   };
 
   environment.systemPackages = with pkgs; [
-    pkgs.curl
-    pkgs.gcc
-    pkgs.lld
-    pkgs.bluetui
-    pkgs.bluetuith
+    curl
+    gcc
+    lld
+    bluetui
+    bluetuith
+    jq
   ];
 
   #networking.firewall = {
