@@ -22,7 +22,7 @@ ledger_dir=/ledger/ledger
 accounts_dir=/accounts/accounts
 snapshots_dir=/accounts/snapshots
 args=(
-  --dynamic-port-range 8002-8027
+  --dynamic-port-range 8002-8028
   --gossip-port 8001
   --identity $identity_keypair
   --ledger "$ledger_dir"
