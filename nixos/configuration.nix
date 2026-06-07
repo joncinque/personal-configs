@@ -38,10 +38,10 @@
   console.keyMap = "us";
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    inputMethod = {
-      type = "uim";
-      enable = true;
-    };
+    #inputMethod = {
+      #type = "uim";
+      #enable = true;
+    #};
   };
   time.timeZone = "Europe/Paris";
 
@@ -104,7 +104,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  system.stateVersion = "25.11";
+  system.stateVersion = "26.05";
   # TODO: extra key file for ssh: IdentityFile ~/.ssh/github_id_rsa
   # TODO: hyprland config
   # TODO: alacritty config
