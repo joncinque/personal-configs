@@ -4,7 +4,7 @@
   environment.systemPackages = with pkgs; [
     #discord not free, use the web version anyway
     #slack not free
-    signal-desktop-bin
+    signal-desktop
     telegram-desktop
   ];
 }

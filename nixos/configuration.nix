@@ -39,7 +39,7 @@
   i18n = {
     defaultLocale = "en_US.UTF-8";
     inputMethod = {
-      type = "hime";
+      type = "uim";
       enable = true;
     };
   };
