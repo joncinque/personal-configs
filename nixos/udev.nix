@@ -10,4 +10,8 @@ in
       keystoneUdevRules
       # potentially even more if you need them
   ];
+
+  # trezor-udev-rules assumes there's a `trezord` group, which comes with the
+  # `trezord` package, which we don't install
+  users.groups.trezord = { };
 }

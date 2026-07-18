@@ -19,16 +19,16 @@
   environment.systemPackages = with pkgs; [
     brightnessctl
     hypridle
-    pavucontrol
+    pavucontrol # sound
     playerctl
-    waybar
+    waybar # top bar
     wofi
-    mako
-    hyprpolkitagent
-    hyprpaper
-    rose-pine-hyprcursor
-    grim
-    slurp
+    mako # notifications
+    hyprpolkitagent # authentication in desktop
+    hyprpaper # wallpaper
+    rose-pine-hyprcursor # pretty mouse cursor
+    grim # screenshot
+    slurp # screenshot
     wl-clipboard
   ];
 

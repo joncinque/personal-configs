@@ -30,6 +30,9 @@
   boot.loader.limine.secureBoot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Enable ip forwarding
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+
   networking.hostName = "is-that-rye";
   networking.networkmanager.enable = true;
 
