@@ -1,0 +1,32 @@
+[user]
+  name = Clankmaxxing Clod
+  email = 287268959+clankmaxxing-clod@users.noreply.github.com
+  signingkey = ~/.ssh/github_clanker_id_ed25519.pub
+[credential]
+  helper = cache --timeout=3600
+[fetch]
+  prune = true
+[push]
+	default = simple
+[pull]
+  rebase = true
+[core]
+  autocrlf = input
+  commentChar = ";"
+[init]
+  defaultBranch = main
+[commit]
+  verbose = true
+  gpgsign = true
+[rerere]
+  enabled = true
+  autoupdate = true
+[status]
+  submoduleSummary = true
+[submodule]
+  recurse = true
+[gpg]
+  format = ssh
+[tag]
+  sort = version:refname
+  gpgSign = true
