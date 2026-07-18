@@ -14,7 +14,7 @@ mkdir ~/src/clankmaxxing/ssh
 echo "Get ssh keys, put in ssh directory"
 
 # Get claude-code-devcontainer
-git clone git@github.com:joncinque/claude-code-devcontainer.git
+git clone git@github.com:joncinque/claude-code-devcontainer.git -b workspace
 ln -s ${DIR}/claude-code-devcontainer ~/.claude-devcontainer
 cd claude-code-devcontainer
 bash ./install.sh
