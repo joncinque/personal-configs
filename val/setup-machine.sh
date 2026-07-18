@@ -11,6 +11,9 @@ HOSTNAME="iggy"
 echo $HOSTNAME | sudo tee /etc/hostname
 echo "EDIT /etc/hosts TO ADD NAME"
 
+# Useful when we need to stop voting or anything else on a schedule
+sudo apt install at
+
 # Partition disk + mkfs.ext4 + fstab
 sudo apt install -y parted
 sudo parted /dev/nvme0n1 # /data /accounts /data2 /ledger
