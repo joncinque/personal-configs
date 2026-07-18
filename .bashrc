@@ -62,6 +62,3 @@ export EDITOR="$VISUAL"
 
 # Set up the path
 export PATH="$PATH:/usr/local/bin"
-
-# cargo setup
-. "$HOME/.cargo/env"
