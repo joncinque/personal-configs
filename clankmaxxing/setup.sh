@@ -17,4 +17,4 @@ echo "Get ssh keys, put in ssh directory"
 git clone git@github.com:joncinque/claude-code-devcontainer.git -b workspace
 ln -s ${DIR}/claude-code-devcontainer ~/.claude-devcontainer
 cd claude-code-devcontainer
-bash ./install.sh
+bash ./install.sh self-install
