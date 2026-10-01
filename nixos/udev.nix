@@ -7,6 +7,7 @@ in
   services.udev.packages = with pkgs; [
       ledger-udev-rules
       trezor-udev-rules
+      keychron-udev-rules
       keystoneUdevRules
       # potentially even more if you need them
   ];
