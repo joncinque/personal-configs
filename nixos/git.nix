@@ -23,6 +23,8 @@
         s = "switch";
         d = "diff";
         fp = "fetch --prune";
+        ft = "fetch --tags";
+        ftu = "fetch --tags upstream";
         st = "status";
         pl = "pull --rebase";
         plum = "pull --rebase upstream main";
