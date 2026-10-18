@@ -53,7 +53,14 @@
     hostName = "pi-fun";
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 25 80 443 587 ];
+      allowedTCPPorts = [
+        22 # ssh
+        25 # smtp
+        80 # http
+        443 # https
+        465 # smtps
+        587 # smtps too
+      ];
       allowedUDPPorts = [ 22 ];
     };
   };
