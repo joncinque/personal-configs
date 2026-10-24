@@ -9,6 +9,7 @@
     ./browser.nix
     ./communication.nix
     ./docker.nix
+    ./gaming.nix
     ./git.nix
     ./fish.nix
     ./hyprland.nix
@@ -16,7 +17,6 @@
     ./python.nix
     ./rust.nix
     ./ssh.nix
-    ./steam.nix
     ./tmux.nix
     ./users.nix
     ./udev.nix
