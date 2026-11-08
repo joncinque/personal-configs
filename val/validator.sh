@@ -112,7 +112,7 @@ fi
 
 if [[ $XDP = true ]]; then
   args+=(--xdp-cpu-cores 1)
-  #args+=(--xdp-zero-copy)
+  #args+=(--no-xdp-zero-copy)
   args+=(--poh-pinned-cpu-core 10)
 fi
 
