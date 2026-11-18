@@ -45,16 +45,18 @@ in {
 
     virtualHosts."${domainName}" = {
       forceSSL = true;
+      http2 = false;
       enableACME = true;
     };
     virtualHosts."mail.${domainName}" = {
       forceSSL = true;
+      http2 = false;
       useACMEHost = domainName;
     };
     virtualHosts."music.${domainName}" = {
       forceSSL = true;
       useACMEHost = domainName;
-      http2 = true;
+      http2 = false;
       locations."/" = {
         proxyPass = "http://127.0.0.1:8096";
         proxyWebsockets = true;
@@ -75,7 +77,7 @@ in {
     virtualHosts."photos.${domainName}" = {
       forceSSL = true;
       useACMEHost = domainName;
-      http2 = true;
+      http2 = false;
       locations."/" = {
         proxyPass = "http://[::1]:${toString config.services.immich.port}";
         proxyWebsockets = true;
