@@ -13,7 +13,7 @@ find /ledger/ledger -name 'snapshot-*' -size 0 -print -exec rm {} \; || true
 find /accounts/snapshots -name 'snapshot-*' -size 0 -print -exec rm {} \; || true
 
 vote_keypair=/home/val/keys/vote.json
-voter_keypair=/home/val/keys/identity.json
+voter_keypair=/home/val/keys/identity-staked.json
 identity_keypair=/home/val/keys/identity.json
 identity_pubkey=$(/home/val/active-release/bin/solana-keygen pubkey $identity_keypair)
 

@@ -14,25 +14,25 @@ echo "EDIT /etc/hosts TO ADD NAME"
 # Useful when we need to stop voting or anything else on a schedule
 sudo apt install at
 
-# Partition disk + mkfs.ext4 + fstab
+# Partition disk + mkfs.xfs + fstab
 sudo apt install -y parted
 sudo parted /dev/nvme0n1 # /data /accounts /data2 /ledger
 # mktable gpt
-# mkpart <NAME> ext4 1049kB 300GB
-# mkpart <NAME> ext4 300GB 1920GB
-sudo mkfs.ext4 /dev/nvme0n1p1
-sudo mkfs.ext4 /dev/nvme0n1p2
-sudo mkfs.ext4 /dev/nvme1n1p1
-sudo mkfs.ext4 /dev/nvme1n1p2
+# mkpart <NAME> xfs 1049kB 300GB
+# mkpart <NAME> xfs 300GB 1920GB
+sudo mkfs.xfs /dev/nvme0n1p1
+sudo mkfs.xfs /dev/nvme0n1p2
+sudo mkfs.xfs /dev/nvme1n1p1
+sudo mkfs.xfs /dev/nvme1n1p2
 echo "# /data
-/dev/nvme0n1p1   /data  ext4   defaults    0   0
+/dev/nvme0n1p1   /data  xfs   defaults    0   0
 # /accounts
-/dev/nvme0n1p2   /accounts  ext4   defaults    0   0
+/dev/nvme0n1p2   /accounts  xfs   defaults    0   0
 
 # /data2
-/dev/nvme1n1p1   /data2  ext4   defaults    0   0
+/dev/nvme1n1p1   /data2  xfs   defaults    0   0
 # /ledger
-/dev/nvme1n1p2   /ledger  ext4   defaults    0   0" | sudo tee -a /etc/fstab
+/dev/nvme1n1p2   /ledger  xfs   defaults    0   0" | sudo tee -a /etc/fstab
 
 sudo mkdir /data /ledger /data2 /accounts
 sudo mount -a
@@ -50,7 +50,7 @@ sudo usermod -aG val jon
 sudo chmod g+w -R /home/val
 
 # Build with nixpkgs
-VERSION="v4.0"
+VERSION="v4.5"
 cd ~/src
 git clone https://github.com/joncinque/nixpkgs/ --depth 1 -b jito-${VERSION}
 cd nixpkgs
@@ -132,6 +132,7 @@ ln -s /home/val/scripts/service-env-mainnet.sh /home/val/scripts/service-env.sh
 
 echo "Copy identity key to machine"
 ln -s /home/val/keys/identity-mainnet.json /home/val/keys/identity.json
+ln -s /home/val/keys/identity-mainnet.json /home/val/keys/identity-staked.json
 ln -s /home/val/keys/vote-mainnet.json /home/val/keys/vote.json
 echo "Start val.service"
 
