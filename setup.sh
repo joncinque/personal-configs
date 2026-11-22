@@ -18,11 +18,11 @@ Arch)
   INSTALL_COMMAND="pacman --noconfirm -S"
   ;;
 Debian)
-  UPDATE_COMMAND="apt update -y && apt upgrade -y"
+  UPDATE_COMMAND="apt update -y && sudo apt upgrade -y"
   INSTALL_COMMAND="apt install -y"
   ;;
 *)
-  UPDATE_COMMAND="apt update -y && apt upgrade -y"
+  UPDATE_COMMAND="apt update -y && sudo apt upgrade -y"
   INSTALL_COMMAND="apt install -y"
 esac
 
@@ -82,7 +82,6 @@ echo "* Install Rust"
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 echo "* Install rust-analyzer"
-~/.cargo/bin/rustup toolchain add nightly
 ~/.cargo/bin/rustup component add rust-src rust-analyzer
 
 echo "* Setting up link to $FULLDIR/config.toml"
@@ -162,9 +161,6 @@ if [ "$INSTALL_GUI" = true ]; then
 
   echo "* Install brave browser"
   install_from_aur brave-bin
-
-  echo "* Install telegram"
-  sudo $INSTALL_COMMAND telegram-desktop
 
   echo "* Setup udev for ledger"
   curl -sSfL https://raw.githubusercontent.com/LedgerHQ/udev-rules/master/add_udev_rules.sh | sudo bash

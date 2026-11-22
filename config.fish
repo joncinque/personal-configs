@@ -29,7 +29,6 @@ end
 fish_user_key_bindings
 
 source "$HOME/.cargo/env.fish"
-eval (dircolors -c ~/.dircolors)
 
 function fish_prompt --description 'Write out the prompt'
   #if test -z "$WINDOW"
