@@ -29,6 +29,7 @@
 
       fish_user_key_bindings
 
+      fish_add_path ~/active-release/bin # for current release
       fish_add_path ~/solana-cli/bin # for personal setup
       fish_add_path ~/.cargo/bin # for cargo install
       fish_add_path ~/.local/bin # for devc

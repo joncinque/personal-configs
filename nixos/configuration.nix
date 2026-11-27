@@ -39,13 +39,13 @@
   # Select internationalisation properties.
   console.font = "Lat2-Terminus16";
   console.keyMap = "us";
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
+  #i18n = {
+    #defaultLocale = "en_US.UTF-8";
     #inputMethod = {
       #type = "uim";
       #enable = true;
     #};
-  };
+  #};
   time.timeZone = "Europe/Paris";
 
   fonts = {
